@@ -16,8 +16,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,39 +29,117 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    //Flask메인 주소
-    final String URL = "http://172.30.1.17:5000";
+    //Flask 메인 주소
+    final String URL = "http://192.168.0.13:5000/";
 
     RecyclerView rvChatList;//채팅
     Button btnSend;//전송 버튼
     EditText etChat;//입력창
 
+    //post할 것들
     TreeMap<Integer, Questions> QTree = new TreeMap<>();//질문목록 저장 <질문 순서, 질문>
     HashMap<String, String> answer = new HashMap<>();//답변 목록 저장 <질문 태그, 유저 답변>
+    HashMap<String, String> for_info = new HashMap<>();//예측된 질병 top3이름 저장 <disease + n, 질병이름>
 
     private AdapterChatBot adapterChatBot;//리사이클러뷰 어댑터
     int i = 0;//질문목록 인덱스 접근용
 
+    //예측 결과 저장
+    List<Level2> level2_top2;
+    List<Disease> diseases_top3;
+    //질병정보 저장
+    List<DiseaseInfo> top3_diseaseInfo;
+
+    RetrofitAPI retrofitAPI;
+
+    String level2_question = null;
+
     //level2가져올 때 사용
-    Callback<Level2> level2Callback = new Callback<Level2>() {
+    Callback<List<Level2>> level2Callback = new Callback<List<Level2>>() {
         @Override
-        public void onResponse(Call<Level2> call, Response<Level2> response) {
+        public void onResponse(Call<List<Level2>> call, Response<List<Level2>> response) {
             if (response.isSuccessful()) {
-                Log.d("TEST", "post 성공성공");
+                Log.d("TEST", "post level2 성공성공");
 
                 //반환값 받아서 저장
-                Level2 level2 = response.body();
+                level2_top2 = response.body();
+
+                i++;
+                if (level2_top2.size() >= 2) {//level2_top2의 차이가 10%이하여서 top2모두 반환됐을 경우
+                    adapterChatBot.addChatToList(new ChatModel("27가지 중 아래 2가지 범위의 질병이 예상됩니다.", true));
+                    QTree.put(i, new Questions("select level2", "해당된다고 생각하면 해당 숫자(1 or 2)를 선택해주시고, 해당 안된다고 생각하면 숫자 (0)을 선택해주세요."));
+                } else {//차이가 10%이상
+                    adapterChatBot.addChatToList(new ChatModel("27가지 중 아래 범위의 질병이 예상됩니다.", true));
+                    QTree.put(i, new Questions("select level2", "해당된다고 생각하면 해당 숫자(1)를 선택해주시고, 해당 안된다고 생각하면 숫자 (0)을 선택해주세요."));
+                }
+                adapterChatBot.addChatToList(new ChatModel(QTree.get(i).question, true));//i를 키캆으로 이용
+
                 //예측 결과 출력
-                adapterChatBot.addChatToList(new ChatModel(level2.getFirst(), true));
-                adapterChatBot.addChatToList(new ChatModel(level2.getSecond(), true));
+                for (Level2 level2 : level2_top2)
+                    adapterChatBot.addChatToList(new ChatModel(level2.getLevel2_name(), true));
             }
         }
 
         @Override
-        public void onFailure(Call<Level2> call, Throwable t) {
-            Log.d("TEST", "post 실패실패");
+        public void onFailure(Call<List<Level2>> call, Throwable t) {
+            Log.d("TEST", "post level2 실패실패");
             t.printStackTrace();
-            Log.d("TEST", "post 실패실패");
+            Log.d("TEST", "post level2 실패실패");
+        }
+    };
+
+    //질병top3 List로 가져올 때 사용
+    Callback<List<Disease>> top3Callback = new Callback<List<Disease>>() {
+        @Override
+        public void onResponse(Call<List<Disease>> call, Response<List<Disease>> response) {
+            if (response.isSuccessful()) {
+                Log.d("TEST", "post top3 성공성공");
+
+                //반환값 받아서 저장
+                diseases_top3 = response.body();
+
+                int idx = 0;
+                //예측 결과 출력
+                for (Disease disease : diseases_top3) {
+                    for_info.put("disease" + idx, disease.getDisease_name());
+                    idx++;
+                }
+                retrofitAPI.postDisease_for_Disease_info(for_info).enqueue(diseaseInfoCallback);
+            }
+        }
+
+        @Override
+        public void onFailure(Call<List<Disease>> call, Throwable t) {
+            Log.d("TEST", "post top3 실패실패");
+            t.printStackTrace();
+            Log.d("TEST", "post top3 실패실패");
+        }
+    };
+
+    Callback<List<DiseaseInfo>> diseaseInfoCallback = new Callback<List<DiseaseInfo>>() {
+        @Override
+        public void onResponse(Call<List<DiseaseInfo>> call, Response<List<DiseaseInfo>> response) {
+            Log.d("TEST", "post info 성공성공");
+
+            top3_diseaseInfo = response.body();
+
+            for(int i=0; i<3; i++){
+                Disease disease = diseases_top3.get(i);
+                DiseaseInfo diseaseInfo = top3_diseaseInfo.get(i);
+                adapterChatBot.addChatToList(new ChatModel(
+                          diseaseInfo.getOName()+ " " + disease.getPercentage() + "%\n" +
+                                "동의어: " + diseaseInfo.getSyn() + "\n" +
+                                "진료과: " + diseaseInfo.getDept() + "\n" +
+                                "정의: " + diseaseInfo.getDef() + "\n", true));
+
+            }
+        }
+
+        @Override
+        public void onFailure(Call<List<DiseaseInfo>> call, Throwable t) {
+            Log.d("TEST", "post info 실패실패");
+            t.printStackTrace();
+            Log.d("TEST", "post info 실패실패");
         }
     };
 
@@ -68,21 +149,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //level2를 위한 질문 목록 가져오기(일단은 로컬에서)
-        try {
-            loadQuestion("questions_for_level2",0);
-//            loadQuestion("neck_back",QTree.size());
-//            System.out.println(QTree.get(10).tag + ": " + QTree.get(10).question);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadQuestion("questions_for_level2", 0);
+
+        //모델 예측하는데 시간 걸려서 timeout안되게 시간 늘림
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(100, TimeUnit.SECONDS)
+                .build();
 
         //Flask 연동
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        retrofitAPI = retrofit.create(RetrofitAPI.class);
 
         //채팅 형식으로 주고받기
         rvChatList = findViewById(R.id.rvChatList);
@@ -99,19 +182,41 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //입력창 비어있을 경우
-                if(etChat.getText() == null || etChat.getText().length() == 0 ){
+                if (etChat.getText() == null || etChat.getText().length() == 0) {
                     Toast.makeText(MainActivity.this, "Please enter a text", Toast.LENGTH_LONG).show();
-                }else{//제대로 입력했을 경우
+                } else {//제대로 입력했을 경우
                     answer.put(QTree.get(i).tag, etChat.getText().toString());//답변 목록에 저장
                     adapterChatBot.addChatToList(new ChatModel(etChat.getText().toString(), false));//채팅창에 입력값 출력
                     etChat.getText().clear();//입력창 초기화
 
                     //모든 질문에 대답한 경우
-                    if(answer.size()==QTree.size()){
-                        //지금까지의 답변 모아서 보내고 예측한 level2받아오기
-                        retrofitAPI.postAnswer_for_Level2(answer).enqueue(level2Callback);
-                        adapterChatBot.addChatToList(new ChatModel("질병 예측 범위를 좁히고 있습니다! 잠시만 기다려주세요.", true));
-                    }else{//아직 대답중인 경우
+                    if (answer.size() == QTree.size()) {
+                        //level2예측 전
+                        if (level2_top2 == null) {
+                            //지금까지의 답변 모아서 보내고 예측한 level2받아오기
+                            adapterChatBot.addChatToList(new ChatModel("질병 예측 범위를 좁히고 있습니다! 잠시만 기다려주세요.", true));
+                            retrofitAPI.postAnswer_for_Level2(answer).enqueue(level2Callback);
+                        } else if (level2_question == null) {//level2 예측 후, 선택
+                            //level2 2개중에 선택
+                            if (answer.get("select level2").equals("1"))
+                                //level2 한글 -> 영어 찾는 코드 필요
+                                level2_question = level2_top2.get(0).getEng_name();
+                             else if (answer.get("select level2").equals("2"))
+                                level2_question = level2_top2.get(1).getEng_name();
+                             else if (answer.get("select level2").equals("0"))
+                                level2_question = "whole";
+
+                            //다음 질문 목록 가져오기
+                            loadQuestion(level2_question, QTree.size());
+
+                            i++;
+                            adapterChatBot.addChatToList(new ChatModel(QTree.get(i).question, true));//i를 키캆으로 이용
+                        } else {//top3예측 직전
+                            //답변 모아서 보내고 예측한 질병 받아오기
+                            adapterChatBot.addChatToList(new ChatModel("확률이 높은 질병 3개를 예측 중입니다.", true));
+                            retrofitAPI.postAnswer_for_Disease(answer).enqueue(top3Callback);
+                        }
+                    } else {//아직 대답중인 경우
                         i++;
                         adapterChatBot.addChatToList(new ChatModel(QTree.get(i).question, true));//다음 질문 던짐
                     }
@@ -121,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //질문 목록 가져오기
-    public void loadQuestion(String filename, int index) throws IOException {
+    public void loadQuestion(String filename, int index){
         //파일 경로? 찾기
         int file = getApplicationContext().getResources().getIdentifier(filename, "raw", getApplicationContext().getPackageName());
 
@@ -129,11 +234,17 @@ public class MainActivity extends AppCompatActivity {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputData));
 
         //txt파일을 한줄씩 읽어옴
-        while (true){
-            String line = bufferedReader.readLine();
-            if(line == null)
+        while (true) {
+            String line = null;
+            try {
+                line = bufferedReader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (line == null)
                 break;
-            else{
+            else {
                 String splited[] = line.split("\t");//탭을 기준으로 쪼갬
                 //탭 기준 왼쪽은 질문 태그, 오른쪽은 질문
                 Questions questions = new Questions(splited[0], splited[1]);

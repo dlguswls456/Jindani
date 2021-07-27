@@ -5,10 +5,11 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:padding="8dp"
         android:id="@+id/txtChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="" />
+        android:padding="8dp"
+        android:text=""
+        android:textSize="18sp" />
+
 </LinearLayout>

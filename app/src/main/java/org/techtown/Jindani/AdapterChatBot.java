@@ -1,5 +1,6 @@
 package org.techtown.Jindani;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -62,7 +63,7 @@ public class AdapterChatBot extends RecyclerView.Adapter<AdapterChatBot.MyViewHo
                 txtChat.setGravity(Gravity.RIGHT);
                 txtChat.setText(chat.chat);
             }else{//아닐 때
-                txtChat.setBackgroundColor(Color.YELLOW);
+                txtChat.setBackgroundColor(Color.parseColor("#C5E1A5"));
                 txtChat.setTextColor(Color.BLACK);
                 txtChat.setGravity(Gravity.LEFT);
                 txtChat.setText(chat.chat);
