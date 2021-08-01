@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     //Flask 메인 주소
-    final String URL = "http://192.168.0.13:5000/";
+    final String URL = "http://192.168.0.8:5000/";
 
     RecyclerView rvChatList;//채팅
     Button btnSend;//전송 버튼
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     //post할 것들
     TreeMap<Integer, Questions> QTree = new TreeMap<>();//질문목록 저장 <질문 순서, 질문>
-    HashMap<String, String> answer = new HashMap<>();//답변 목록 저장 <질문 태그, 유저 답변>
+    HashMap<String, String> answer;//답변 목록 저장 <질문 태그, 유저 답변>
     HashMap<String, String> for_info = new HashMap<>();//예측된 질병 top3이름 저장 <disease + n, 질병이름>
 
     private AdapterChatBot adapterChatBot;//리사이클러뷰 어댑터
@@ -148,6 +149,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent getIntent = getIntent();
+        answer = (HashMap<String, String>) getIntent.getSerializableExtra("personInfo");
+
+
         //level2를 위한 질문 목록 가져오기(일단은 로컬에서)
         loadQuestion("questions_for_level2", 0);
 
@@ -190,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                     etChat.getText().clear();//입력창 초기화
 
                     //모든 질문에 대답한 경우
-                    if (answer.size() == QTree.size()) {
+                    if (answer.size()-4 == QTree.size()) {
                         //level2예측 전
                         if (level2_top2 == null) {
                             //지금까지의 답변 모아서 보내고 예측한 level2받아오기

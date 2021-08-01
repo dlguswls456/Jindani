@@ -1,7 +1,3 @@
-Sex	성별은? 남자/여자
-Age	나이는? 0s/10s/20s/.../90s/유아/신생아/영아
-Height	키는?
-Weight	몸무게는?
 Chief complaint	이제 주요 증상을 알려주세요!
 Onset	언제부터 아팠나요?
 Location	어느 부위가 불편한가요?
