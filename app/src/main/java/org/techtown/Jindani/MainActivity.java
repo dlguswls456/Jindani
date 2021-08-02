@@ -76,8 +76,9 @@ public class MainActivity extends AppCompatActivity {
                 adapterChatBot.addChatToList(new ChatModel(QTree.get(i).question, true));//i를 키캆으로 이용
 
                 //예측 결과 출력
-                for (Level2 level2 : level2_top2)
+                for (Level2 level2 : level2_top2) {
                     adapterChatBot.addChatToList(new ChatModel(level2.getLevel2_name(), true));
+                }
             }
         }
 
@@ -124,11 +125,11 @@ public class MainActivity extends AppCompatActivity {
 
             top3_diseaseInfo = response.body();
 
-            for(int i=0; i<3; i++){
+            for (int i = 0; i < 3; i++) {
                 Disease disease = diseases_top3.get(i);
                 DiseaseInfo diseaseInfo = top3_diseaseInfo.get(i);
                 adapterChatBot.addChatToList(new ChatModel(
-                          diseaseInfo.getOName()+ " " + disease.getPercentage() + "%\n" +
+                        diseaseInfo.getOName() + " " + disease.getPercentage() + "%\n" +
                                 "동의어: " + diseaseInfo.getSyn() + "\n" +
                                 "진료과: " + diseaseInfo.getDept() + "\n" +
                                 "정의: " + diseaseInfo.getDef() + "\n", true));
@@ -195,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                     etChat.getText().clear();//입력창 초기화
 
                     //모든 질문에 대답한 경우
-                    if (answer.size()-4 == QTree.size()) {
+                    if (answer.size() - 4 == QTree.size()) {
                         //level2예측 전
                         if (level2_top2 == null) {
                             //지금까지의 답변 모아서 보내고 예측한 level2받아오기
@@ -203,13 +204,14 @@ public class MainActivity extends AppCompatActivity {
                             retrofitAPI.postAnswer_for_Level2(answer).enqueue(level2Callback);
                         } else if (level2_question == null) {//level2 예측 후, 선택
                             //level2 2개중에 선택
-                            if (answer.get("select level2").equals("1"))
+                            if (answer.get("select level2").equals("1")) {
                                 //level2 한글 -> 영어 찾는 코드 필요
                                 level2_question = level2_top2.get(0).getEng_name();
-                             else if (answer.get("select level2").equals("2"))
+                            } else if (answer.get("select level2").equals("2")) {
                                 level2_question = level2_top2.get(1).getEng_name();
-                             else if (answer.get("select level2").equals("0"))
+                            } else if (answer.get("select level2").equals("0")) {
                                 level2_question = "whole";
+                            }
 
                             //다음 질문 목록 가져오기
                             loadQuestion(level2_question, QTree.size());
@@ -231,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //질문 목록 가져오기
-    public void loadQuestion(String filename, int index){
+    public void loadQuestion(String filename, int index) {
         //파일 경로? 찾기
         int file = getApplicationContext().getResources().getIdentifier(filename, "raw", getApplicationContext().getPackageName());
 
@@ -247,9 +249,9 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if (line == null)
+            if (line == null) {
                 break;
-            else {
+            } else {
                 String splited[] = line.split("\t");//탭을 기준으로 쪼갬
                 //탭 기준 왼쪽은 질문 태그, 오른쪽은 질문
                 Questions questions = new Questions(splited[0], splited[1]);
