@@ -84,8 +84,9 @@ public class LoginActivity extends AppCompatActivity {
                             intent.putExtra("nickName", account.getDisplayName());//구글에 등록된 이름
 
                             startActivity(intent);
+                            finish();
                         }else{//로그인 실패
-                            Toast.makeText(LoginActivity.this, "로그인 실페", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
