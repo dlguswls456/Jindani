@@ -90,12 +90,12 @@ public class SelectActivity extends AppCompatActivity {
 
     private void signOut() {
         // Firebase sign out
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.signOut();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
 
-        GoogleSignInOptions gso = new
-                GoogleSignInOptions.
-                        Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        //구글 로그인 사용자에게만 필요.. 나중에 수정 해야함
+        GoogleSignInOptions gso = new GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
 
