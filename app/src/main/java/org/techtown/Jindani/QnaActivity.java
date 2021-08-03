@@ -23,16 +23,16 @@ public class QnaActivity extends AppCompatActivity {
         adapterQnaList = new AdapterQnaList(qnalist);
         qnalist.setAdapter(adapterQnaList);
 
-        adapterQnaList.addChatToList(new QnA("배가 아픈데 왜 그러나요?", false));
-        adapterQnaList.addChatToList(new QnA("배가 아픈데 왜 그러나요?", false));
-        adapterQnaList.addChatToList(new QnA("배가 아픈데 왜 그러나요?", false));
-        adapterQnaList.addChatToList(new QnA("배가 아픈데 왜 그러나요?", false));
-        adapterQnaList.addChatToList(new QnA("배가 아픈데 왜 그러나요?", false));
-        adapterQnaList.addChatToList(new QnA("배가 아픈데 왜 그러나요?", false));
-        adapterQnaList.addChatToList(new QnA("배가 아픈데 왜 그러나요?", false));
-        adapterQnaList.addChatToList(new QnA("배가 아픈데 왜 그러나요?", false));
-        adapterQnaList.addChatToList(new QnA("배가 아픈데 왜 그러나요?", false));
-        adapterQnaList.addChatToList(new QnA("배가 아픈데 왜 그러나요?", false));
+        adapterQnaList.addChatToList(new QnaModel("배가 아픈데 왜 그러나요?", false));
+        adapterQnaList.addChatToList(new QnaModel("배가 아픈데 왜 그러나요?", false));
+        adapterQnaList.addChatToList(new QnaModel("배가 아픈데 왜 그러나요?", false));
+        adapterQnaList.addChatToList(new QnaModel("배가 아픈데 왜 그러나요?", false));
+        adapterQnaList.addChatToList(new QnaModel("배가 아픈데 왜 그러나요?", false));
+        adapterQnaList.addChatToList(new QnaModel("배가 아픈데 왜 그러나요?", false));
+        adapterQnaList.addChatToList(new QnaModel("배가 아픈데 왜 그러나요?", false));
+        adapterQnaList.addChatToList(new QnaModel("배가 아픈데 왜 그러나요?", false));
+        adapterQnaList.addChatToList(new QnaModel("배가 아픈데 왜 그러나요?", false));
+        adapterQnaList.addChatToList(new QnaModel("배가 아픈데 왜 그러나요?", false));
 
     }
 

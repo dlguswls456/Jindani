@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<QnA> list = new ArrayList<QnA>();
+    private ArrayList<QnaModel> list = new ArrayList<QnaModel>();
     private RecyclerView qnaList;
 
     public AdapterQnaList(RecyclerView qnalist) {
@@ -56,7 +56,7 @@ class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return this.list.size();
     }
 
-    public void addChatToList(QnA qna){
+    public void addChatToList(QnaModel qna){
         this.list.add(qna);
         this.notifyDataSetChanged();
         //채팅 추가될때마다 리사이클러뷰가 제일 하단으로 가게함
@@ -69,7 +69,7 @@ class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemView);
         }
 
-        public void bind(QnA qna){
+        public void bind(QnaModel qna){
             TextView question = itemView.findViewById(R.id.question);
             question.setText(qna.qora);
         }
