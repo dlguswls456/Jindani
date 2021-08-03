@@ -27,7 +27,7 @@ public class SelectActivity extends AppCompatActivity {
         chat_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PersonInfoActivity.class);
                 startActivity(intent);
             }
         });

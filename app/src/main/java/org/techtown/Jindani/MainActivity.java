@@ -31,7 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     //Flask 메인 주소
-    final String URL = "http://192.168.0.8:5000/";
+    final String URL = "http://172.30.1.31:5000/";
 
     RecyclerView rvChatList;//채팅
     Button btnSend;//전송 버튼
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                     etChat.getText().clear();//입력창 초기화
 
                     //모든 질문에 대답한 경우
-                    if (answer.size() - 4 == QTree.size()) {
+                    if (answer.size() - 7 == QTree.size()) {
                         //level2예측 전
                         if (level2_top2 == null) {
                             //지금까지의 답변 모아서 보내고 예측한 level2받아오기

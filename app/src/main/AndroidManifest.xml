@@ -13,10 +13,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".PersonInfoActivity" />
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".PersonInfoActivity"
+            android:name=".LoginActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

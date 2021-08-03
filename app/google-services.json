@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "289986450546",
+    "firebase_url": "https://disease-info-b64b5-default-rtdb.firebaseio.com",
+    "project_id": "disease-info-b64b5",
+    "storage_bucket": "disease-info-b64b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289986450546:android:29ac4156ff4fd84a01deeb",
+        "android_client_info": {
+          "package_name": "org.techtown.Jindani"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289986450546-j3rlqfo9nbcakig1869i1qqp9qllmbjt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.techtown.Jindani",
+            "certificate_hash": "d41778891836fdad4ad9e3c42c796fc735c229bc"
+          }
+        },
+        {
+          "client_id": "289986450546-loq5cu4aijlh0lqsm1rghjrqj504blek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCQfSateNxtG6EyhlN0zh_YQnfiD0Z_Bg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289986450546-loq5cu4aijlh0lqsm1rghjrqj504blek.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
