@@ -38,7 +38,7 @@ class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 //            ((AdapterQnaList.ViewHolder) holder).bind(this.list.get(position));
 //        }
 
-        ((AdapterQnaList.ViewHolder) holder).bind(this.list.get(position));
+        ((ViewHolder) holder).bind(this.list.get(position));
 
     }
 
