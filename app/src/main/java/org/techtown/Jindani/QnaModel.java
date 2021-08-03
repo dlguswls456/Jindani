@@ -1,11 +1,11 @@
 package org.techtown.Jindani;
 
-public class QnA {
+public class QnaModel {
 
     String qora; //질문 or 답변 내용
     boolean isDoc; //발화자 구분
 
-    public QnA(String qora, boolean isDoc) {
+    public QnaModel(String qora, boolean isDoc) {
         this.qora = qora;
         this.isDoc = isDoc;
     }
