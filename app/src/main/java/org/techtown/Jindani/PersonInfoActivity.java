@@ -92,7 +92,6 @@ public class PersonInfoActivity extends AppCompatActivity {
                 personInfo.put("과거력", editPast.getText().toString());
                 personInfo.put("사회력", editSocial.getText().toString());
                 personInfo.put("가족력", editFamily.getText().toString());
-                //질문목록에서 과거력 사회력 가족력 빼야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                 Intent intent = new Intent(PersonInfoActivity.this, MainActivity.class);
                 intent.putExtra("personInfo", personInfo);

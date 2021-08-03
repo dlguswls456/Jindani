@@ -10,17 +10,25 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SelectActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.select_page);
+        setContentView(R.layout.activity_select);
 
         //채팅 버튼
         Button chat_button = findViewById(R.id.chat_button);
@@ -65,6 +73,41 @@ public class SelectActivity extends AppCompatActivity {
         chat_button.setText(c_spannable);
         qna_button.setText(q_spannable);
 
+        //로그아웃
+        Button btn_logout = findViewById(R.id.btn_logout);
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signOut();
 
+                Intent intent = new Intent(SelectActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+    }
+
+    private void signOut() {
+        // Firebase sign out
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.signOut();
+
+        GoogleSignInOptions gso = new
+                GoogleSignInOptions.
+                        Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
+        // Google sign out
+        googleSignInClient.signOut().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 }
