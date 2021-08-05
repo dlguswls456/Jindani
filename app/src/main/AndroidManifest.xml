@@ -25,7 +25,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".SelectActivity"/>
-        <activity android:name=".QnaActivity"/>
+        <activity android:name=".QnaActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".WriteQActivity"/>
     </application>
 
 </manifest>
