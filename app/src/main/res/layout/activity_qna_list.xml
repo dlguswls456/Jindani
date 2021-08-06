@@ -1,24 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/q"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:text="검색창...?"/>
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="질문"
+        android:textSize="20sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/qnalist"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:orientation="vertical"
+        android:layout_below="@+id/q">
+
+        <EditText
+            android:id="@+id/search_q"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="검색어를 입력해주세요"
+            android:imeOptions="actionSearch"
+            android:inputType="text" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/qnalist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="50dp"/>
+
+    </LinearLayout>
 
     <Button
+        android:id="@+id/qna_list_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="질문 추가하기"/>
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:text="질문작성" />
 
-</LinearLayout>
+
+</RelativeLayout>
