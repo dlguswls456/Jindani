@@ -1,5 +1,12 @@
 package org.techtown.Jindani;
 
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +63,7 @@ class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return this.list.size();
     }
 
-    public void addChatToList(QnaModel qna){
+    public void addQToList(QnaModel qna){
         this.list.add(qna);
         this.notifyDataSetChanged();
         //채팅 추가될때마다 리사이클러뷰가 제일 하단으로 가게함
@@ -70,8 +77,12 @@ class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bind(QnaModel qna){
-            TextView question = itemView.findViewById(R.id.question);
-            question.setText(qna.qora);
+            TextView title = itemView.findViewById(R.id.title);
+            TextView content = itemView.findViewById(R.id.content);
+
+            title.setText(qna.q_title);
+            String text = qna.q_content.replace('\n',' '); //개행문자 제거
+            content.setText(text);
         }
     }
 }
