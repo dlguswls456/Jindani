@@ -35,6 +35,7 @@ public class SelectActivity extends AppCompatActivity {
         chat_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //바로 채팅으로 넘어가게(ChatActivity), 정보들 들고가야함
                 Intent intent = new Intent(getApplicationContext(), PersonInfoActivity.class);
                 startActivity(intent);
             }

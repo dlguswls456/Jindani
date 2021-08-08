@@ -28,7 +28,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {
 
     //Flask 메인 주소
     final String URL = "http://172.30.1.49:5000/";
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_chat);
 
         Intent getIntent = getIntent();
         answer = (HashMap<String, String>) getIntent.getSerializableExtra("personInfo");
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //입력창 비어있을 경우
                 if (etChat.getText() == null || etChat.getText().length() == 0) {
-                    Toast.makeText(MainActivity.this, "Please enter a text", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ChatActivity.this, "Please enter a text", Toast.LENGTH_LONG).show();
                 } else {//제대로 입력했을 경우
                     answer.put(QTree.get(i).tag, etChat.getText().toString());//답변 목록에 저장
                     adapterChatBot.addChatToList(new ChatModel(etChat.getText().toString(), false));//채팅창에 입력값 출력
