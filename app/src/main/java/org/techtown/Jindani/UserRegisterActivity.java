@@ -27,10 +27,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class RegisterActivity extends AppCompatActivity {
+public class UserRegisterActivity extends AppCompatActivity {
 
     //일반 사용자용 회원가입
-    private static final String TAG = "RegisterActivity";
+    private static final String TAG = "UserRegisterActivity";
 
     private FirebaseAuth mAuth; //파이어베이스 인증 처리
     private DatabaseReference mDatabaseReference; // 실시간 데이터베이스
@@ -50,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_user_register);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -110,9 +110,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                 //로그인 조건.. 추가 필요
                 if (email.equals("") | password.equals("") | password_again.equals("")) {//빈칸인 경우
-                    Toast.makeText(RegisterActivity.this, "모든 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserRegisterActivity.this, "모든 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
                 } else if (email.contains(" ") | password.contains(" ") | password_again.contains(" ")) {//공백이 추가된 경우
-                    Toast.makeText(RegisterActivity.this, "공백은 지원하지 않습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserRegisterActivity.this, "공백은 지원하지 않습니다", Toast.LENGTH_SHORT).show();
                 } else if (password.length() < MINIMUN_PWD_SIZE) {//비밀번호 글자수 제한
                     tv_chk_pwd.setText("비밀번호는 6자 이상 필수");
                 } else if (!password.equals(password_again)) {//서로 일치하지 않는 비밀번호
@@ -166,12 +166,12 @@ public class RegisterActivity extends AppCompatActivity {
                             mDatabaseReference.child("UserAccount").child(firebaseUser.getUid()).setValue(userAccount);
                             //updateUI(user);
 
-                            Toast.makeText(RegisterActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserRegisterActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterActivity.this, "회원가입 실패",
+                            Toast.makeText(UserRegisterActivity.this, "회원가입 실패",
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
