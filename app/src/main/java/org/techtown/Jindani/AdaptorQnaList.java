@@ -31,8 +31,8 @@ class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view;
-
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_qna,parent,false);
+
         return new ViewHolder(view);
     }
 
