@@ -1,11 +1,8 @@
 package org.techtown.Jindani;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -23,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class WriteQActivity extends AppCompatActivity implements View.OnClickListener {
+public class WriteQuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
     // 파이어베이스 데이터베이스 연동
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -36,7 +33,7 @@ public class WriteQActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_write_q);
 
         Button button = findViewById(R.id.write_q_button); //완료 버튼
-        button.setOnClickListener(WriteQActivity.this);
+        button.setOnClickListener(WriteQuestionActivity.this);
     }
 
     @Override
@@ -49,27 +46,27 @@ public class WriteQActivity extends AppCompatActivity implements View.OnClickLis
 
         hideKeyboard();
 
-        EditText q_title = findViewById(R.id.q_title); //질문 제목
-        EditText q_content = findViewById(R.id.q_content); //질문 내용
+        EditText question_title = findViewById(R.id.q_title); //질문 제목
+        EditText question_content = findViewById(R.id.q_content); //질문 내용
 
         //edittext에서 문자열 받아오기
-        String t = q_title.getText().toString();
-        String c = q_content.getText().toString();
+        String t = question_title.getText().toString();
+        String c = question_content.getText().toString();
 
         //입력 안됐을 때
         if (t.equals("")) {
-            Toast.makeText(WriteQActivity.this, "제목을 입력해주세요!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(WriteQuestionActivity.this, "제목을 입력해주세요!", Toast.LENGTH_SHORT).show();
             return;
         }
         if (c.equals("")) {
-            Toast.makeText(WriteQActivity.this, "내용을 입력해주세요!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(WriteQuestionActivity.this, "내용을 입력해주세요!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Toast.makeText(WriteQActivity.this, "질문 완료", Toast.LENGTH_SHORT).show();
+        Toast.makeText(WriteQuestionActivity.this, "질문 완료", Toast.LENGTH_SHORT).show();
 
         //변경 필요 - 사용자 id 받아오기, 질문 어떻게 넣을지
-        storeQ(firebaseUser.getUid(), "4번질문", t, c);
+        storeQuestion(firebaseUser.getUid(), "1번질문", t, c);
 
         finish();
 
@@ -81,7 +78,7 @@ public class WriteQActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void showDialog() { //질문 작성 취소 대화창
-        AlertDialog.Builder builder = new AlertDialog.Builder(WriteQActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(WriteQuestionActivity.this);
         builder.setMessage("작성 중인 내용은 저장되지 않습니다.\n질문 작성을 종료하시겠습니까?");
         builder.setCancelable(false);
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -100,7 +97,7 @@ public class WriteQActivity extends AppCompatActivity implements View.OnClickLis
         builder.create().show();
     }
 
-    public void storeQ(String userId, String qId, String title, String content) { //값을 파이어베이스 Realtime database에 저장
+    public void storeQuestion(String userId, String qId, String title, String content) { //값을 파이어베이스 Realtime database에 저장
         String date = getTime();
         QnaModel q = new QnaModel(userId, qId, title, content, date);
 
