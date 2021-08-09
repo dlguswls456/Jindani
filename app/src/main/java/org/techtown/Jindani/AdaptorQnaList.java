@@ -63,8 +63,8 @@ class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             TextView title = itemView.findViewById(R.id.title);
             TextView content = itemView.findViewById(R.id.content);
 
-            title.setText(qna.q_title);
-            content.setText(qna.q_content);
+            title.setText(qna.question_title);
+            content.setText(qna.question_content);
         }
     }
 }
