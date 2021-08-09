@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<QnaModel> list = new ArrayList<QnaModel>();
+    public ArrayList<QnaModel> list = new ArrayList<QnaModel>();
     private RecyclerView qnaList;
 
     public AdapterQnaList(RecyclerView qnalist) {
@@ -38,24 +38,7 @@ class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-//        if(holder instanceof AdapterQnaList.ViewHolder){
-//            ((AdapterQnaList.ViewHolder) holder).bind(this.list.get(position));
-//        }
-//        else{
-//            ((AdapterQnaList.ViewHolder) holder).bind(this.list.get(position));
-//        }
-
         ((AdapterQnaList.ViewHolder) holder).bind(this.list.get(position));
-
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (!list.get(position).isDoc) { // 사용자 답변일 때 0 리턴
-            return 0;
-        } else {
-            return 1;
-        }
     }
 
     @Override
@@ -81,8 +64,7 @@ class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             TextView content = itemView.findViewById(R.id.content);
 
             title.setText(qna.q_title);
-            String text = qna.q_content.replace('\n',' '); //개행문자 제거
-            content.setText(text);
+            content.setText(qna.q_content);
         }
     }
 }
