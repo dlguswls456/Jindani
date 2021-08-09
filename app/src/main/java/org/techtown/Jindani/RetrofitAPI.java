@@ -12,13 +12,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface RetrofitAPI {
-//    @GET("/posts")
-//    Call<List<Post>> getData(@Query("userId") String id);
-//
-//    @FormUrlEncoded
-//    @POST("/posts")
-//    Call<Post> postData(@FieldMap HashMap<String, Object> param);
-
     //level2받아올 때 사용
     @POST("/level2")
     Call<List<Level2>> postAnswer_for_Level2(@Body HashMap<String, String> param);

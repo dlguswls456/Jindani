@@ -42,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;//파이어 베이스 인증 객체
     private GoogleSignInClient googleSignInClient;//구글 API 클라이언트 객체
-    private DatabaseReference mDatabaseReference; // 실시간 데이터베이스
     private static final int RC_SIGN_IN = 100;//로그인 결과 코드
 
     private String TAG = "LoginTag";
@@ -94,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, UserSegmentActivity.class);
                 startActivity(intent);
             }
         });

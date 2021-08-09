@@ -2,8 +2,6 @@ package org.techtown.Jindani;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,16 +11,12 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class PersonInfoActivity extends AppCompatActivity {
 
@@ -93,7 +87,7 @@ public class PersonInfoActivity extends AppCompatActivity {
                 personInfo.put("사회력", editSocial.getText().toString());
                 personInfo.put("가족력", editFamily.getText().toString());
 
-                Intent intent = new Intent(PersonInfoActivity.this, MainActivity.class);
+                Intent intent = new Intent(PersonInfoActivity.this, ChatActivity.class);
                 intent.putExtra("personInfo", personInfo);
                 startActivity(intent);
             }
