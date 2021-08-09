@@ -42,7 +42,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/qna_list_button"
+        android:id="@+id/write_q_button"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
