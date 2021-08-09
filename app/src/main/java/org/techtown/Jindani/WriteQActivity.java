@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,6 +26,7 @@ import java.util.Date;
 public class WriteQActivity extends AppCompatActivity implements View.OnClickListener {
 
     // 파이어베이스 데이터베이스 연동
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = database.getReference(); //DatabaseReference는 데이터베이스의 특정 위치로 연결
 
@@ -66,7 +69,7 @@ public class WriteQActivity extends AppCompatActivity implements View.OnClickLis
         Toast.makeText(WriteQActivity.this, "질문 완료", Toast.LENGTH_SHORT).show();
 
         //변경 필요 - 사용자 id 받아오기, 질문 어떻게 넣을지
-        storeQ("n번사용자", "4번질문", t, c);
+        storeQ(firebaseUser.getUid(), "4번질문", t, c);
 
         finish();
 
@@ -97,12 +100,12 @@ public class WriteQActivity extends AppCompatActivity implements View.OnClickLis
         builder.create().show();
     }
 
-    public void storeQ(String userid, String qid, String title, String content) { //값을 파이어베이스 Realtime database에 저장
+    public void storeQ(String userId, String qId, String title, String content) { //값을 파이어베이스 Realtime database에 저장
         String date = getTime();
-        QnaModel q = new QnaModel(userid, qid, title, content, date);
+        QnaModel q = new QnaModel(userId, qId, title, content, date);
 
         //child는 해당 키 위치로 이동
-        databaseReference.child("JindaniApp").child("Question").child(qid).setValue(q);
+        databaseReference.child("JindaniApp").child("Question").child(qId).setValue(q);
     }
 
     private String getTime() { //현재 시점을 특정 형식으로 리턴
