@@ -31,7 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ChatActivity extends AppCompatActivity {
 
     //Flask 메인 주소
-    final String URL = "http://172.30.1.49:5000/";
+    final String URL = "http://172.30.1.53:5000/";
 
     RecyclerView rvChatList;//채팅
     Button btnSend;//전송 버튼
@@ -74,10 +74,10 @@ public class ChatActivity extends AppCompatActivity {
                 i++;
                 if (level2_top2.size() == MAX_PREDICTED_LEVEL2) {//level2_top2의 차이가 10%이하여서 top2모두 반환됐을 경우
                     adapterChatBot.addChatToList(new ChatModel("27가지 중 아래 2가지 범위의 질병이 예상됩니다.", true));
-                    QTree.put(i, new Questions("select level2", "해당된다고 생각하면 해당 숫자(1 or 2)를 선택해주시고, 해당 안된다고 생각하면 숫자 (0)을 선택해주세요."));
+                    QTree.put(i, new Questions("select level2", "해당된다고 생각하면 숫자(1 or 2)를 선택해주시고, 해당되지 않는다고 생각하면 숫자 (0)을 선택해주세요."));
                 } else {//차이가 10%이상
                     adapterChatBot.addChatToList(new ChatModel("27가지 중 아래 범위의 질병이 예상됩니다.", true));
-                    QTree.put(i, new Questions("select level2", "해당된다고 생각하면 해당 숫자(1)를 선택해주시고, 해당 안된다고 생각하면 숫자 (0)을 선택해주세요."));
+                    QTree.put(i, new Questions("select level2", "해당된다고 생각하면 숫자(1)를 선택해주시고, 해당되지 않는다고 생각하면 숫자 (0)을 선택해주세요."));
                 }
                 adapterChatBot.addChatToList(new ChatModel(QTree.get(i).question, true));//i를 키캆으로 이용
 
