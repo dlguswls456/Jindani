@@ -13,15 +13,19 @@ public class UserSegmentActivity extends AppCompatActivity {
     //회원가입 성공 시 현재 화면(UserSegmentActivity) 종료하기 위해 선언
     public static Activity userSegmentActivity;
 
+    Button user_signin;
+    Button doc_signin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_segment);
 
+        //회원가입 성공 시 현재 화면(UserSegmentActivity) 종료하기 위해 초기화
         userSegmentActivity = UserSegmentActivity.this;
 
         //일반 사용자 회원가입
-        Button user_signin = findViewById(R.id.user_signin);
+        user_signin = findViewById(R.id.user_signin);
         user_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,7 +35,7 @@ public class UserSegmentActivity extends AppCompatActivity {
         });
 
         //의사 회원가입
-        Button doc_signin = findViewById(R.id.doc_signin);
+        doc_signin = findViewById(R.id.doc_signin);
         doc_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

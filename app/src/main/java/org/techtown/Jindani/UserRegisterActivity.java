@@ -27,15 +27,14 @@ public class UserRegisterActivity extends AppCompatActivity {
     //일반 사용자용 회원가입
     private static final String TAG = "UserRegisterActivity";
 
-    private FirebaseAuth mAuth; //파이어베이스 인증 처리
-    private DatabaseReference mDatabaseReference; // 실시간 데이터베이스
+    private FirebaseAuth auth; //파이어베이스 인증 처리
+    private DatabaseReference databaseReference; // 실시간 데이터베이스
 
     private Button btn_register;
     private RadioGroup radioGroup;
     private EditText editHeight, editWeight, editPast, editSocial, editFamily, et_email, et_pwd, et_pwd_again;
     private TextView txtDate, tv_chk_pwd, tv_chk_pwd_again;
-    String birthDate;
-
+    private String birthDate;
     private DatePicker datePicker;
 
     private static final int MINIMUN_PWD_SIZE = 6; //최소 비밀번호 길이
@@ -45,9 +44,9 @@ public class UserRegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
 
-        mAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
+        databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
 
         et_email = findViewById(R.id.et_email);
         et_pwd = findViewById(R.id.et_pwd);
@@ -62,10 +61,9 @@ public class UserRegisterActivity extends AppCompatActivity {
         editPast = findViewById(R.id.editPast);
         editSocial = findViewById(R.id.editSocial);
         editFamily = findViewById(R.id.editFamily);
-
         datePicker = findViewById(R.id.datePicker);
 
-        //생년월일 선택, 나이 계산
+        //생년월일 선택
         datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -83,18 +81,10 @@ public class UserRegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = et_email.getText().toString();
                 String password = et_pwd.getText().toString();//비번 6글자 이상이어야함
-                String password_again = et_pwd_again.getText().toString();//비번 6글자 이상이어야함
+                String password_again = et_pwd_again.getText().toString();//비밀번호 확인용
 
-                //로그인 조건.. 추가 필요
-                if (email.equals("") | password.equals("") | password_again.equals("")) {//빈칸인 경우
-                    Toast.makeText(UserRegisterActivity.this, "모든 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
-                } else if (email.contains(" ") | password.contains(" ") | password_again.contains(" ")) {//공백이 추가된 경우
-                    Toast.makeText(UserRegisterActivity.this, "공백은 지원하지 않습니다", Toast.LENGTH_SHORT).show();
-                } else if (password.length() < MINIMUN_PWD_SIZE) {//비밀번호 글자수 제한
-                    tv_chk_pwd.setText("비밀번호는 6자 이상 필수");
-                } else if (!password.equals(password_again)) {//서로 일치하지 않는 비밀번호
-                    tv_chk_pwd_again.setText("비밀번호 불일치");
-                } else {//모든 조건 충족시
+                //작성한 이메일, 비밀번호 조건 확인 후 계정 생성 시도
+                if(conditionCheck(email, password, password_again)){
                     createAccount(email, password);
                 }
             }
@@ -105,15 +95,42 @@ public class UserRegisterActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
             reload();
         }
     }
 
+    //가입 조건 체크
+    private boolean conditionCheck(String email, String password, String password_again) {
+        //필요시 추가 예전
+        if (email.equals("") | password.equals("") | password_again.equals("")) {//빈칸인 경우
+            Toast.makeText(UserRegisterActivity.this, "모든 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (email.contains(" ") | password.contains(" ") | password_again.contains(" ")) {//공백이 포함된 경우
+            Toast.makeText(UserRegisterActivity.this, "공백은 지원하지 않습니다", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            if (password.length() < MINIMUN_PWD_SIZE) {//비밀번호 글자수 제한
+                tv_chk_pwd.setText("비밀번호는 6자 이상 필수");
+                return false;
+            } else {
+                tv_chk_pwd.setText("");
+            }
+            if (!password.equals(password_again)) {//서로 일치하지 않는 비밀번호
+                tv_chk_pwd_again.setText("비밀번호 불일치");
+                return false;
+            } else {
+                tv_chk_pwd_again.setText("");
+            }
+        }
+
+        return true;
+    }
+
     //이메일 계정 생성 및 db 저장
     private void createAccount(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
+        auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -126,7 +143,7 @@ public class UserRegisterActivity extends AppCompatActivity {
                             RadioButton radioButton = findViewById(radioButtonId);
 
                             //유저 객체 생성, db저장
-                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                            FirebaseUser firebaseUser = auth.getCurrentUser();
                             UserAccount userAccount =
                                     new UserAccount(firebaseUser.getUid(),
                                             firebaseUser.getEmail(),
@@ -140,7 +157,7 @@ public class UserRegisterActivity extends AppCompatActivity {
                                             editFamily.getText().toString());
 
                             //setValue: db insert
-                            mDatabaseReference.child("UserAccount").child(firebaseUser.getUid()).setValue(userAccount);
+                            databaseReference.child("UserAccount").child(firebaseUser.getUid()).setValue(userAccount);
                             //updateUI(user);
 
                             Toast.makeText(UserRegisterActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
@@ -163,7 +180,7 @@ public class UserRegisterActivity extends AppCompatActivity {
     //이메일 인증인거같은데 사용할지 말지 고민
     private void sendEmailVerification() {
         // Send verification email
-        final FirebaseUser user = mAuth.getCurrentUser();
+        final FirebaseUser user = auth.getCurrentUser();
         user.sendEmailVerification()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
