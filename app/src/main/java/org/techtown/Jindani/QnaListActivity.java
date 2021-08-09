@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,22 +43,22 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
         Button button = findViewById(R.id.write_q_button); //질문 작성 버튼
         button.setOnClickListener(QnaListActivity.this);
 
-        initDatabase();
+//        initDatabase();
         readFirebase();
 
     }
 
     @Override
     public void onClick(View v) {
-        EditText e = findViewById(R.id.search_q);
-        Intent intent = new Intent(QnaListActivity.this, WriteQActivity.class);
+        EditText e = findViewById(R.id.search_question);
+        Intent intent = new Intent(QnaListActivity.this, WriteQuestionActivity.class);
         startActivity(intent);
         e.getText().clear();
     }
 
-    private void initDatabase(){
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-    }
+//    private void initDatabase(){
+//        databaseReference = FirebaseDatabase.getInstance().getReference();
+//    }
 
     private void readFirebase(){ //firebase에서 데이터 읽어오기, 변화가 있으면 클라이언트에 알려줌
         databaseReference = FirebaseDatabase.getInstance().getReference().child("JindaniApp").child("Question");
