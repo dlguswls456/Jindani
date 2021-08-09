@@ -45,7 +45,7 @@ public class SelectActivity extends AppCompatActivity {
         qna_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), QnaActivity.class);
+                Intent intent = new Intent(getApplicationContext(), QnaListActivity.class);
                 startActivity(intent);
             }
         });
