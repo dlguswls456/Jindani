@@ -40,7 +40,7 @@ public class SelectActivity extends AppCompatActivity {
     Button chat_button, qna_button, btn_logout;
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private DatabaseReference mDatabaseReference; // 실시간 데이터베이스
+    private DatabaseReference databaseReference; // 실시간 데이터베이스
 
     UserAccount userAccount;
     int age;
@@ -58,7 +58,7 @@ public class SelectActivity extends AppCompatActivity {
         setLayout();
 
         //현재 사용자 데이터 가져옴
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
+        databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
         readFirebase(new FirebaseCallback<UserAccount>() {
             @Override
             public void onCallback(UserAccount value) {
@@ -149,7 +149,7 @@ public class SelectActivity extends AppCompatActivity {
 
     //파이어베이스에서 데이터 가져오기
     public void readFirebase(FirebaseCallback firebaseCallback) {
-        mDatabaseReference.child("UserAccount").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("UserAccount").child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
                 userAccount = snapshot.getValue(UserAccount.class);

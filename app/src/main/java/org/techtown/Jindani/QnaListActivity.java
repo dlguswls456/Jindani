@@ -58,12 +58,11 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initDatabase(){
-        database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     private void readFirebase(){ //firebase에서 데이터 읽어오기, 변화가 있으면 클라이언트에 알려줌
-        databaseReference = database.getReference().child("JindaniApp").child("Question");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("JindaniApp").child("Question");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) { //변화된 값이 snapshot으로 넘어옴
