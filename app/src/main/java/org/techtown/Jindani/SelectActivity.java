@@ -37,14 +37,16 @@ import java.util.Date;
 
 public class SelectActivity extends AppCompatActivity {
 
-    Button chat_button, qna_button, btn_logout;
+    private Button chat_button, qna_button, btn_logout;
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference databaseReference; // 실시간 데이터베이스
 
-    UserAccount userAccount;
-    int age;
+    private UserAccount userAccount;
+    private int age;
     private String ageCategory;
+
+    private final static String TAG = "SelectActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,12 +59,12 @@ public class SelectActivity extends AppCompatActivity {
         btn_logout = findViewById(R.id.btn_logout);
         setLayout();
 
-        //현재 사용자 데이터 가져옴
+        //현재 사용자 데이터 가져옴(콜백 이용)
         databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
         readFirebase(new FirebaseCallback<UserAccount>() {
             @Override
             public void onCallback(UserAccount value) {
-                Log.d("TAG", "onCallback 성공");
+                Log.d(TAG, "onCallback 성공");
 
                 //가져온 생년월일로 나이 카테고리 구하기
                 //생년월일로 Calendar객체 만들기
@@ -73,7 +75,6 @@ public class SelectActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-//                System.out.println(sdf.format(birthDate));
                 Calendar birthCal = Calendar.getInstance();
                 birthCal.setTime(birthDate);
 
@@ -92,9 +93,9 @@ public class SelectActivity extends AppCompatActivity {
         chat_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //바로 채팅으로 넘어가게(ChatActivity), 정보들 들고가야함
-                Intent intent = new Intent(getApplicationContext(), PersonInfoActivity.class);
-                startActivity(intent);
+                //바로 채팅으로 넘어가게(ChatActivity로), 정보들 들고가야함
+//                Intent intent = new Intent(getApplicationContext(), PersonInfoActivity.class);
+//                startActivity(intent);
             }
         });
 
@@ -158,7 +159,7 @@ public class SelectActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {//데이터 가져오기 실패
-                Log.e("SelectActivity", String.valueOf(error.toException()));
+                Log.e(TAG, String.valueOf(error.toException()));
             }
         });
     }
@@ -180,7 +181,7 @@ public class SelectActivity extends AppCompatActivity {
         return age;
     }
 
-    //나이 카테고리 구하기
+    //만나이 카테고리 구하기
     public String getAgeCategory(int age, Calendar birthCal) {
         //현재 날짜 가져옴
         Calendar current = Calendar.getInstance();
@@ -224,7 +225,7 @@ public class SelectActivity extends AppCompatActivity {
                 new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SelectActivity.this, "로그아웃 성공", Toast.LENGTH_LONG).show();
                     }
                 });
     }
