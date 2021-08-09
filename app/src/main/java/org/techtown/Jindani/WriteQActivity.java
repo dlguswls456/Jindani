@@ -15,7 +15,17 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class WriteQActivity extends AppCompatActivity implements View.OnClickListener {
+
+    // 파이어베이스 데이터베이스 연동
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = database.getReference(); //DatabaseReference는 데이터베이스의 특정 위치로 연결
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,21 +49,6 @@ public class WriteQActivity extends AppCompatActivity implements View.OnClickLis
         EditText q_title = findViewById(R.id.q_title); //질문 제목
         EditText q_content = findViewById(R.id.q_content); //질문 내용
 
-//        q_content.setOnTouchListener(new View.OnTouchListener() { //nestedscrollview 안에서 edittext 스크롤 가능하게
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (v.getId() == R.id.q_content) {
-//                    v.getParent().requestDisallowInterceptTouchEvent(true);
-//                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-//                        case MotionEvent.ACTION_UP:
-//                            v.getParent().requestDisallowInterceptTouchEvent(false);
-//                            break;
-//                    }
-//                }
-//                return false;
-//            }
-//        });
-
         //edittext에서 문자열 받아오기
         String t = q_title.getText().toString();
         String c = q_content.getText().toString();
@@ -68,13 +63,10 @@ public class WriteQActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
-        //제목과 내용을 QnaActivity로 전달
-        Intent intent = new Intent();
-        intent.putExtra("제목", t);
-        intent.putExtra("내용", c);
-
-        setResult(Activity.RESULT_OK, intent);
         Toast.makeText(WriteQActivity.this, "질문 완료", Toast.LENGTH_SHORT).show();
+
+        //변경 필요 - 사용자 id 받아오기, 질문 어떻게 넣을지
+        storeQ("n번사용자", "4번질문", t, c);
 
         finish();
 
@@ -103,5 +95,21 @@ public class WriteQActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
         builder.create().show();
+    }
+
+    public void storeQ(String userid, String qid, String title, String content) { //값을 파이어베이스 Realtime database에 저장
+        String date = getTime();
+        QnaModel q = new QnaModel(userid, qid, title, content, date);
+
+        //child는 해당 키 위치로 이동
+        databaseReference.child("JindaniApp").child("Question").child(qid).setValue(q);
+    }
+
+    private String getTime() { //현재 시점을 특정 형식으로 리턴
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd a hh:mm"); //오전 오후 구분
+        String getTime = dateFormat.format(date);
+        return getTime;
     }
 }
