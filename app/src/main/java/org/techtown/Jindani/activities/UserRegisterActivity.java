@@ -3,6 +3,8 @@ package org.techtown.Jindani.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -102,6 +104,11 @@ public class UserRegisterActivity extends AppCompatActivity {
         if (currentUser != null) {
             reload();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        showDialog();
     }
 
     //가입 조건 체크
@@ -205,4 +212,26 @@ public class UserRegisterActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
 
     }
+
+    //회원정보 작성 취소 대화창
+    public void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(UserRegisterActivity.this);
+        builder.setMessage("작성 중인 내용은 저장되지 않습니다.\n작성을 종료하시겠습니까?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();
+    }
+
 }
