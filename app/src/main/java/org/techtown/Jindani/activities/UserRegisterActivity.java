@@ -1,4 +1,4 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +21,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.techtown.Jindani.R;
+import org.techtown.Jindani.models.UserAccount;
 
 public class UserRegisterActivity extends AppCompatActivity {
 
@@ -138,27 +141,8 @@ public class UserRegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
 
-                            //성별 정보 가져오기
-                            int radioButtonId = radioGroup.getCheckedRadioButtonId();
-                            RadioButton radioButton = findViewById(radioButtonId);
-
-                            //유저 객체 생성, db저장
-                            FirebaseUser firebaseUser = auth.getCurrentUser();
-                            UserAccount userAccount =
-                                    new UserAccount(firebaseUser.getUid(),
-                                            firebaseUser.getEmail(),
-                                            password,
-                                            radioButton.getText().toString(),
-                                            birthDate,
-                                            editHeight.getText().toString(),
-                                            editWeight.getText().toString(),
-                                            editPast.getText().toString(),
-                                            editSocial.getText().toString(),
-                                            editFamily.getText().toString());
-
-                            //setValue: db insert
-                            databaseReference.child("UserAccount").child(firebaseUser.getUid()).setValue(userAccount);
-                            //updateUI(user);
+                            //유저 객체 생성 후, db에 저장
+                            addFireBase(email, password);
 
                             Toast.makeText(UserRegisterActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
 
@@ -175,6 +159,31 @@ public class UserRegisterActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    //파이어베이스에 저장
+    private void addFireBase(String email, String password) {
+        //성별 정보 가져오기
+        int radioButtonId = radioGroup.getCheckedRadioButtonId();
+        RadioButton radioButton = findViewById(radioButtonId);
+
+        //파이어베이스에 유저 객체 저장
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        UserAccount userAccount =
+                new UserAccount(firebaseUser.getUid(),
+                        firebaseUser.getEmail(),
+                        password,
+                        radioButton.getText().toString(),
+                        birthDate,
+                        editHeight.getText().toString(),
+                        editWeight.getText().toString(),
+                        editPast.getText().toString(),
+                        editSocial.getText().toString(),
+                        editFamily.getText().toString());
+
+        //setValue: db insert
+        databaseReference.child("UserAccount").child(firebaseUser.getUid()).setValue(userAccount);
+        //updateUI(user);
     }
 
     //이메일 인증인거같은데 사용할지 말지 고민

@@ -10,7 +10,7 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".LoginActivity">
+    tools:context=".activities.LoginActivity">
 
     <TextView
         android:id="@+id/logo_name"

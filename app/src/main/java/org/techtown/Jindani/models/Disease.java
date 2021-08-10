@@ -1,4 +1,4 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.models;
 
 //질병 예측 후 서버에서 받아올 때 사용되는 클래스
 public class Disease {

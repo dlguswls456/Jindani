@@ -1,4 +1,4 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.models;
 
 //질문목록 저장용
 public class Questions {

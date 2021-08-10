@@ -1,4 +1,4 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.models;
 
 import com.google.gson.annotations.SerializedName;
 

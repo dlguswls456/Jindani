@@ -1,4 +1,4 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import org.techtown.Jindani.R;
 
 public class UserSegmentActivity extends AppCompatActivity {
 

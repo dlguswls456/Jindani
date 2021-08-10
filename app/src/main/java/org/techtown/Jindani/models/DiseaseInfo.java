@@ -1,4 +1,4 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.models;
 
 public class DiseaseInfo {
     String OName;//질병명

@@ -1,4 +1,4 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +11,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import org.techtown.Jindani.adapter.AdapterChatBot;
+import org.techtown.Jindani.models.ChatModel;
+import org.techtown.Jindani.models.Disease;
+import org.techtown.Jindani.models.DiseaseInfo;
+import org.techtown.Jindani.models.Level2;
+import org.techtown.Jindani.models.Questions;
+import org.techtown.Jindani.R;
+import org.techtown.Jindani.network.RetrofitAPI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -79,7 +88,7 @@ public class ChatActivity extends AppCompatActivity {
                     adapterChatBot.addChatToList(new ChatModel("27가지 중 아래 범위의 질병이 예상됩니다.", true));
                     QTree.put(i, new Questions("select level2", "해당된다고 생각하면 숫자(1)를 선택해주시고, 해당되지 않는다고 생각하면 숫자 (0)을 선택해주세요."));
                 }
-                adapterChatBot.addChatToList(new ChatModel(QTree.get(i).question, true));//i를 키캆으로 이용
+                adapterChatBot.addChatToList(new ChatModel(QTree.get(i).getQuestion(), true));//i를 키캆으로 이용
 
                 //예측 결과 출력
                 for (Level2 level2 : level2_top2) {
@@ -189,7 +198,7 @@ public class ChatActivity extends AppCompatActivity {
         btnSend = findViewById(R.id.btnSend);
 
         //먼저 질문던지기
-        adapterChatBot.addChatToList(new ChatModel(QTree.get(i).question, true));//i를 키캆으로 이용
+        adapterChatBot.addChatToList(new ChatModel(QTree.get(i).getQuestion(), true));//i를 키캆으로 이용
         btnSend.setOnClickListener(new View.OnClickListener() {//전송 버튼 클릭이벤트
             @Override
             public void onClick(View v) {
@@ -197,7 +206,7 @@ public class ChatActivity extends AppCompatActivity {
                 if (etChat.getText() == null || etChat.getText().length() == 0) {
                     Toast.makeText(ChatActivity.this, "Please enter a text", Toast.LENGTH_LONG).show();
                 } else {//제대로 입력했을 경우
-                    answer.put(QTree.get(i).tag, etChat.getText().toString());//답변 목록에 저장
+                    answer.put(QTree.get(i).getTag(), etChat.getText().toString());//답변 목록에 저장
                     adapterChatBot.addChatToList(new ChatModel(etChat.getText().toString(), false));//채팅창에 입력값 출력
                     etChat.getText().clear();//입력창 초기화
 
@@ -223,7 +232,7 @@ public class ChatActivity extends AppCompatActivity {
                             loadQuestion(level2_question_file_name, QTree.size());
 
                             i++;
-                            adapterChatBot.addChatToList(new ChatModel(QTree.get(i).question, true));//i를 키캆으로 이용
+                            adapterChatBot.addChatToList(new ChatModel(QTree.get(i).getQuestion(), true));//i를 키캆으로 이용
                         } else {//top3예측 직전
                             //답변 모아서 보내고 예측한 질병 받아오기
                             adapterChatBot.addChatToList(new ChatModel("확률이 높은 질병 3개를 예측 중입니다.", true));
@@ -231,7 +240,7 @@ public class ChatActivity extends AppCompatActivity {
                         }
                     } else {//아직 대답중인 경우
                         i++;
-                        adapterChatBot.addChatToList(new ChatModel(QTree.get(i).question, true));//다음 질문 던짐
+                        adapterChatBot.addChatToList(new ChatModel(QTree.get(i).getQuestion(), true));//다음 질문 던짐
                     }
                 }
             }

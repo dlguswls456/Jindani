@@ -1,7 +1,7 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.models;
 
 //채팅에 사용되는 클래스
-class ChatModel {
+public class ChatModel {
     String chat;//채팅 내용
     boolean isBot;//발화자 구분
 
