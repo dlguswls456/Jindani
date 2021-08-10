@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText et_email, et_pwd;
 
-    private CheckBox autoLoginChk;
+//    private CheckBox autoLoginChk;
 
     private FirebaseAuth auth;//파이어 베이스 인증 객체
     private GoogleSignInClient googleSignInClient;//구글 API 클라이언트 객체
@@ -56,7 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        autoLoginChk = findViewById(R.id.chk_autologin);
+//        autoLoginChk = findViewById(R.id.chk_autologin);
+        
         // 파이에베이스 인증 객체 초기화
         auth = FirebaseAuth.getInstance();
 
@@ -114,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         //자동 로그인
         FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser != null & autoLoginChk.isChecked()) {
+        if (currentUser != null) {
             Intent intent = new Intent(LoginActivity.this, SelectActivity.class);
             startActivity(intent);
             finish();
