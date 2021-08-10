@@ -47,7 +47,6 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
         Button button = findViewById(R.id.write_q_button); //질문 작성 버튼
         button.setOnClickListener(QnaListActivity.this);
 
-//        initDatabase();
         readFirebase();
 
     }
@@ -55,14 +54,13 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         EditText e = findViewById(R.id.search_question);
+        int list_size = adapterQnaList.list.size();
+
         Intent intent = new Intent(QnaListActivity.this, WriteQuestionActivity.class);
+        intent.putExtra("listSize", list_size);
         startActivity(intent);
         e.getText().clear();
     }
-
-//    private void initDatabase(){
-//        databaseReference = FirebaseDatabase.getInstance().getReference();
-//    }
 
     private void readFirebase(){ //firebase에서 데이터 읽어오기, 변화가 있으면 클라이언트에 알려줌
         databaseReference = FirebaseDatabase.getInstance().getReference().child("JindaniApp").child("Question");

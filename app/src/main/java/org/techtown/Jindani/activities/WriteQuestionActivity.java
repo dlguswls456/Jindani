@@ -2,6 +2,7 @@ package org.techtown.Jindani.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -68,8 +69,12 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
 
         Toast.makeText(WriteQuestionActivity.this, "질문 완료", Toast.LENGTH_SHORT).show();
 
-        //변경 필요 - 사용자 id 받아오기, 질문 어떻게 넣을지
-        storeQuestion(firebaseUser.getUid(), "1번질문", t, c);
+        //질문 id 설정
+        Intent intent = getIntent();
+        int list_size = intent.getIntExtra("listSize", 0);
+        String qId = (list_size + 1) + "번질문";
+
+        storeQuestion(firebaseUser.getUid(), qId, t, c);
 
         finish();
 
