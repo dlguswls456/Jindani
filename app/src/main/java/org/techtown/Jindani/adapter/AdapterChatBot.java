@@ -1,8 +1,5 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.adapter;
 
-import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +7,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.techtown.Jindani.models.ChatModel;
+import org.techtown.Jindani.R;
 
 import java.util.ArrayList;
 
@@ -52,7 +52,7 @@ public class AdapterChatBot extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if (!list.get(position).isBot) { // 사용자 답변일 때 0 리턴
+        if (!list.get(position).isBot()) { // 사용자 답변일 때 0 리턴
             return 0;
         } else {
             return 1;
@@ -81,7 +81,7 @@ public class AdapterChatBot extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public void bind(ChatModel chat){
             TextView msg = itemView.findViewById(R.id.bot_msg);
-            msg.setText(chat.chat);
+            msg.setText(chat.getChat());
         }
     }
 
@@ -93,7 +93,7 @@ public class AdapterChatBot extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public void bind(ChatModel chat){
             TextView msg = itemView.findViewById(R.id.user_msg);
-            msg.setText(chat.chat);
+            msg.setText(chat.getChat());
         }
     }
 }

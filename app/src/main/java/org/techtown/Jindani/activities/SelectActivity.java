@@ -1,4 +1,4 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -30,10 +30,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.techtown.Jindani.network.FirebaseCallback;
+import org.techtown.Jindani.R;
+import org.techtown.Jindani.models.UserAccount;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 public class SelectActivity extends AppCompatActivity {
 
@@ -42,7 +47,7 @@ public class SelectActivity extends AppCompatActivity {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference databaseReference; // 실시간 데이터베이스
 
-    private UserAccount userAccount;
+//    private UserAccount userAccount;
     private int age;
     private String ageCategory;
 
@@ -63,41 +68,42 @@ public class SelectActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
         readFirebase(new FirebaseCallback<UserAccount>() {
             @Override
-            public void onCallback(UserAccount value) {
+            public void onCallback(UserAccount userAccount) {
                 Log.d(TAG, "onCallback 성공");
 
                 //가져온 생년월일로 나이 카테고리 구하기
                 //생년월일로 Calendar객체 만들기
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                Date birthDate = null;
-                try {
-                    birthDate = sdf.parse(userAccount.getBirthDate());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                Calendar birthCal = Calendar.getInstance();
-                birthCal.setTime(birthDate);
+                Calendar birthCalendar = getBirthdayCalendar(userAccount);
 
                 //나이계산 및 나이 카테고리 계산
-                age = getAge(birthCal.get(Calendar.YEAR), birthCal.get(Calendar.MONTH), birthCal.get(Calendar.DATE));
-                ageCategory = getAgeCategory(age, birthCal);
+                age = getAge(birthCalendar.get(Calendar.YEAR), birthCalendar.get(Calendar.MONTH), birthCalendar.get(Calendar.DATE));
+                ageCategory = getAgeCategory(age, birthCalendar);
 
-                //확인용 text
-                String birthStr = userAccount.getBirthDate() + " 만 " + age + "세 " + ageCategory;
-                Toast.makeText(SelectActivity.this, birthStr, Toast.LENGTH_SHORT).show();
+                //채팅 입장 버튼 -> 정보 담아서 보내줘야함
+                chat_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //예측에 필요한 유저 기본 정보들 해시맵으로 생성
+                        HashMap<String, String> personInfo = getPersonInfoHashMap(userAccount);
+
+                        //질병 예측 채팅으로 넘어가기
+                        Intent intent = new Intent(SelectActivity.this, ChatActivity.class);
+                        intent.putExtra("personInfo", personInfo);
+                        startActivity(intent);
+                    }
+                });
             }
-
         });
 
-        //채팅 버튼 -> 정보 담아서 보내줘야함
-        chat_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //바로 채팅으로 넘어가게(ChatActivity로), 정보들 들고가야함
-//                Intent intent = new Intent(getApplicationContext(), PersonInfoActivity.class);
-//                startActivity(intent);
-            }
-        });
+//        //채팅 버튼 -> 정보 담아서 보내줘야함
+//        chat_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //바로 채팅으로 넘어가게(ChatActivity로), 정보들 들고가야함
+////                Intent intent = new Intent(getApplicationContext(), PersonInfoActivity.class);
+////                startActivity(intent);
+//            }
+//        });
 
         //qna 버튼
         qna_button.setOnClickListener(new View.OnClickListener() {
@@ -149,11 +155,11 @@ public class SelectActivity extends AppCompatActivity {
     }
 
     //파이어베이스에서 데이터 가져오기
-    public void readFirebase(FirebaseCallback firebaseCallback) {
+    public void readFirebase(FirebaseCallback<UserAccount> firebaseCallback) {
         databaseReference.child("UserAccount").child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
-                userAccount = snapshot.getValue(UserAccount.class);
+                UserAccount userAccount = snapshot.getValue(UserAccount.class);
                 firebaseCallback.onCallback(userAccount);
             }
 
@@ -162,6 +168,22 @@ public class SelectActivity extends AppCompatActivity {
                 Log.e(TAG, String.valueOf(error.toException()));
             }
         });
+    }
+
+    //생일 Calendar객체 만들기
+    private Calendar getBirthdayCalendar(UserAccount userAccount) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthDate = null;
+        try {
+            birthDate = sdf.parse(userAccount.getBirthDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar birthCalendar = Calendar.getInstance();
+        birthCalendar.setTime(birthDate);
+
+        return birthCalendar;
     }
 
     //만나이 계산기
@@ -204,6 +226,21 @@ public class SelectActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    //유저 기본정보 HashMap생성
+    private HashMap<String, String> getPersonInfoHashMap(UserAccount userAccount) {
+        HashMap<String, String> personInfo = new HashMap<>();
+
+        personInfo.put("Sex", userAccount.getSex());
+        personInfo.put("Age", ageCategory);
+        personInfo.put("Height", userAccount.getHeight());
+        personInfo.put("Weight", userAccount.getWeight());
+        personInfo.put("과거력", userAccount.getPast());
+        personInfo.put("사회력", userAccount.getSocial());
+        personInfo.put("가족력", userAccount.getFamily());
+
+        return personInfo;
     }
 
     //로그아웃

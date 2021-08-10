@@ -1,4 +1,4 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.models;
 
 //사용자 정보 클래스
 public class UserAccount {

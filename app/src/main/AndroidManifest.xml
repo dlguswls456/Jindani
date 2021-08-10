@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UserRegisterActivity"></activity>
-        <activity android:name=".PersonInfoActivity" />
-        <activity android:name=".ChatActivity" />
+        <activity android:name=".activities.UserRegisterActivity"></activity>
+        <activity android:name=".activities.PersonInfoActivity" />
+        <activity android:name=".activities.ChatActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,11 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SelectActivity"/>
-        <activity android:name=".QnaListActivity"
+        <activity android:name=".activities.SelectActivity"/>
+        <activity android:name=".activities.QnaListActivity"
             android:windowSoftInputMode="adjustNothing"/>
-        <activity android:name=".WriteQuestionActivity"/>
-        <activity android:name=".UserSegmentActivity"/>
+        <activity android:name=".activities.WriteQuestionActivity"/>
+        <activity android:name=".activities.UserSegmentActivity"/>
     </application>
 
 </manifest>

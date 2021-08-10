@@ -1,12 +1,5 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.adapter;
 
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +8,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.techtown.Jindani.R;
+import org.techtown.Jindani.models.QnaModel;
+
 import java.util.ArrayList;
 
-class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public ArrayList<QnaModel> list = new ArrayList<QnaModel>();
     private RecyclerView qnaList;
@@ -63,8 +59,8 @@ class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             TextView title = itemView.findViewById(R.id.title);
             TextView content = itemView.findViewById(R.id.content);
 
-            title.setText(qna.question_title);
-            content.setText(qna.question_content);
+            title.setText(qna.getQuestion_title());
+            content.setText(qna.getQuestion_content());
         }
     }
 }

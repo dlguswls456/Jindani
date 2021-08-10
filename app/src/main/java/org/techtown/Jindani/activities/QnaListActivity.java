@@ -1,4 +1,4 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.techtown.Jindani.adapter.AdapterQnaList;
+import org.techtown.Jindani.models.QnaModel;
+import org.techtown.Jindani.R;
 
 public class QnaListActivity extends AppCompatActivity implements View.OnClickListener {
 

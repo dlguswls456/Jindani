@@ -1,7 +1,6 @@
-package org.techtown.Jindani;
+package org.techtown.Jindani.activities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,19 +8,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -29,7 +25,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.techtown.Jindani.R;
+import org.techtown.Jindani.models.UserAccount;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,8 +42,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText et_email, et_pwd;
 
+    private CheckBox autoLoginChk;
+
     private FirebaseAuth auth;//파이어 베이스 인증 객체
     private GoogleSignInClient googleSignInClient;//구글 API 클라이언트 객체
+    private DatabaseReference databaseReference; // 실시간 데이터베이스
     private static final int RC_SIGN_IN = 100;//로그인 결과 코드
 
     private final static String TAG = "LoginTag";
@@ -50,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        autoLoginChk = findViewById(R.id.chk_autologin);
         // 파이에베이스 인증 객체 초기화
         auth = FirebaseAuth.getInstance();
 
@@ -105,8 +112,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
+        //자동 로그인
         FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser != null & autoLoginChk.isChecked()) {
+            Intent intent = new Intent(LoginActivity.this, SelectActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+
+        }
         //updateUI(currentUser);
     }
 
@@ -177,11 +191,9 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = auth.getCurrentUser();
                             //updateUI(user);
-                            Toast.makeText(getApplicationContext(), account.getDisplayName() + " 로그인 성공", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(LoginActivity.this, SelectActivity.class);
-                            startActivity(intent);
-                            finish();
+                            readFirebase(user);
                         } else {//로그인 실패
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -193,6 +205,33 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    //파이어베이스에서 데이터 가져오기
+    public void readFirebase(FirebaseUser user) {
+        databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
+        databaseReference.child("UserAccount").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
+                UserAccount userAccount = snapshot.getValue(UserAccount.class);
+
+                if (userAccount != null) {
+                    //기본정보가 등록되어있는 유저라면 SelectActovity로 이동
+                    Intent intent = new Intent(LoginActivity.this, SelectActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    //처음 구글로그인으로 가입한 사람일 때 -> PersonInfo 페이지로 이동해 디비 넣어줘야함
+                    Intent intent = new Intent(LoginActivity.this, PersonInfoActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {//데이터 가져오기 실패
+                Log.e(TAG, String.valueOf(error.toException()));
+            }
+        });
+    }
 
     //로그아웃
     private void signOut() {
