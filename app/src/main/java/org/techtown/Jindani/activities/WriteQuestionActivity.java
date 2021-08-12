@@ -40,13 +40,15 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
         button.setOnClickListener(WriteQuestionActivity.this);
     }
 
+    //뒤로가기 버튼 눌렀을 때 동작
     @Override
-    public void onBackPressed() { //뒤로가기 버튼 눌렀을 때 동작
+    public void onBackPressed() {
         showDialog();
     }
 
+    //완료 버튼 눌렀을 때 동작
     @Override
-    public void onClick(View v) { //완료 버튼 눌렀을 때 동작
+    public void onClick(View v) {
 
         hideKeyboard();
 
@@ -72,7 +74,7 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
         //질문 id 설정
         Intent intent = getIntent();
         int list_size = intent.getIntExtra("listSize", 0);
-        String qId = (list_size + 1) + "번질문";
+        String qId = "QuestionNum_" + (list_size + 1);
 
         storeQuestion(firebaseUser.getUid(), qId, t, c);
 
@@ -80,12 +82,14 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    public void hideKeyboard() { //키보드 숨기기
+    //키보드 숨기기
+    public void hideKeyboard() {
         InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    public void showDialog() { //질문 작성 취소 대화창
+    //질문 작성 취소 대화창
+    public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(WriteQuestionActivity.this);
         builder.setMessage("작성 중인 내용은 저장되지 않습니다.\n질문 작성을 종료하시겠습니까?");
         builder.setCancelable(false);
@@ -105,7 +109,8 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
         builder.create().show();
     }
 
-    public void storeQuestion(String userId, String qId, String title, String content) { //값을 파이어베이스 Realtime database에 저장
+    //값을 파이어베이스 Realtime database에 저장
+    public void storeQuestion(String userId, String qId, String title, String content) {
         String date = getTime();
         QnaModel q = new QnaModel(userId, qId, title, content, date);
 
@@ -113,11 +118,13 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
         databaseReference.child("JindaniApp").child("Question").child(qId).setValue(q);
     }
 
-    private String getTime() { //현재 시점을 특정 형식으로 리턴
+    //현재 시점을 특정 형식으로 리턴
+    private String getTime() {
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd a hh:mm"); //오전 오후 구분
         String getTime = dateFormat.format(date);
         return getTime;
     }
+
 }
