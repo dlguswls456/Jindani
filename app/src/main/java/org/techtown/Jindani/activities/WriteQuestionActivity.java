@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.techtown.Jindani.models.QnaModel;
+import org.techtown.Jindani.models.QuestionModel;
 import org.techtown.Jindani.R;
 
 import java.text.SimpleDateFormat;
@@ -74,7 +74,7 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
         //질문 id 설정
         Intent intent = getIntent();
         int list_size = intent.getIntExtra("listSize", 0);
-        String qId = "QuestionNum_" + (list_size + 1);
+        String qId = "Q" + (list_size + 1);
 
         storeQuestion(firebaseUser.getUid(), qId, t, c);
 
@@ -112,7 +112,7 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
     //값을 파이어베이스 Realtime database에 저장
     public void storeQuestion(String userId, String qId, String title, String content) {
         String date = getTime();
-        QnaModel q = new QnaModel(userId, qId, title, content, date);
+        QuestionModel q = new QuestionModel(userId, qId, title, content, date);
 
         //child는 해당 키 위치로 이동
         databaseReference.child("JindaniApp").child("Question").child(qId).setValue(q);

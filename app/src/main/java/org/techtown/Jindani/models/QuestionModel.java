@@ -1,6 +1,7 @@
 package org.techtown.Jindani.models;
 
-public class QnaModel {
+//사용자 질문 작성에 사용되는 클래스
+public class QuestionModel {
 
     String userId; //사용자 아이디
     String questionId; //질문 아이디
@@ -8,9 +9,9 @@ public class QnaModel {
     String question_content; //질문 내용
     String question_date; //질문 작성 시점
 
-    public QnaModel() { } // DataSnapshot.getValue(QnaModel.class) 위한 생성자
+    public QuestionModel() { } // DataSnapshot.getValue(QnaModel.class) 위한 생성자
 
-    public QnaModel(String userId, String questionId, String question_title, String question_content, String question_date) {
+    public QuestionModel(String userId, String questionId, String question_title, String question_content, String question_date) {
         this.userId = userId;
         this.questionId = questionId;
         this.question_title = question_title;
