@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -274,5 +276,32 @@ public class ChatActivity extends AppCompatActivity {
                 index++;
             }
         }
+    }
+
+    //뒤로가기 버튼 눌렀을 때 동작
+    @Override
+    public void onBackPressed() {
+        showDialog();
+    }
+
+    //채팅 종료 대화창
+    public void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
+        builder.setMessage("채팅 중인 내용은 저장되지 않습니다.\n채팅을 종료하시겠습니까?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();
     }
 }
