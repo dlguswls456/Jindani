@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.techtown.Jindani.adapter.AdapterQnaList;
-import org.techtown.Jindani.models.QnaModel;
+import org.techtown.Jindani.models.QuestionModel;
 import org.techtown.Jindani.R;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
 
     RecyclerView qnalist;
     private AdapterQnaList adapterQnaList;
-    private ArrayList<QnaModel> initList = new ArrayList<>();
+    private ArrayList<QuestionModel> initList = new ArrayList<>();
 
     private EditText search_question;
 
@@ -101,7 +101,7 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
                 adapterQnaList.list.clear(); //매번 모든 데이터를 가져오므로 리스트를 비워주기
                 adapterQnaList.copyList.clear();
                 for(DataSnapshot ds : snapshot.getChildren()){ //Question아래에 있는 데이터 모두 가져오기
-                    QnaModel q = ds.getValue(QnaModel.class);
+                    QuestionModel q = ds.getValue(QuestionModel.class);
                     adapterQnaList.addQToList(q);
                     initList.add(q);
                 }
