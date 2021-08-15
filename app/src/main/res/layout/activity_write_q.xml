@@ -37,7 +37,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="제목"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:inputType="text"/>
 
                 <EditText
                     android:id="@+id/q_content"

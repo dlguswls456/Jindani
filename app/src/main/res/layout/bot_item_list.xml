@@ -39,8 +39,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bot_round"
-                android:maxLength="150"
-                android:maxLines="15"
                 android:padding="10dp"
                 android:text="메세지 내용"
                 android:textColor="#000000"

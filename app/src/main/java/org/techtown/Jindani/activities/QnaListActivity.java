@@ -2,6 +2,9 @@ package org.techtown.Jindani.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,13 +23,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.techtown.Jindani.adapter.AdapterQnaList;
-import org.techtown.Jindani.models.QnaModel;
+import org.techtown.Jindani.models.QuestionModel;
 import org.techtown.Jindani.R;
+
+import java.util.ArrayList;
 
 public class QnaListActivity extends AppCompatActivity implements View.OnClickListener {
 
     RecyclerView qnalist;
     private AdapterQnaList adapterQnaList;
+    private ArrayList<QuestionModel> initList = new ArrayList<>();
+
+    private EditText search_question;
 
 //    static final int REQUSET_CODE = 1;
 
@@ -38,39 +46,64 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qna_list);
 
+        readFirebase();
+
         //리사이클러뷰
         qnalist = findViewById(R.id.qnalist);
         qnalist.setLayoutManager(new LinearLayoutManager(QnaListActivity.this));
         adapterQnaList = new AdapterQnaList(qnalist);
         qnalist.setAdapter(adapterQnaList);
 
+
         Button button = findViewById(R.id.write_q_button); //질문 작성 버튼
         button.setOnClickListener(QnaListActivity.this);
 
-        readFirebase();
+
+        //질문 검색
+        search_question = findViewById(R.id.search_question);
+        search_question.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.d("SEARCH", "beforeTextChanged");
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapterQnaList.getFilter().filter(s.toString());
+            }
+
+            @Override
+             public void afterTextChanged(Editable s) {
+                Log.d("SEARCH", "afterTextChanged");
+//
+            }
+        });
 
     }
 
     @Override
     public void onClick(View v) {
-        EditText e = findViewById(R.id.search_question);
-        int list_size = adapterQnaList.list.size();
-
+        int list_size = initList.size();
         Intent intent = new Intent(QnaListActivity.this, WriteQuestionActivity.class);
+
         intent.putExtra("listSize", list_size);
         startActivity(intent);
-        e.getText().clear();
+        search_question.getText().clear();
     }
 
-    private void readFirebase(){ //firebase에서 데이터 읽어오기, 변화가 있으면 클라이언트에 알려줌
+    //firebase에서 데이터 읽어오기, 변화가 있으면 클라이언트에 알려줌
+    private void readFirebase(){
         databaseReference = FirebaseDatabase.getInstance().getReference().child("JindaniApp").child("Question");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) { //변화된 값이 snapshot으로 넘어옴
+                initList.clear();
                 adapterQnaList.list.clear(); //매번 모든 데이터를 가져오므로 리스트를 비워주기
+                adapterQnaList.copyList.clear();
                 for(DataSnapshot ds : snapshot.getChildren()){ //Question아래에 있는 데이터 모두 가져오기
-                    QnaModel q = ds.getValue(QnaModel.class);
+                    QuestionModel q = ds.getValue(QuestionModel.class);
                     adapterQnaList.addQToList(q);
+                    initList.add(q);
                 }
             }
 
@@ -80,6 +113,8 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
     }
+
+
 
 
 
