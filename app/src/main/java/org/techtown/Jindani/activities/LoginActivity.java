@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 //        autoLoginChk = findViewById(R.id.chk_autologin);
-        
+
         // 파이에베이스 인증 객체 초기화
         auth = FirebaseAuth.getInstance();
 
