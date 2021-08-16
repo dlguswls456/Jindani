@@ -187,9 +187,10 @@ public class UserRegisterActivity extends AppCompatActivity {
                         editSocial.getText().toString(),
                         editFamily.getText().toString());
 
-        //setValue: db insert
+        //사용자db에 추가
         databaseReference.child("UserAccount").child(firebaseUser.getUid()).setValue(userAccount);
-        //updateUI(user);
+        //해당 아이디가 일반 사용자라는 것 추가
+        databaseReference.child("UserOrDoctor").child(firebaseUser.getUid()).setValue("user");
     }
 
     //이메일 인증인거같은데 사용할지 말지 고민

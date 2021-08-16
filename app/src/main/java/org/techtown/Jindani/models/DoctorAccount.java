@@ -6,6 +6,7 @@ public class DoctorAccount {
     private String name;
     private String licenseNumber;
     private String dept;
+    private boolean isAuthorized;
 
     public DoctorAccount() {
     }
@@ -16,6 +17,7 @@ public class DoctorAccount {
         this.name = name;
         this.licenseNumber = licenseNumber;
         this.dept = dept;
+        this.isAuthorized = false;
     }
 
     public String getIdToken() {
@@ -56,5 +58,13 @@ public class DoctorAccount {
 
     public void setDept(String dept) {
         this.dept = dept;
+    }
+
+    public boolean isAuthorized() {
+        return isAuthorized;
+    }
+
+    public void setAuthorized(boolean authorized) {
+        isAuthorized = authorized;
     }
 }
