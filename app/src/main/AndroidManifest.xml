@@ -26,12 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SelectActivity" />
-        <activity
-            android:name=".activities.QnaListActivity"
-            android:windowSoftInputMode="adjustNothing" />
-        <activity android:name=".activities.WriteQuestionActivity" />
-        <activity android:name=".activities.UserSegmentActivity" />
+        <activity android:name=".activities.SelectActivity"/>
+        <activity android:name=".activities.QnaListActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".activities.WriteQuestionActivity"/>
+        <activity android:name=".activities.UserSegmentActivity"/>
+        <activity android:name=".activities.UserQnaDetailActivity"/>
     </application>
 
 </manifest>

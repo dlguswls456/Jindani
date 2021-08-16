@@ -287,7 +287,7 @@ public class ChatActivity extends AppCompatActivity {
     //채팅 종료 대화창
     public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
-        builder.setMessage("채팅 중인 내용은 저장되지 않습니다.\n채팅을 종료하시겠습니까?");
+        builder.setMessage("채팅 내용은 저장되지 않습니다.\n채팅을 종료하시겠습니까?");
         builder.setCancelable(false);
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override

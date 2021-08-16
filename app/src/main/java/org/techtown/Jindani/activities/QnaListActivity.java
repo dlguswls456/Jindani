@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.techtown.Jindani.adapter.AdapterQnaList;
+import org.techtown.Jindani.listeners.OnQuestionItemClickListener;
 import org.techtown.Jindani.models.QuestionModel;
 import org.techtown.Jindani.R;
 
@@ -36,7 +37,7 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
 
     private EditText search_question;
 
-//    static final int REQUSET_CODE = 1;
+    static final int REQUSET_CODE = 1;
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
@@ -53,6 +54,21 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
         qnalist.setLayoutManager(new LinearLayoutManager(QnaListActivity.this));
         adapterQnaList = new AdapterQnaList(qnalist);
         qnalist.setAdapter(adapterQnaList);
+
+        adapterQnaList.setOnItemClickListener(new OnQuestionItemClickListener() {
+            @Override
+            public void onItemClick(AdapterQnaList.ViewHolder holder, View view, int position) {
+                QuestionModel item = adapterQnaList.getQnaItem(position);
+
+                Intent intent = new Intent(QnaListActivity.this, UserQnaDetailActivity.class);
+                intent.putExtra("q_title", item.getQuestion_title());
+                intent.putExtra("q_content", item.getQuestion_content());
+                intent.putExtra("q_date", item.getQuestion_date());
+
+                startActivityForResult(intent, REQUSET_CODE);
+
+            }
+        });
 
 
         Button button = findViewById(R.id.write_q_button); //질문 작성 버튼
