@@ -179,7 +179,6 @@ public class UserRegisterActivity extends AppCompatActivity {
         UserAccount userAccount =
                 new UserAccount(firebaseUser.getUid(),
                         firebaseUser.getEmail(),
-                        password,
                         radioButton.getText().toString(),
                         birthDate,
                         editHeight.getText().toString(),

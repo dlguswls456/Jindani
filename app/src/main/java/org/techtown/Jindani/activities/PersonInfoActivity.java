@@ -98,7 +98,6 @@ public class PersonInfoActivity extends AppCompatActivity {
         UserAccount userAccount =
                 new UserAccount(firebaseUser.getUid(),
                         firebaseUser.getEmail(),
-                        null,
                         radioButton.getText().toString(),
                         birthDate,
                         editHeight.getText().toString(),
