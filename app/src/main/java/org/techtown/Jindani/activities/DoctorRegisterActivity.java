@@ -121,7 +121,7 @@ public class DoctorRegisterActivity extends AppCompatActivity {
                             Log.d(TAG, "createUserWithEmail:success");
 
                             //유저 객체 생성 후, db에 저장
-                            addFireBase(email, password);
+                            addFireBase();
 
                             Toast.makeText(DoctorRegisterActivity.this, "회원가입 성공" + "\n" + "권한이 주어질 때까지 로그인이 제한 됩니다", Toast.LENGTH_SHORT).show();
 
@@ -141,7 +141,7 @@ public class DoctorRegisterActivity extends AppCompatActivity {
     }
 
     //파이어베이스에 저장
-    private void addFireBase(String email, String password) {
+    private void addFireBase() {
         //파이어베이스에 유저 객체 저장
         FirebaseUser firebaseUser = auth.getCurrentUser();
         DoctorAccount doctorAccount =
