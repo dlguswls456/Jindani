@@ -80,7 +80,7 @@ public class PersonInfoActivity extends AppCompatActivity {
 
                 Toast.makeText(PersonInfoActivity.this, "등록 성공", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(PersonInfoActivity.this, SelectActivity.class);
+                Intent intent = new Intent(PersonInfoActivity.this, UserMainActivity.class);
                 startActivity(intent);
             }
         });

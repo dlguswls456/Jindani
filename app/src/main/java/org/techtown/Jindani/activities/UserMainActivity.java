@@ -30,7 +30,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.techtown.Jindani.network.FirebaseCallback;
 import org.techtown.Jindani.R;
 import org.techtown.Jindani.models.UserAccount;
 
@@ -40,7 +39,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-public class SelectActivity extends AppCompatActivity {
+public class UserMainActivity extends AppCompatActivity {
 
     private Button chat_button, qna_button, btn_logout;
 
@@ -51,12 +50,12 @@ public class SelectActivity extends AppCompatActivity {
     private int age;
     private String ageCategory;
 
-    private final static String TAG = "SelectActivity";
+    private final static String TAG = "UserMainActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select);
+        setContentView(R.layout.activity_user_main);
 
         //버튼 레이아웃 변경
         chat_button = findViewById(R.id.chat_button);
@@ -134,7 +133,7 @@ public class SelectActivity extends AppCompatActivity {
                 HashMap<String, String> personInfo = getPersonInfoHashMap(userAccount);
 
                 //질병 예측 채팅으로 넘어가기
-                Intent intent = new Intent(SelectActivity.this, ChatActivity.class);
+                Intent intent = new Intent(UserMainActivity.this, ChatActivity.class);
                 intent.putExtra("personInfo", personInfo);
                 startActivity(intent);
             }
@@ -155,7 +154,7 @@ public class SelectActivity extends AppCompatActivity {
 
     private void signOutAndFinish() {
         signOut();
-        Intent intent = new Intent(SelectActivity.this, LoginActivity.class);
+        Intent intent = new Intent(UserMainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
@@ -252,7 +251,7 @@ public class SelectActivity extends AppCompatActivity {
                 new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(SelectActivity.this, "로그아웃 성공", Toast.LENGTH_LONG).show();
+                        Toast.makeText(UserMainActivity.this, "로그아웃 성공", Toast.LENGTH_LONG).show();
                     }
                 });
     }
