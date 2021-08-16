@@ -29,6 +29,7 @@
             android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".activities.WriteQuestionActivity"/>
         <activity android:name=".activities.UserSegmentActivity"/>
+        <activity android:name=".activities.UserQnaDetailActivity"/>
     </application>
 
 </manifest>
