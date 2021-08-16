@@ -4,7 +4,6 @@ package org.techtown.Jindani.models;
 public class UserAccount {
     private String idToken;
     private String emailId;
-    private String password;
     private String sex;
     private String birthDate;
     private String height;
@@ -15,10 +14,9 @@ public class UserAccount {
 
     public UserAccount() {}
 
-    public UserAccount(String idToken, String emailId, String password, String sex, String birthDate, String height, String weight, String past, String social, String family) {
+    public UserAccount(String idToken, String emailId, String sex, String birthDate, String height, String weight, String past, String social, String family) {
         this.idToken = idToken;
         this.emailId = emailId;
-        this.password = password;
         this.sex = sex;
         this.birthDate = birthDate;
         this.height = height;
@@ -42,14 +40,6 @@ public class UserAccount {
 
     public void setEmailId(String emailId) {
         this.emailId = emailId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getSex() {

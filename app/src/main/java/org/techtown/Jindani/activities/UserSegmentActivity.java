@@ -42,7 +42,8 @@ public class UserSegmentActivity extends AppCompatActivity {
         doc_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(UserSegmentActivity.this, DoctorRegisterActivity.class);
+                startActivity(intent);
             }
         });
 

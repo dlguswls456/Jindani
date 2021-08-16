@@ -47,7 +47,7 @@ public class SelectActivity extends AppCompatActivity {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference databaseReference; // 실시간 데이터베이스
 
-//    private UserAccount userAccount;
+    //    private UserAccount userAccount;
     private int age;
     private String ageCategory;
 
@@ -64,67 +64,12 @@ public class SelectActivity extends AppCompatActivity {
         btn_logout = findViewById(R.id.btn_logout);
         setLayout();
 
-        //현재 사용자 데이터 가져옴(콜백 이용)
+        //각 버튼 클릭
+        chat_button.setOnClickListener(buttonClickListener);
+        qna_button.setOnClickListener(buttonClickListener);
+        btn_logout.setOnClickListener(buttonClickListener);
+
         databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
-        readFirebase(new FirebaseCallback<UserAccount>() {
-            @Override
-            public void onCallback(UserAccount userAccount) {
-                Log.d(TAG, "onCallback 성공");
-
-                //가져온 생년월일로 나이 카테고리 구하기
-                //생년월일로 Calendar객체 만들기
-                Calendar birthCalendar = getBirthdayCalendar(userAccount);
-
-                //나이계산 및 나이 카테고리 계산
-                age = getAge(birthCalendar.get(Calendar.YEAR), birthCalendar.get(Calendar.MONTH), birthCalendar.get(Calendar.DATE));
-                ageCategory = getAgeCategory(age, birthCalendar);
-
-                //채팅 입장 버튼 -> 정보 담아서 보내줘야함
-                chat_button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //예측에 필요한 유저 기본 정보들 해시맵으로 생성
-                        HashMap<String, String> personInfo = getPersonInfoHashMap(userAccount);
-
-                        //질병 예측 채팅으로 넘어가기
-                        Intent intent = new Intent(SelectActivity.this, ChatActivity.class);
-                        intent.putExtra("personInfo", personInfo);
-                        startActivity(intent);
-                    }
-                });
-            }
-        });
-
-//        //채팅 버튼 -> 정보 담아서 보내줘야함
-//        chat_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //바로 채팅으로 넘어가게(ChatActivity로), 정보들 들고가야함
-////                Intent intent = new Intent(getApplicationContext(), PersonInfoActivity.class);
-////                startActivity(intent);
-//            }
-//        });
-
-        //qna 버튼
-        qna_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), QnaListActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //로그아웃 버튼
-        btn_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signOut();
-
-                Intent intent = new Intent(SelectActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
     }
 
@@ -154,20 +99,65 @@ public class SelectActivity extends AppCompatActivity {
         qna_button.setText(q_spannable);
     }
 
-    //파이어베이스에서 데이터 가져오기
-    public void readFirebase(FirebaseCallback<UserAccount> firebaseCallback) {
+    View.OnClickListener buttonClickListener = view -> {
+        switch (view.getId()) {
+            case R.id.chat_button: { //채팅 버튼
+                gotoChatActivity();
+                break;
+            }
+            case R.id.qna_button: { //qna 버튼
+                gotoQnaActivity();
+                break;
+            }
+            case R.id.btn_logout: { //로그아웃 버튼
+                signOutAndFinish();
+                break;
+            }
+        }
+    };
+
+    private void gotoChatActivity() {
         databaseReference.child("UserAccount").child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
                 UserAccount userAccount = snapshot.getValue(UserAccount.class);
-                firebaseCallback.onCallback(userAccount);
+
+                //가져온 사용자 정보로 나이 카테고리 구하기
+                //생년월일로 Calendar객체 만들기
+                Calendar birthCalendar = getBirthdayCalendar(userAccount);
+
+                //나이계산 및 나이 카테고리 계산
+                age = getAge(birthCalendar.get(Calendar.YEAR), birthCalendar.get(Calendar.MONTH), birthCalendar.get(Calendar.DATE));
+                ageCategory = getAgeCategory(age, birthCalendar);
+
+                //예측에 필요한 유저 기본 정보들 해시맵으로 생성
+                HashMap<String, String> personInfo = getPersonInfoHashMap(userAccount);
+
+                //질병 예측 채팅으로 넘어가기
+                Intent intent = new Intent(SelectActivity.this, ChatActivity.class);
+                intent.putExtra("personInfo", personInfo);
+                startActivity(intent);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {//데이터 가져오기 실패
+            public void onCancelled(@NonNull DatabaseError error) {
+                //데이터 가져오기 실패 처리
                 Log.e(TAG, String.valueOf(error.toException()));
             }
         });
+    }
+
+    private void gotoQnaActivity() {
+        Intent intent = new Intent(getApplicationContext(), QnaListActivity.class);
+        startActivity(intent);
+    }
+
+
+    private void signOutAndFinish() {
+        signOut();
+        Intent intent = new Intent(SelectActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     //생일 Calendar객체 만들기

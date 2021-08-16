@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.UserRegisterActivity"></activity>
+        <activity android:name=".activities.DoctorRegisterActivity"></activity>
+        <activity android:name=".activities.SplashActivity" />
+        <activity android:name=".activities.UserRegisterActivity" />
         <activity android:name=".activities.PersonInfoActivity" />
         <activity android:name=".activities.ChatActivity" />
         <activity
