@@ -10,15 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.techtown.Jindani.R;
+import org.techtown.Jindani.listeners.OnQuestionItemClickListener;
 import org.techtown.Jindani.models.QuestionModel;
 
 import java.util.ArrayList;
 
-public class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OnQuestionItemClickListener{
 
     public ArrayList<QuestionModel> list = new ArrayList<>();
     public ArrayList<QuestionModel> copyList = new ArrayList<>();
     private RecyclerView qnaList;
+
+    public OnQuestionItemClickListener listener;
 
     public AdapterQnaList(RecyclerView qnalist) {
         this.qnaList = qnalist;
@@ -42,6 +45,17 @@ public class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    @Override
+    public void onItemClick(ViewHolder holder, View view, int position) {
+        if(listener != null){
+            listener.onItemClick(holder,view,position);
+        }
+    }
+
+    public QuestionModel getQnaItem(int position){
+        return list.get(position);
     }
 
     public Filter getFilter(){
@@ -92,6 +106,17 @@ public class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (listener != null){
+                        listener.onItemClick(ViewHolder.this, v, pos);
+                    }
+
+                }
+            });
         }
 
         public void bind(QuestionModel qna){
@@ -101,5 +126,9 @@ public class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder
             title.setText(qna.getQuestion_title());
             content.setText(qna.getQuestion_content());
         }
+    }
+
+    public void setOnItemClickListener(OnQuestionItemClickListener listener) {
+        this.listener = listener;
     }
 }
