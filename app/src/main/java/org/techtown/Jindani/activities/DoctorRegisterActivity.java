@@ -121,9 +121,9 @@ public class DoctorRegisterActivity extends AppCompatActivity {
                             Log.d(TAG, "createUserWithEmail:success");
 
                             //유저 객체 생성 후, db에 저장
-                            addFireBase(email, password);
+                            addFireBase();
 
-                            Toast.makeText(DoctorRegisterActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DoctorRegisterActivity.this, "회원가입 성공" + "\n" + "권한이 주어질 때까지 로그인이 제한 됩니다", Toast.LENGTH_SHORT).show();
 
                             //회원가입 성공 시 직전 화면(UserSegmentActivity) 종료
                             UserSegmentActivity userSegmentActivity = (UserSegmentActivity) UserSegmentActivity.userSegmentActivity;
@@ -141,7 +141,7 @@ public class DoctorRegisterActivity extends AppCompatActivity {
     }
 
     //파이어베이스에 저장
-    private void addFireBase(String email, String password) {
+    private void addFireBase() {
         //파이어베이스에 유저 객체 저장
         FirebaseUser firebaseUser = auth.getCurrentUser();
         DoctorAccount doctorAccount =
@@ -151,9 +151,11 @@ public class DoctorRegisterActivity extends AppCompatActivity {
                         editLicenseNumber.getText().toString(),
                         editDept.getText().toString());
 
-        //setValue: db insert
+        //의사db에 추가
         databaseReference.child("DoctorAccount").child(firebaseUser.getUid()).setValue(doctorAccount);
-        //updateUI(user);
+
+        //해당 아이디가 의사라는 것 추가
+        databaseReference.child("UserOrDoctor").child(firebaseUser.getUid()).setValue("doctor");
     }
 
     //의사 회원정보 작성 취소 대화창

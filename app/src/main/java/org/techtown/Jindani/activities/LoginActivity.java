@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.techtown.Jindani.R;
+import org.techtown.Jindani.models.DoctorAccount;
 import org.techtown.Jindani.models.UserAccount;
 
 public class LoginActivity extends AppCompatActivity {
@@ -41,8 +41,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_register;//이메일 회원가입 버튼
 
     private EditText et_email, et_pwd;
-
-//    private CheckBox autoLoginChk;
 
     private FirebaseAuth auth;//파이어 베이스 인증 객체
     private GoogleSignInClient googleSignInClient;//구글 API 클라이언트 객체
@@ -56,10 +54,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//        autoLoginChk = findViewById(R.id.chk_autologin);
-
         // 파이에베이스 인증 객체 초기화
         auth = FirebaseAuth.getInstance();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
+
+        //자동 로그인
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser != null) {
+            checkUserOrDoctor(currentUser);
+        }
 
         //일반 이메일 로그인하는 경우
         et_email = findViewById(R.id.et_email);
@@ -114,15 +118,10 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         //자동 로그인
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser != null) {
-            Intent intent = new Intent(LoginActivity.this, SelectActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-
-        }
-        //updateUI(currentUser);
+//        FirebaseUser currentUser = auth.getCurrentUser();
+//        if (currentUser != null) {
+//            checkUserOrDoctor(currentUser);
+//        }
     }
 
     //일반 로그인
@@ -137,11 +136,8 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = auth.getCurrentUser();
                             //updateUI(user);
 
-                            Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
-
-                            Intent intent = new Intent(LoginActivity.this, SelectActivity.class);
-                            startActivity(intent);
-                            finish();
+                            //의사인지 아닌지 확인 및 의사라면 권한 있는지 확인
+                            checkUserOrDoctor(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -151,6 +147,58 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    //로그인 계정 유형 확인
+    private void checkUserOrDoctor(FirebaseUser user) {
+        databaseReference.child("UserOrDoctor").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
+                String UserOrDoctor = snapshot.getValue(String.class);
+
+                if (UserOrDoctor.equals("user")) {
+                    //로그인한 사람이 일반 사용자 계정이라면
+                    Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, UserMainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (UserOrDoctor.equals("doctor")){
+                    //의사 계정이라면
+                    checkIsAuthorized(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {//데이터 가져오기 실패
+                Log.e(TAG, String.valueOf(error.toException()));
+            }
+        });
+    }
+
+    //의사 가입 권한 있는지 확인
+    private void checkIsAuthorized(FirebaseUser user) {
+        databaseReference.child("DoctorAccount").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
+                DoctorAccount doctorAccount = snapshot.getValue(DoctorAccount.class);
+
+                if (doctorAccount.isAuthorized()) {
+                    //권한이 있는 의사라면
+                    Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, DoctorMainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    //권한이 없는 의사라면
+                    Toast.makeText(LoginActivity.this, "부여된 권한이 없습니다", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {//데이터 가져오기 실패
+                Log.e(TAG, String.valueOf(error.toException()));
+            }
+        });
     }
 
     //구글 로그인
@@ -206,17 +254,16 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    //파이어베이스에서 데이터 가져오기
+    //파이어베이스에서 구글 유저 데이터 확인하기
     public void readFirebase(FirebaseUser user) {
-        databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
         databaseReference.child("UserAccount").child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
                 UserAccount userAccount = snapshot.getValue(UserAccount.class);
 
                 if (userAccount != null) {
-                    //기본정보가 등록되어있는 유저라면 SelectActovity로 이동
-                    Intent intent = new Intent(LoginActivity.this, SelectActivity.class);
+                    //기본정보가 등록되어있는 유저라면 UserMainActivity로 이동
+                    Intent intent = new Intent(LoginActivity.this, UserMainActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
@@ -239,14 +286,14 @@ public class LoginActivity extends AppCompatActivity {
         // Firebase sign out
         auth.signOut();
 
-        // Google sign out
-        googleSignInClient.signOut().addOnCompleteListener(this,
-                new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getApplicationContext(), "로그아웃 성공", Toast.LENGTH_SHORT).show();
-                    }
-                });
+//        // Google sign out
+//        googleSignInClient.signOut().addOnCompleteListener(this,
+//                new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        Toast.makeText(getApplicationContext(), "로그아웃 성공", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
     }
 
     private void revokeAccess() {

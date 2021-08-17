@@ -149,7 +149,7 @@ public class UserRegisterActivity extends AppCompatActivity {
                             Log.d(TAG, "createUserWithEmail:success");
 
                             //유저 객체 생성 후, db에 저장
-                            addFireBase(email, password);
+                            addFireBase();
 
                             Toast.makeText(UserRegisterActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
 
@@ -169,7 +169,7 @@ public class UserRegisterActivity extends AppCompatActivity {
     }
 
     //파이어베이스에 저장
-    private void addFireBase(String email, String password) {
+    private void addFireBase() {
         //성별 정보 가져오기
         int radioButtonId = radioGroup.getCheckedRadioButtonId();
         RadioButton radioButton = findViewById(radioButtonId);
@@ -187,9 +187,10 @@ public class UserRegisterActivity extends AppCompatActivity {
                         editSocial.getText().toString(),
                         editFamily.getText().toString());
 
-        //setValue: db insert
+        //사용자db에 추가
         databaseReference.child("UserAccount").child(firebaseUser.getUid()).setValue(userAccount);
-        //updateUI(user);
+        //해당 아이디가 일반 사용자라는 것 추가
+        databaseReference.child("UserOrDoctor").child(firebaseUser.getUid()).setValue("user");
     }
 
     //이메일 인증인거같은데 사용할지 말지 고민

@@ -30,7 +30,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.techtown.Jindani.network.FirebaseCallback;
 import org.techtown.Jindani.R;
 import org.techtown.Jindani.models.UserAccount;
 
@@ -40,9 +39,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-public class SelectActivity extends AppCompatActivity {
+public class UserMainActivity extends AppCompatActivity {
 
-    private Button chat_button, qna_button, btn_logout;
+    private Button chat_button, qna_button, mypage_button;
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference databaseReference; // 실시간 데이터베이스
@@ -51,23 +50,23 @@ public class SelectActivity extends AppCompatActivity {
     private int age;
     private String ageCategory;
 
-    private final static String TAG = "SelectActivity";
+    private final static String TAG = "UserMainActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select);
+        setContentView(R.layout.activity_user_main);
 
         //버튼 레이아웃 변경
         chat_button = findViewById(R.id.chat_button);
         qna_button = findViewById(R.id.qna_button);
-        btn_logout = findViewById(R.id.btn_logout);
+        mypage_button = findViewById(R.id.mypage_button);
         setLayout();
 
         //각 버튼 클릭
         chat_button.setOnClickListener(buttonClickListener);
         qna_button.setOnClickListener(buttonClickListener);
-        btn_logout.setOnClickListener(buttonClickListener);
+        mypage_button.setOnClickListener(buttonClickListener);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
 
@@ -78,15 +77,21 @@ public class SelectActivity extends AppCompatActivity {
         //버튼 레이아웃 변경
         String chat = chat_button.getText().toString();
         String qna = qna_button.getText().toString();
+        String mypage = mypage_button.getText().toString();
+
         SpannableStringBuilder c_spannable = new SpannableStringBuilder(chat);
         SpannableStringBuilder q_spannable = new SpannableStringBuilder(qna);
+        SpannableStringBuilder m_spannable = new SpannableStringBuilder(mypage);
 
         String c_word = "질환 예측";
         String q_word = "의사에게 질문";
+        String m_word = "마이페이지";
         int c_start = chat.indexOf(c_word);
         int c_end = c_start + c_word.length();
         int q_start = qna.indexOf(q_word);
         int q_end = q_start + q_word.length();
+        int m_start = mypage.indexOf(m_word);
+        int m_end = m_start + m_word.length();
 
 //        spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         c_spannable.setSpan(new StyleSpan(Typeface.BOLD), c_start, c_end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -95,8 +100,12 @@ public class SelectActivity extends AppCompatActivity {
         q_spannable.setSpan(new StyleSpan(Typeface.BOLD), q_start, q_end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         q_spannable.setSpan(new RelativeSizeSpan(1.3f), q_start, q_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //상대적 크기
 
+        m_spannable.setSpan(new StyleSpan(Typeface.BOLD), m_start, m_end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        m_spannable.setSpan(new RelativeSizeSpan(1.3f), m_start, m_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //상대적 크기
+
         chat_button.setText(c_spannable);
         qna_button.setText(q_spannable);
+        mypage_button.setText(m_spannable);
     }
 
     View.OnClickListener buttonClickListener = view -> {
@@ -109,12 +118,17 @@ public class SelectActivity extends AppCompatActivity {
                 gotoQnaActivity();
                 break;
             }
-            case R.id.btn_logout: { //로그아웃 버튼
-                signOutAndFinish();
+            case R.id.mypage_button: { //로그아웃 버튼
+                gotoMyPageActivity();
                 break;
             }
         }
     };
+
+    private void gotoMyPageActivity() {
+        Intent intent = new Intent(UserMainActivity.this, MypageActivity.class);
+        startActivity(intent);
+    }
 
     private void gotoChatActivity() {
         databaseReference.child("UserAccount").child(user.getUid()).addValueEventListener(new ValueEventListener() {
@@ -134,7 +148,7 @@ public class SelectActivity extends AppCompatActivity {
                 HashMap<String, String> personInfo = getPersonInfoHashMap(userAccount);
 
                 //질병 예측 채팅으로 넘어가기
-                Intent intent = new Intent(SelectActivity.this, ChatActivity.class);
+                Intent intent = new Intent(UserMainActivity.this, ChatActivity.class);
                 intent.putExtra("personInfo", personInfo);
                 startActivity(intent);
             }
@@ -150,14 +164,6 @@ public class SelectActivity extends AppCompatActivity {
     private void gotoQnaActivity() {
         Intent intent = new Intent(getApplicationContext(), QnaListActivity.class);
         startActivity(intent);
-    }
-
-
-    private void signOutAndFinish() {
-        signOut();
-        Intent intent = new Intent(SelectActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     //생일 Calendar객체 만들기
@@ -233,27 +239,4 @@ public class SelectActivity extends AppCompatActivity {
         return personInfo;
     }
 
-    //로그아웃
-    private void signOut() {
-        // Firebase sign out
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
-
-        //구글 로그인 사용자에게만 필요.. 나중에 수정 해야함
-        GoogleSignInOptions gso = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        // Build a GoogleSignInClient with the options specified by gso.
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
-        // Google sign out
-        googleSignInClient.signOut().addOnCompleteListener(this,
-                new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(SelectActivity.this, "로그아웃 성공", Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
 }
