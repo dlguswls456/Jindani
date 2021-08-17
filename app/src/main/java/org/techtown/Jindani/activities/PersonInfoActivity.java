@@ -82,6 +82,7 @@ public class PersonInfoActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(PersonInfoActivity.this, UserMainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -106,9 +107,10 @@ public class PersonInfoActivity extends AppCompatActivity {
                         editSocial.getText().toString(),
                         editFamily.getText().toString());
 
-        //setValue: db insert
+        //사용자db에 추가
         databaseReference.child("UserAccount").child(firebaseUser.getUid()).setValue(userAccount);
-        //updateUI(user);
+        //해당 아이디가 일반 사용자라는 것 추가
+        databaseReference.child("UserOrDoctor").child(firebaseUser.getUid()).setValue("user");
     }
 
 }
