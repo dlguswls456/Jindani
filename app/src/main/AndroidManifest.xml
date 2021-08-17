@@ -15,12 +15,12 @@
         <activity android:name=".activities.MypageActivity"></activity>
         <activity android:name=".activities.DoctorMainActivity" />
         <activity android:name=".activities.DoctorRegisterActivity" />
-        <activity android:name=".activities.SplashActivity" />
+        <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.UserRegisterActivity" />
         <activity android:name=".activities.PersonInfoActivity" />
         <activity android:name=".activities.ChatActivity" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.SplashActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
