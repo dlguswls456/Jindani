@@ -33,7 +33,7 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
 
     RecyclerView qnalist;
     private AdapterQnaList adapterQnaList;
-    private ArrayList<QuestionModel> initList = new ArrayList<>();
+    private ArrayList<QuestionModel> initList = new ArrayList<>(); //listSize 위해
 
     private EditText search_question;
 
@@ -61,6 +61,7 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
                 QuestionModel item = adapterQnaList.getQnaItem(position);
 
                 Intent intent = new Intent(QnaListActivity.this, UserQnaDetailActivity.class);
+                intent.putExtra("q_id", item.getQuestionId());
                 intent.putExtra("q_title", item.getQuestion_title());
                 intent.putExtra("q_content", item.getQuestion_content());
                 intent.putExtra("q_date", item.getQuestion_date());
@@ -70,17 +71,15 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-
         Button button = findViewById(R.id.write_q_button); //질문 작성 버튼
         button.setOnClickListener(QnaListActivity.this);
-
 
         //질문 검색
         search_question = findViewById(R.id.search_question);
         search_question.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.d("SEARCH", "beforeTextChanged");
+                Log.d("TAG", "beforeTextChanged");
             }
 
             @Override
@@ -90,7 +89,7 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
              public void afterTextChanged(Editable s) {
-                Log.d("SEARCH", "afterTextChanged");
+                Log.d("TAG", "afterTextChanged");
 //
             }
         });
@@ -100,8 +99,8 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         int list_size = initList.size();
-        Intent intent = new Intent(QnaListActivity.this, WriteQuestionActivity.class);
 
+        Intent intent = new Intent(QnaListActivity.this, WriteQuestionActivity.class);
         intent.putExtra("listSize", list_size);
         startActivity(intent);
         search_question.getText().clear();
@@ -125,7 +124,7 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(QnaListActivity.this, "데이터 읽어오기 실패", Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "데이터 읽어오기 실패");
             }
         });
     }
