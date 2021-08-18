@@ -36,7 +36,7 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_q);
 
-        Button button = findViewById(R.id.write_q_button); //완료 버튼
+        Button button = findViewById(R.id.write_q_button); //등록 버튼
         button.setOnClickListener(WriteQuestionActivity.this);
     }
 
@@ -46,7 +46,7 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
         showDialog();
     }
 
-    //완료 버튼 눌렀을 때 동작
+    //등록 버튼 눌렀을 때 동작
     @Override
     public void onClick(View v) {
 
@@ -56,15 +56,15 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
         EditText question_content = findViewById(R.id.q_content); //질문 내용
 
         //edittext에서 문자열 받아오기
-        String t = question_title.getText().toString();
-        String c = question_content.getText().toString();
+        String title = question_title.getText().toString();
+        String content = question_content.getText().toString();
 
         //입력 안됐을 때
-        if (t.equals("")) {
+        if (title.equals("")) {
             Toast.makeText(WriteQuestionActivity.this, "제목을 입력해주세요!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (c.equals("")) {
+        if (content.equals("")) {
             Toast.makeText(WriteQuestionActivity.this, "내용을 입력해주세요!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -74,9 +74,10 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
         //질문 id 설정
         Intent intent = getIntent();
         int list_size = intent.getIntExtra("listSize", 0);
-        String qId = "Q" + (list_size + 1);
+        String rand = String.valueOf((int)(Math.random()*100));
+        String qId = "Q" + (list_size + 1) + "_" + rand ;
 
-        storeQuestion(firebaseUser.getUid(), qId, t, c);
+        storeQuestion(firebaseUser.getUid(), qId, title, content);
 
         finish();
 

@@ -65,10 +65,16 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"/>
 
+        <Button
+            android:id="@+id/write_ans_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="답변작성" />
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/user_ansList"
+        android:id="@+id/doc_ansList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 </LinearLayout>

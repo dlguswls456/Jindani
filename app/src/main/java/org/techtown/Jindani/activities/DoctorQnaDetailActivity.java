@@ -3,6 +3,7 @@ package org.techtown.Jindani.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,13 +21,15 @@ import com.google.firebase.database.ValueEventListener;
 import org.techtown.Jindani.R;
 import org.techtown.Jindani.adapter.AdapterAnswerList;
 import org.techtown.Jindani.models.AnswerModel;
+import org.techtown.Jindani.models.QuestionModel;
 
 import java.util.ArrayList;
 
-public class UserQnaDetailActivity extends AppCompatActivity {
+public class DoctorQnaDetailActivity extends AppCompatActivity {
 
     RecyclerView ansList;
     private AdapterAnswerList adapterAnswerList;
+    private ArrayList<AnswerModel> initList = new ArrayList<>(); //listSize 위해
 
     TextView detail_title;
     TextView detail_content;
@@ -39,7 +42,7 @@ public class UserQnaDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_qna_detail);
+        setContentView(R.layout.activity_doctor_qna_detail);
 
         detail_title = findViewById(R.id.detail_title);
         detail_content = findViewById(R.id.detail_content);
@@ -54,10 +57,25 @@ public class UserQnaDetailActivity extends AppCompatActivity {
         readFirebase(q_id);
 
         //리사이클러뷰
-        ansList = findViewById(R.id.user_ansList);
-        ansList.setLayoutManager(new LinearLayoutManager(UserQnaDetailActivity.this));
+        ansList = findViewById(R.id.doc_ansList);
+        ansList.setLayoutManager(new LinearLayoutManager(DoctorQnaDetailActivity.this));
         adapterAnswerList = new AdapterAnswerList(ansList);
         ansList.setAdapter(adapterAnswerList);
+
+        //답변작성 버튼 클릭 시 작동
+        write_ans_button = findViewById(R.id.write_ans_button);
+        write_ans_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int list_size = initList.size();
+
+                Intent intent = new Intent(DoctorQnaDetailActivity.this, WriteAnswerActivity.class);
+                intent.putExtra("q_id", q_id);
+                intent.putExtra("listSize", list_size);
+
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -79,18 +97,20 @@ public class UserQnaDetailActivity extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) { //변화된 값이 snapshot으로 넘어옴
+                initList.clear();
                 adapterAnswerList.list.clear(); //매번 모든 데이터를 가져오므로 리스트를 비워주기
                 for(DataSnapshot ds : snapshot.getChildren()){
                     AnswerModel ans = ds.getValue(AnswerModel.class);
                     if(ans.getQuestionId().equals(qid)) { //질문 번호에 해당하는 답변 가져오기
                         adapterAnswerList.addAnsToList(ans);
+                        initList.add(ans);
                     }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("firebase", "질문 데이터 읽어오기 실패");
+                Log.d("TAG", "데이터 읽어오기 실패");
             }
         });
     }

@@ -97,7 +97,7 @@ public class DoctorMainActivity extends AppCompatActivity {
     };
 
     private void gotoQnaActivity() {
-        Intent intent = new Intent(getApplicationContext(), QnaListActivity.class);
+        Intent intent = new Intent(getApplicationContext(), DoctorQnaListActivity.class);
         startActivity(intent);
     }
 

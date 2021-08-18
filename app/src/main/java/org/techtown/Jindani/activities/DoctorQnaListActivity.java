@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,36 +21,35 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.techtown.Jindani.R;
 import org.techtown.Jindani.adapter.AdapterQnaList;
 import org.techtown.Jindani.listeners.OnQuestionItemClickListener;
 import org.techtown.Jindani.models.QuestionModel;
-import org.techtown.Jindani.R;
 
 import java.util.ArrayList;
 
-public class QnaListActivity extends AppCompatActivity implements View.OnClickListener {
+public class DoctorQnaListActivity extends AppCompatActivity{
 
     RecyclerView qnalist;
     private AdapterQnaList adapterQnaList;
-    private ArrayList<QuestionModel> initList = new ArrayList<>(); //listSize 위해
+    private ArrayList<QuestionModel> initList = new ArrayList<>();
 
     private EditText search_question;
+    private DatabaseReference databaseReference;
 
     static final int REQUSET_CODE = 1;
 
-    private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qna_list);
+        setContentView(R.layout.activity_doctor_qna_list);
 
         readFirebase();
 
         //리사이클러뷰
         qnalist = findViewById(R.id.qnalist);
-        qnalist.setLayoutManager(new LinearLayoutManager(QnaListActivity.this));
+        qnalist.setLayoutManager(new LinearLayoutManager(DoctorQnaListActivity.this));
         adapterQnaList = new AdapterQnaList(qnalist);
         qnalist.setAdapter(adapterQnaList);
 
@@ -60,7 +58,7 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
             public void onItemClick(AdapterQnaList.ViewHolder holder, View view, int position) {
                 QuestionModel item = adapterQnaList.getQnaItem(position);
 
-                Intent intent = new Intent(QnaListActivity.this, UserQnaDetailActivity.class);
+                Intent intent = new Intent(DoctorQnaListActivity.this, DoctorQnaDetailActivity.class);
                 intent.putExtra("q_id", item.getQuestionId());
                 intent.putExtra("q_title", item.getQuestion_title());
                 intent.putExtra("q_content", item.getQuestion_content());
@@ -71,15 +69,12 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        Button button = findViewById(R.id.write_q_button); //질문 작성 버튼
-        button.setOnClickListener(QnaListActivity.this);
-
         //질문 검색
         search_question = findViewById(R.id.search_question);
         search_question.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.d("TAG", "beforeTextChanged");
+                Log.d("SEARCH", "beforeTextChanged");
             }
 
             @Override
@@ -88,22 +83,11 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             @Override
-             public void afterTextChanged(Editable s) {
-                Log.d("TAG", "afterTextChanged");
+            public void afterTextChanged(Editable s) {
+                Log.d("SEARCH", "afterTextChanged");
 //
             }
         });
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        int list_size = initList.size();
-
-        Intent intent = new Intent(QnaListActivity.this, WriteQuestionActivity.class);
-        intent.putExtra("listSize", list_size);
-        startActivity(intent);
-        search_question.getText().clear();
     }
 
     //firebase에서 데이터 읽어오기, 변화가 있으면 클라이언트에 알려줌
@@ -124,30 +108,9 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("TAG", "데이터 읽어오기 실패");
+                Log.d("firebase", "질문 데이터 읽어오기 실패");
             }
         });
     }
-
-
-
-
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) { //현재 사용 xx
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        //요청 코드와 응답 코드가 모두 정상이면
-//        if (requestCode == REQUSET_CODE) {
-//            if (resultCode == RESULT_OK) {
-//
-//                //WriteQActivity에서 값 받아오기
-//                String t = data.getStringExtra("제목");
-//                String c = data.getStringExtra("내용");
-//
-//
-//            }
-//        }
-//    }
 
 }
