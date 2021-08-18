@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.MypageActivity"></activity>
+        <activity android:name=".activities.DoctorMypageActivity"></activity>
+        <activity android:name=".activities.UserMypageActivity" />
         <activity android:name=".activities.DoctorMainActivity" />
         <activity android:name=".activities.DoctorRegisterActivity" />
         <activity android:name=".activities.LoginActivity" />
@@ -35,9 +36,9 @@
         <activity android:name=".activities.WriteQuestionActivity" />
         <activity android:name=".activities.UserSegmentActivity" />
         <activity android:name=".activities.UserQnaDetailActivity" />
-        <activity android:name=".activities.DoctorQnaListActivity"/>
-        <activity android:name=".activities.DoctorQnaDetailActivity"/>
-        <activity android:name=".activities.WriteAnswerActivity"/>
+        <activity android:name=".activities.DoctorQnaListActivity" />
+        <activity android:name=".activities.DoctorQnaDetailActivity" />
+        <activity android:name=".activities.WriteAnswerActivity" />
     </application>
 
 </manifest>
