@@ -1,7 +1,9 @@
 package org.techtown.Jindani.models;
 
+import java.io.Serializable;
+
 //사용자 정보 클래스
-public class UserAccount {
+public class UserAccount implements Serializable {
     private String idToken;
     private String emailId;
     private String sex;

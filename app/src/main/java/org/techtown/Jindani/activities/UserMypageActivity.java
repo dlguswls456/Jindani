@@ -4,8 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -58,27 +61,33 @@ public class UserMypageActivity extends AppCompatActivity {
 
         btn_logout = findViewById(R.id.btn_logout);
         btn_delete = findViewById(R.id.btn_delete);
+        btn_updateInfo = findViewById(R.id.btn_updateInfo);
+        btn_updateQnA = findViewById(R.id.btn_updateQnA);
 
         //각 버튼 클릭
         btn_logout.setOnClickListener(buttonClickListener);
         btn_delete.setOnClickListener(buttonClickListener);
+        btn_updateInfo.setOnClickListener(buttonClickListener);
+        btn_updateQnA.setOnClickListener(buttonClickListener);
 
 
     }
 
-    private void setUserInfo() {
+    @Override
+    protected void onStart() {
+        super.onStart();
         databaseReference.child("UserAccount").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
                 userAccount = snapshot.getValue(UserAccount.class);
 
-                tv_id.append(user.getEmail());
-                tv_sex.append(userAccount.getSex());
-                tv_birth.append(userAccount.getBirthDate());
-                tv_height_weight.append(userAccount.getHeight() + "cm / " + userAccount.getWeight() + "kg");
-                tv_family.append(userAccount.getFamily());
-                tv_past.append(userAccount.getPast());
-                tv_social.append(userAccount.getSocial());
+                tv_id.setText("아이디: " + user.getEmail());
+                tv_sex.setText("성별: " + userAccount.getSex());
+                tv_birth.setText("생년월일: " + userAccount.getBirthDate());
+                tv_height_weight.setText("키/몸무게: " + userAccount.getHeight() + "cm/" + userAccount.getWeight() + "kg");
+                tv_family.setText("가족력: " + userAccount.getFamily());
+                tv_past.setText("과거력: " + userAccount.getPast());
+                tv_social.setText("사회력: " + userAccount.getSocial());
             }
 
             @Override
@@ -89,19 +98,44 @@ public class UserMypageActivity extends AppCompatActivity {
         });
     }
 
+    private void setUserInfo() {
+//        databaseReference.child("UserAccount").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
+//                userAccount = snapshot.getValue(UserAccount.class);
+//
+//        tv_id.setText("아이디: " + user.getEmail());
+//        tv_sex.setText("성별: " + userAccount.getSex());
+//        tv_birth.setText("생년월일: " + userAccount.getBirthDate());
+//        tv_height_weight.setText("키/몸무게: " + userAccount.getHeight() + "cm/" + userAccount.getWeight() + "kg");
+//        tv_family.setText("가족력: " + userAccount.getFamily());
+//        tv_past.setText("과거력: " + userAccount.getPast());
+//        tv_social.setText("사회력: " + userAccount.getSocial());
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                //데이터 가져오기 실패 처리
+//                Log.e(TAG, String.valueOf(error.toException()));
+//            }
+//        });
+    }
+
     View.OnClickListener buttonClickListener = view -> {
         switch (view.getId()) {
-            case R.id.btn_logout: { //채팅 버튼
-                signOutAndFinish();
+            case R.id.btn_logout: { //로그아웃 버튼
+                showLogoutDialog();
                 break;
             }
-            case R.id.btn_delete: { //qna 버튼
-                deleteUser();
+            case R.id.btn_delete: { //회원 탈퇴 버튼
+                showDeleteDialog();
                 break;
-            }case R.id.btn_updateInfo: { //qna 버튼
+            }
+            case R.id.btn_updateInfo: { //계정 정보 변경 버튼
                 updateUserInfo();
                 break;
-            }case R.id.btn_updateQnA: { //qna 버튼
+            }
+            case R.id.btn_updateQnA: { //질문 목록 변경 버튼
                 updateQnA();
                 break;
             }
@@ -115,25 +149,9 @@ public class UserMypageActivity extends AppCompatActivity {
 
     //사용자 정보 변경
     private void updateUserInfo() {
-//        //사용자db에 추가
-//        databaseReference.child("UserAccount").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
-//                UserAccount userAccount = snapshot.getValue(UserAccount.class);
-//
-//                //userAccount수정하는 코드 작성 필요
-//
-//                //다시 저장
-////                databaseReference.child("UserAccount").child(user.getUid()).setValue(userAccount);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                //데이터 가져오기 실패 처리
-//                Log.e(TAG, String.valueOf(error.toException()));
-//            }
-//        });
-
+        Intent intent = new Intent(UserMypageActivity.this, UpdateUserInfoActivity.class);
+        intent.putExtra("userAccount", userAccount);
+        startActivity(intent);
     }
 
     private void signOutAndFinish() {
@@ -143,6 +161,48 @@ public class UserMypageActivity extends AppCompatActivity {
 
         Intent intent = new Intent(UserMypageActivity.this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    //로그아웃 대화창
+    public void showLogoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(UserMypageActivity.this);
+        builder.setMessage("로그아웃 하시겠습니까?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                signOutAndFinish();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();
+    }
+
+    //회원 탈퇴 대화창
+    public void showDeleteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(UserMypageActivity.this);
+        builder.setMessage("회원 탈퇴 하시겠습니까?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteUser();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();
     }
 
     //로그아웃
@@ -190,7 +250,7 @@ public class UserMypageActivity extends AppCompatActivity {
 
                             Intent intent = new Intent(UserMypageActivity.this, LoginActivity.class);
                             startActivity(intent);
-                        }else {//계정 삭제 실패
+                        } else {//계정 삭제 실패
                             //db 다시 복구
                             databaseReference.child("UserAccount").child(user.getUid()).setValue(userAccount);
                             databaseReference.child("UserOrDoctor").child(user.getUid()).setValue("user");
@@ -198,7 +258,6 @@ public class UserMypageActivity extends AppCompatActivity {
                             Toast.makeText(UserMypageActivity.this, "탈퇴 실패", Toast.LENGTH_LONG).show();
                         }
                     }
-
 
                 });
     }
