@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.techtown.Jindani">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.UpdateUserInfoActivity"></activity>
+        <activity android:name=".activities.UserUpdateQnaActivity"/>
+        <activity android:name=".activities.DoctorUpdateQnaDetailActivity" />
+        <activity android:name=".activities.UpdateUserInfoActivity" />
         <activity android:name=".activities.DoctorMypageActivity" />
         <activity android:name=".activities.UserMypageActivity" />
         <activity android:name=".activities.DoctorMainActivity" />
