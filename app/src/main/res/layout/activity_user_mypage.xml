@@ -44,48 +44,48 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="아이디: " />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/tv_sex"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="성별: " />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/tv_birth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="생년월일: " />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/tv_height_weight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="키/몸무게: " />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/tv_family"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="가족력: " />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/tv_past"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="과거력: " />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/tv_social"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="사회력: " />
+                    android:text="" />
 
                 <Button
                     android:id="@+id/btn_updateInfo"
