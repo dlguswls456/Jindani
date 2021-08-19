@@ -89,17 +89,17 @@ public class DoctorMypageActivity extends AppCompatActivity {
 
     View.OnClickListener buttonClickListener = view -> {
         switch (view.getId()) {
-            case R.id.btn_logout: { //채팅 버튼
+            case R.id.btn_logout: { //로그아웃 버튼
                 signOutAndFinish();
                 break;
             }
-            case R.id.btn_delete: { //qna 버튼
+            case R.id.btn_delete: { //회원 탈퇴 버튼
                 deleteUser();
                 break;
-            }case R.id.btn_updateInfo: { //qna 버튼
+            }case R.id.btn_updateInfo: { //계정 정보 변경 버튼
                 updateDoctorInfo();
                 break;
-            }case R.id.btn_updateQnA: { //qna 버튼
+            }case R.id.btn_updateQnA: { //질문 목록 변경 버튼
                 updateQnA();
                 break;
             }
@@ -113,24 +113,7 @@ public class DoctorMypageActivity extends AppCompatActivity {
 
     //사용자 정보 변경
     private void updateDoctorInfo() {
-//        //사용자db에 추가
-//        databaseReference.child("DoctorAccount").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
-//                DoctorAccount doctorAccount = snapshot.getValue(DoctorAccount.class);
-//
-//                //doctorAccount수정하는 코드 작성 필요
-//
-//                //다시 저장
-////                databaseReference.child("doctorAccount").child(user.getUid()).setValue(doctorAccount);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                //데이터 가져오기 실패 처리
-//                Log.e(TAG, String.valueOf(error.toException()));
-//            }
-//        });
+
 
     }
 

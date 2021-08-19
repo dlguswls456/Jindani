@@ -37,9 +37,6 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
 
     private EditText search_question;
 
-    static final int REQUSET_CODE = 1;
-
-    private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
     @Override
@@ -66,7 +63,7 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
                 intent.putExtra("q_content", item.getQuestion_content());
                 intent.putExtra("q_date", item.getQuestion_date());
 
-                startActivityForResult(intent, REQUSET_CODE);
+                startActivity(intent);
 
             }
         });
@@ -128,26 +125,5 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
     }
-
-
-
-
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) { //현재 사용 xx
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        //요청 코드와 응답 코드가 모두 정상이면
-//        if (requestCode == REQUSET_CODE) {
-//            if (resultCode == RESULT_OK) {
-//
-//                //WriteQActivity에서 값 받아오기
-//                String t = data.getStringExtra("제목");
-//                String c = data.getStringExtra("내용");
-//
-//
-//            }
-//        }
-//    }
 
 }

@@ -38,8 +38,6 @@ public class PersonInfoActivity extends AppCompatActivity {
     private DatePicker datePicker;
     private String birthDate;
 
-    HashMap<String, String> personInfo = new HashMap<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
