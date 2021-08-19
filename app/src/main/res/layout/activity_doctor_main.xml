@@ -22,27 +22,30 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/qna_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/select_button"
-                android:text="의사에게 질문\n 궁금한 점을 의사에게 직접 질문하세요"
-                android:textSize="14sp"
                 android:lineSpacingExtra="5dp"
-                android:textAllCaps="false"/>
+                android:text="환자에게 답변\n 환자의 질문에 답변해주세요"
+                android:textAllCaps="false"
+                android:textSize="14sp" />
 
+            <Button
+                android:id="@+id/mypage_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/select_button"
+                android:lineSpacingExtra="5dp"
+                android:text="마이페이지\n 회원정보 관리"
+                android:textAllCaps="false"
+                android:textSize="14sp" />
         </LinearLayout>
-
-        //임시
-        <Button
-            android:id="@+id/btn_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="로그아웃" />
 
 
     </LinearLayout>

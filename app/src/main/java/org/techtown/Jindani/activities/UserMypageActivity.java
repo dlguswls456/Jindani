@@ -2,6 +2,7 @@ package org.techtown.Jindani.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,25 +27,23 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.techtown.Jindani.R;
 import org.techtown.Jindani.models.UserAccount;
-import org.techtown.Jindani.network.FirebaseCallback;
 
-import java.util.Calendar;
-import java.util.HashMap;
-
-public class MypageActivity extends AppCompatActivity {
+public class UserMypageActivity extends AppCompatActivity {
 
     TextView tv_id, tv_sex, tv_birth, tv_height_weight, tv_family, tv_past, tv_social;
-    Button btn_logout, btn_delete;
+    Button btn_logout, btn_delete, btn_updateInfo, btn_updateQnA;
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference databaseReference; // 실시간 데이터베이스
+
+    UserAccount userAccount;
 
     private final static String TAG = "MyPageActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mypage);
+        setContentView(R.layout.activity_user_mypage);
 
         tv_id = findViewById(R.id.tv_id);
         tv_sex = findViewById(R.id.tv_sex);
@@ -55,18 +54,7 @@ public class MypageActivity extends AppCompatActivity {
         tv_social = findViewById(R.id.tv_social);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
-        setUserInfo(new FirebaseCallback<UserAccount>() {
-            @Override
-            public void onCallback(UserAccount userAccount) {
-                tv_id.append(user.getEmail());
-                tv_sex.append(userAccount.getSex());
-                tv_birth.append(userAccount.getBirthDate());
-                tv_height_weight.append(userAccount.getHeight() + "cm / " + userAccount.getWeight() + "kg");
-                tv_family.append(userAccount.getFamily());
-                tv_past.append(userAccount.getPast());
-                tv_social.append(userAccount.getSocial());
-            }
-        });
+        setUserInfo();
 
         btn_logout = findViewById(R.id.btn_logout);
         btn_delete = findViewById(R.id.btn_delete);
@@ -78,13 +66,19 @@ public class MypageActivity extends AppCompatActivity {
 
     }
 
-    private void setUserInfo(FirebaseCallback<UserAccount> firebaseCallback) {
-        databaseReference.child("UserAccount").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+    private void setUserInfo() {
+        databaseReference.child("UserAccount").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
-                UserAccount userAccount = snapshot.getValue(UserAccount.class);
+                userAccount = snapshot.getValue(UserAccount.class);
 
-                firebaseCallback.onCallback(userAccount);
+                tv_id.append(user.getEmail());
+                tv_sex.append(userAccount.getSex());
+                tv_birth.append(userAccount.getBirthDate());
+                tv_height_weight.append(userAccount.getHeight() + "cm / " + userAccount.getWeight() + "kg");
+                tv_family.append(userAccount.getFamily());
+                tv_past.append(userAccount.getPast());
+                tv_social.append(userAccount.getSocial());
             }
 
             @Override
@@ -104,16 +98,51 @@ public class MypageActivity extends AppCompatActivity {
             case R.id.btn_delete: { //qna 버튼
                 deleteUser();
                 break;
+            }case R.id.btn_updateInfo: { //qna 버튼
+                updateUserInfo();
+                break;
+            }case R.id.btn_updateQnA: { //qna 버튼
+                updateQnA();
+                break;
             }
         }
     };
 
+    //질문목록 수정
+    private void updateQnA() {
+
+    }
+
+    //사용자 정보 변경
+    private void updateUserInfo() {
+//        //사용자db에 추가
+//        databaseReference.child("UserAccount").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
+//                UserAccount userAccount = snapshot.getValue(UserAccount.class);
+//
+//                //userAccount수정하는 코드 작성 필요
+//
+//                //다시 저장
+////                databaseReference.child("UserAccount").child(user.getUid()).setValue(userAccount);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                //데이터 가져오기 실패 처리
+//                Log.e(TAG, String.valueOf(error.toException()));
+//            }
+//        });
+
+    }
+
     private void signOutAndFinish() {
         signOut();
-        Intent intent = new Intent(MypageActivity.this, LoginActivity.class);
-        /////모든 액티비티 삭제하는 과정 필요
+        //모든 액티비티 삭제
+        ActivityCompat.finishAffinity(UserMypageActivity.this);
+
+        Intent intent = new Intent(UserMypageActivity.this, LoginActivity.class);
         startActivity(intent);
-        finish();
     }
 
     //로그아웃
@@ -135,55 +164,43 @@ public class MypageActivity extends AppCompatActivity {
                 new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(MypageActivity.this, "로그아웃 성공", Toast.LENGTH_LONG).show();
+                        Toast.makeText(UserMypageActivity.this, "로그아웃 성공", Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
     //회원 탈퇴
     public void deleteUser() {
+        ////관련된 모든 db삭제
+        databaseReference.child("UserAccount").child(user.getUid()).removeValue();
+        databaseReference.child("UserOrDoctor").child(user.getUid()).removeValue();
+
+        //계정 삭제
         user.delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            /////관련된 모든 db삭제하는 과정 필요
-                            databaseReference.child("UserAccount").child(user.getUid()).removeValue();
-                            databaseReference.child("UserOrDoctor").child(user.getUid()).removeValue();
-
+                        if (task.isSuccessful()) {//계정 삭제 성공
                             Log.d(TAG, "계정 탈퇴 성공");
-                            Toast.makeText(MypageActivity.this, "계정이 정상적으로 탈퇴처리 되었습니다", Toast.LENGTH_LONG).show();
 
-                            /////모든 액티비티 삭제하는 과정 필요
-                            finish();
+                            Toast.makeText(UserMypageActivity.this, "계정이 정상적으로 탈퇴처리 되었습니다", Toast.LENGTH_LONG).show();
+
+                            //모든 액티비티 삭제 및 로그인 페이지로 이동
+                            ActivityCompat.finishAffinity(UserMypageActivity.this);
+
+                            Intent intent = new Intent(UserMypageActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }else {//계정 삭제 실패
+                            //db 다시 복구
+                            databaseReference.child("UserAccount").child(user.getUid()).setValue(userAccount);
+                            databaseReference.child("UserOrDoctor").child(user.getUid()).setValue("user");
+
+                            Toast.makeText(UserMypageActivity.this, "탈퇴 실패", Toast.LENGTH_LONG).show();
                         }
                     }
+
+
                 });
-    }
-
-    //회원 탈퇴
-    private void revokeAccess() {
-        // Firebase sign out
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
-
-
-//        //구글 로그인 사용자에게만 필요.. 나중에 수정 해야함
-//        GoogleSignInOptions gso = new GoogleSignInOptions
-//                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestEmail()
-//                .build();
-//
-//        // Build a GoogleSignInClient with the options specified by gso.
-//        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
-//        // Google revoke access
-//        googleSignInClient.revokeAccess().addOnCompleteListener(this,
-//                new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        Toast.makeText(getApplicationContext(), "회원탈퇴 성공", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
     }
 
 }

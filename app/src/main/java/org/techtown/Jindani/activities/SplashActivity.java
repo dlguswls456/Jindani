@@ -32,7 +32,9 @@ public class SplashActivity extends AppCompatActivity {
         hand.postDelayed(new Runnable() {//로고 화면 3초 보여주기
             @Override
             public void run() {
-
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         }, SPLASH_SCREEN);
     }

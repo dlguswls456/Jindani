@@ -40,7 +40,7 @@ import java.util.HashMap;
 
 public class DoctorMainActivity extends AppCompatActivity {
 
-    private Button qna_button, btn_logout;
+    private Button qna_button, mypage_button;
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference databaseReference; // 실시간 데이터베이스
@@ -54,12 +54,12 @@ public class DoctorMainActivity extends AppCompatActivity {
 
         //버튼 레이아웃 변경
         qna_button = findViewById(R.id.qna_button);
-        btn_logout = findViewById(R.id.btn_logout);
+        mypage_button = findViewById(R.id.mypage_button);
         setLayout();
 
         //각 버튼 클릭
         qna_button.setOnClickListener(buttonClickListener);
-        btn_logout.setOnClickListener(buttonClickListener);
+        mypage_button.setOnClickListener(buttonClickListener);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
 
@@ -69,18 +69,27 @@ public class DoctorMainActivity extends AppCompatActivity {
     private void setLayout() {
         //버튼 레이아웃 변경
         String qna = qna_button.getText().toString();
-        SpannableStringBuilder q_spannable = new SpannableStringBuilder(qna);
+        String mypage = mypage_button.getText().toString();
 
-        String c_word = "질환 예측";
-        String q_word = "의사에게 질문";
+        SpannableStringBuilder q_spannable = new SpannableStringBuilder(qna);
+        SpannableStringBuilder m_spannable = new SpannableStringBuilder(mypage);
+
+        String q_word = "환자에게 답변";
+        String m_word = "마이페이지";
         int q_start = qna.indexOf(q_word);
         int q_end = q_start + q_word.length();
+        int m_start = mypage.indexOf(m_word);
+        int m_end = m_start + m_word.length();
 
 //        spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         q_spannable.setSpan(new StyleSpan(Typeface.BOLD), q_start, q_end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         q_spannable.setSpan(new RelativeSizeSpan(1.3f), q_start, q_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //상대적 크기
 
+        m_spannable.setSpan(new StyleSpan(Typeface.BOLD), m_start, m_end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        m_spannable.setSpan(new RelativeSizeSpan(1.3f), m_start, m_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //상대적 크기
+
         qna_button.setText(q_spannable);
+        mypage_button.setText(m_spannable);
     }
 
     View.OnClickListener buttonClickListener = view -> {
@@ -89,8 +98,8 @@ public class DoctorMainActivity extends AppCompatActivity {
                 gotoQnaActivity();
                 break;
             }
-            case R.id.btn_logout: { //로그아웃 버튼
-                signOutAndFinish();
+            case R.id.mypage_button: { //로그아웃 버튼
+                gotoMyPageActivity();
                 break;
             }
         }
@@ -101,18 +110,9 @@ public class DoctorMainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void signOutAndFinish() {
-        signOut();
-        Intent intent = new Intent(DoctorMainActivity.this, LoginActivity.class);
+    private void gotoMyPageActivity() {
+        Intent intent = new Intent(DoctorMainActivity.this, DoctorMypageActivity.class);
         startActivity(intent);
-        finish();
     }
 
-    //로그아웃
-    private void signOut() {
-        // Firebase sign out
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
-
-    }
 }

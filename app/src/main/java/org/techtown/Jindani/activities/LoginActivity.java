@@ -59,11 +59,11 @@ public class LoginActivity extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
 
-        //자동 로그인
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser != null) {
-            checkUserOrDoctor(currentUser);
-        }
+//        //자동 로그인 -> 수정 필요
+//        FirebaseUser currentUser = auth.getCurrentUser();
+//        if (currentUser != null) {
+//            checkUserOrDoctor(currentUser);
+//        }
 
         //일반 이메일 로그인하는 경우
         et_email = findViewById(R.id.et_email);
@@ -151,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //로그인 계정 유형 확인
     private void checkUserOrDoctor(FirebaseUser user) {
-        databaseReference.child("UserOrDoctor").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("UserOrDoctor").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
                 String UserOrDoctor = snapshot.getValue(String.class);
@@ -177,7 +177,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //의사 가입 권한 있는지 확인
     private void checkIsAuthorized(FirebaseUser user) {
-        databaseReference.child("DoctorAccount").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("DoctorAccount").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
                 DoctorAccount doctorAccount = snapshot.getValue(DoctorAccount.class);
@@ -256,7 +256,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //파이어베이스에서 구글 유저 데이터 확인하기
     public void readFirebase(FirebaseUser user) {
-        databaseReference.child("UserAccount").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("UserAccount").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
                 UserAccount userAccount = snapshot.getValue(UserAccount.class);
