@@ -14,15 +14,15 @@ import org.techtown.Jindani.models.AnswerModel;
 
 import java.util.ArrayList;
 
-public class AdapterUpdateAnswerList extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OnAnswerItemClickListener {
+public class AdapterUpdateAnswerList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public ArrayList<AnswerModel> list = new ArrayList<>();
-    private RecyclerView ansList;
+    private RecyclerView updateAnsList;
 
-    public OnAnswerItemClickListener listener;
+//    public OnAnswerItemClickListener listener;
 
-    public AdapterUpdateAnswerList(RecyclerView ansList) {
-        this.ansList = ansList;
+    public AdapterUpdateAnswerList(RecyclerView updateAnsList) {
+        this.updateAnsList = updateAnsList;
     }
 
     @NonNull
@@ -45,12 +45,12 @@ public class AdapterUpdateAnswerList extends RecyclerView.Adapter<RecyclerView.V
         return list.size();
     }
 
-    @Override
-    public void onItemClick(ViewHolder holder, View view, int position) {
-        if(listener != null){
-            listener.onItemClick(holder,view,position);
-        }
-    }
+//    @Override
+//    public void onItemClick(ViewHolder holder, View view, int position) {
+//        if(listener != null){
+//            listener.onItemClick(holder,view,position);
+//        }
+//    }
 
     public AnswerModel getAnswerItem(int position){
         return list.get(position);
@@ -60,23 +60,23 @@ public class AdapterUpdateAnswerList extends RecyclerView.Adapter<RecyclerView.V
         this.list.add(ans);
         this.notifyDataSetChanged();
         //채팅 추가될때마다 리사이클러뷰가 제일 하단으로 가게함
-        ansList.scrollToPosition(getItemCount()-1);
+        updateAnsList.scrollToPosition(getItemCount()-1);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    if (listener != null){
-                        listener.onItemClick(AdapterUpdateAnswerList.ViewHolder.this, v, pos);
-                    }
-
-                }
-            });
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int pos = getAdapterPosition();
+//                    if (listener != null){
+//                        listener.onItemClick(AdapterUpdateAnswerList.ViewHolder.this, v, pos);
+//                    }
+//
+//                }
+//            });
         }
 
         public void bind(AnswerModel ans){
@@ -88,7 +88,7 @@ public class AdapterUpdateAnswerList extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    public void setOnItemClickListener(OnAnswerItemClickListener listener) {
-        this.listener = listener;
-    }
+//    public void setOnItemClickListener(OnAnswerItemClickListener listener) {
+//        this.listener = listener;
+//    }
 }

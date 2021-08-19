@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".activities.UserUpdateQnaActivity"/>
-        <activity android:name=".activities.DoctorUpdateQnaDetailActivity" />
+        <activity android:name=".activities.DoctorUpdateQnaActivity" />
         <activity android:name=".activities.UpdateUserInfoActivity" />
         <activity android:name=".activities.DoctorMypageActivity" />
         <activity android:name=".activities.UserMypageActivity" />
