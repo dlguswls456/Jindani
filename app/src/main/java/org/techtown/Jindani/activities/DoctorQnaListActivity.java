@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.techtown.Jindani.R;
 import org.techtown.Jindani.adapter.AdapterQnaList;
+import org.techtown.Jindani.adapter.AdapterUpdateAnswerList;
 import org.techtown.Jindani.listeners.OnQuestionItemClickListener;
 import org.techtown.Jindani.models.QuestionModel;
 
@@ -53,6 +53,7 @@ public class DoctorQnaListActivity extends AppCompatActivity{
         adapterQnaList = new AdapterQnaList(qnalist);
         qnalist.setAdapter(adapterQnaList);
 
+        //질문 클릭
         adapterQnaList.setOnItemClickListener(new OnQuestionItemClickListener() {
             @Override
             public void onItemClick(AdapterQnaList.ViewHolder holder, View view, int position) {
@@ -65,7 +66,6 @@ public class DoctorQnaListActivity extends AppCompatActivity{
                 intent.putExtra("q_date", item.getQuestion_date());
 
                 startActivityForResult(intent, REQUSET_CODE);
-
             }
         });
 

@@ -50,7 +50,7 @@ public class UserQnaDetailActivity extends AppCompatActivity {
 
         //이전 액티비티에서 q_id 받아오기
         q_id = befo_intent.getStringExtra("q_id");
-        //파이어베이스에서 질문리스트 데이터 읽어오기
+        //파이어베이스에서 답변리스트 데이터 읽어오기
         readFirebase(q_id);
 
         //리사이클러뷰
@@ -90,7 +90,7 @@ public class UserQnaDetailActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("firebase", "질문 데이터 읽어오기 실패");
+                Log.d("firebase", "답변 데이터 읽어오기 실패");
             }
         });
     }

@@ -35,7 +35,7 @@ public class WriteAnswerActivity extends AppCompatActivity implements View.OnCli
     // 파이어베이스 데이터베이스 연동
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = database.getReference(); //DatabaseReference는 데이터베이스의 특정 위치로 연결
+    private DatabaseReference databaseReference = database.getReference();
 
     EditText ans_content; //답변 내용
     Button write_ans_button; //등록 버튼
@@ -62,7 +62,7 @@ public class WriteAnswerActivity extends AppCompatActivity implements View.OnCli
 
         //입력 안됐을 때
         if (ans.equals("")) {
-            Toast.makeText(WriteAnswerActivity.this, "제목을 입력해주세요!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(WriteAnswerActivity.this, "답변을 입력해주세요!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -94,7 +94,7 @@ public class WriteAnswerActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("firebase", "의사 이름 데이터 읽기 실패");
+                Log.e("firebase", "의사 이름 데이터 읽기 실패");
             }
         });
 

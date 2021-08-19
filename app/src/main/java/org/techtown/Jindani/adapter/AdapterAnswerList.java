@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.techtown.Jindani.R;
-import org.techtown.Jindani.listeners.OnQuestionItemClickListener;
 import org.techtown.Jindani.models.AnswerModel;
 
 import java.util.ArrayList;
