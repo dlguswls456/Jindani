@@ -33,7 +33,7 @@ import org.techtown.Jindani.models.UserAccount;
 public class DoctorMypageActivity extends AppCompatActivity {
 
     TextView tv_id, tv_name, tv_dept, tv_auth;
-    Button btn_logout, btn_delete, btn_updateInfo, btn_updateQnA;
+    Button btn_logout, btn_delete, btn_updateQnA;
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference databaseReference; // 실시간 데이터베이스
@@ -53,7 +53,6 @@ public class DoctorMypageActivity extends AppCompatActivity {
         tv_auth = findViewById(R.id.tv_auth);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
-        setDoctorInfo();
 
         btn_logout = findViewById(R.id.btn_logout);
         btn_delete = findViewById(R.id.btn_delete);
@@ -65,7 +64,9 @@ public class DoctorMypageActivity extends AppCompatActivity {
         btn_updateQnA.setOnClickListener(buttonClickListener);
     }
 
-    private void setDoctorInfo() {
+    @Override
+    protected void onStart() {
+        super.onStart();
         databaseReference.child("DoctorAccount").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
@@ -74,9 +75,9 @@ public class DoctorMypageActivity extends AppCompatActivity {
                 tv_id.append(user.getEmail());
                 tv_name.append(doctorAccount.getName());
                 tv_dept.append(doctorAccount.getDept());
-                if(doctorAccount.isAuthorized()){
+                if (doctorAccount.isAuthorized()) {
                     tv_auth.append("승인");
-                }else{
+                } else {
                     tv_auth.append("권한 없음");
                 }
             }
@@ -98,10 +99,8 @@ public class DoctorMypageActivity extends AppCompatActivity {
             case R.id.btn_delete: { //회원 탈퇴 버튼
                 deleteUser();
                 break;
-            }case R.id.btn_updateInfo: { //계정 정보 변경 버튼
-                updateDoctorInfo();
-                break;
-            }case R.id.btn_updateQnA: { //질문 목록 변경 버튼
+            }
+            case R.id.btn_updateQnA: { //질문 목록 변경 버튼
                 updateQnA();
                 break;
             }
@@ -114,12 +113,6 @@ public class DoctorMypageActivity extends AppCompatActivity {
         intent.putExtra("docId", user.getUid());
 
         startActivity(intent);
-    }
-
-    //사용자 정보 변경
-    private void updateDoctorInfo() {
-
-
     }
 
     private void signOutAndFinish() {
@@ -177,7 +170,7 @@ public class DoctorMypageActivity extends AppCompatActivity {
 
                             Intent intent = new Intent(DoctorMypageActivity.this, LoginActivity.class);
                             startActivity(intent);
-                        }else {//계정 삭제 실패
+                        } else {//계정 삭제 실패
                             //db 다시 복구
                             databaseReference.child("UserAccount").child(user.getUid()).setValue(doctorAccount);
                             databaseReference.child("UserOrDoctor").child(user.getUid()).setValue("doctor");

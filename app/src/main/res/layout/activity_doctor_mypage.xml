@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.UserMypageActivity">
+    tools:context=".activities.DoctorMypageActivity">
 
     <TextView
         android:id="@+id/appname"
@@ -67,12 +67,6 @@
                     android:layout_marginBottom="5dp"
                     android:text="권한 승인 여부: " />
 
-                <Button
-                    android:id="@+id/btn_updateInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="정보 수정하기" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -88,9 +82,6 @@
                     android:text="내가 남긴 답변 목록"
                     android:textSize="15sp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
 
                 <Button
                     android:id="@+id/btn_updateQnA"

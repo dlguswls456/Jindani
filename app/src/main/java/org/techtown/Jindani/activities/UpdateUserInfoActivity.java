@@ -77,7 +77,7 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
     public void onBackPressed() {
         showDialog();
     }
-    
+
     //작성 취소 대화창
     public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(UpdateUserInfoActivity.this);
