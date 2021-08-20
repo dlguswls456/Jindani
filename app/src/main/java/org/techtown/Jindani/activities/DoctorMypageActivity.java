@@ -57,10 +57,12 @@ public class DoctorMypageActivity extends AppCompatActivity {
 
         btn_logout = findViewById(R.id.btn_logout);
         btn_delete = findViewById(R.id.btn_delete);
+        btn_updateQnA = findViewById(R.id.btn_updateQnA);
 
         //각 버튼 클릭
         btn_logout.setOnClickListener(buttonClickListener);
         btn_delete.setOnClickListener(buttonClickListener);
+        btn_updateQnA.setOnClickListener(buttonClickListener);
     }
 
     private void setDoctorInfo() {
@@ -108,7 +110,10 @@ public class DoctorMypageActivity extends AppCompatActivity {
 
     //질문목록 수정
     private void updateQnA() {
+        Intent intent = new Intent(DoctorMypageActivity.this, DoctorUpdateQnaActivity.class);
+        intent.putExtra("docId", user.getUid());
 
+        startActivity(intent);
     }
 
     //사용자 정보 변경

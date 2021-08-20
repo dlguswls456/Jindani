@@ -15,7 +15,7 @@ import org.techtown.Jindani.models.QuestionModel;
 
 import java.util.ArrayList;
 
-public class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OnQuestionItemClickListener{
+public class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OnQuestionItemClickListener {
 
     public ArrayList<QuestionModel> list = new ArrayList<>();
     public ArrayList<QuestionModel> copyList = new ArrayList<>();

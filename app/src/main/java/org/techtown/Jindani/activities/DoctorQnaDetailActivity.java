@@ -48,19 +48,19 @@ public class DoctorQnaDetailActivity extends AppCompatActivity {
         detail_content = findViewById(R.id.detail_content);
         detail_date = findViewById(R.id.detail_date);
 
-        Intent befo_intent = getIntent();
-        getQuestionData(befo_intent);
-
-        //이전 액티비티에서 q_id 받아오기
-        q_id = befo_intent.getStringExtra("q_id");
-        //파이어베이스에서 질문리스트 데이터 읽어오기
-        readFirebase(q_id);
-
         //리사이클러뷰
         ansList = findViewById(R.id.doc_ansList);
         ansList.setLayoutManager(new LinearLayoutManager(DoctorQnaDetailActivity.this));
         adapterAnswerList = new AdapterAnswerList(ansList);
         ansList.setAdapter(adapterAnswerList);
+
+        Intent intent = getIntent();
+        getQuestionData(intent);
+
+        //이전 액티비티에서 q_id 받아오기
+        q_id = intent.getStringExtra("q_id");
+        //파이어베이스에서 답변리스트 데이터 읽어오기
+        readFirebase(q_id);
 
         //답변작성 버튼 클릭 시 작동
         write_ans_button = findViewById(R.id.write_ans_button);
@@ -91,7 +91,7 @@ public class DoctorQnaDetailActivity extends AppCompatActivity {
         detail_date.setText(d);
     }
 
-    //firebase에서 데이터 읽어오기, 변화가 있으면 클라이언트에 알려줌
+    //firebase에서 데이터 읽어와서 리사이클러뷰에 추가
     private void readFirebase(String qid){
         databaseReference = FirebaseDatabase.getInstance().getReference().child("JindaniApp").child("Answer");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -110,7 +110,7 @@ public class DoctorQnaDetailActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("TAG", "데이터 읽어오기 실패");
+                Log.e("TAG", "답변 데이터 읽어오기 실패");
             }
         });
     }

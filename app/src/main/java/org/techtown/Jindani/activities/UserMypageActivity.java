@@ -144,7 +144,10 @@ public class UserMypageActivity extends AppCompatActivity {
 
     //질문목록 수정
     private void updateQnA() {
+        Intent intent = new Intent(UserMypageActivity.this, UserUpdateQnaActivity.class);
+        intent.putExtra("userId", user.getUid());
 
+        startActivity(intent);
     }
 
     //사용자 정보 변경
