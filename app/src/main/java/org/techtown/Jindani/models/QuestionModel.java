@@ -1,7 +1,9 @@
 package org.techtown.Jindani.models;
 
+import java.io.Serializable;
+
 //사용자 질문 작성에 사용되는 클래스
-public class QuestionModel {
+public class QuestionModel implements Serializable {
 
     String userId; //사용자 아이디
     String questionId; //질문 아이디

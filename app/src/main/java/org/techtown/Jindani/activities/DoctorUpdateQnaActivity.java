@@ -20,7 +20,6 @@ import com.google.firebase.database.ValueEventListener;
 import org.techtown.Jindani.R;
 import org.techtown.Jindani.adapter.AdapterQnaList;
 import org.techtown.Jindani.adapter.AdapterUpdateAnswerList;
-import org.techtown.Jindani.listeners.OnAnswerItemClickListener;
 import org.techtown.Jindani.listeners.OnQuestionItemClickListener;
 import org.techtown.Jindani.models.AnswerModel;
 import org.techtown.Jindani.models.QuestionModel;
@@ -74,9 +73,9 @@ public class DoctorUpdateQnaActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 adapterUpdateAnswerList.list.clear(); //매번 모든 데이터를 가져오므로 리스트를 비워주기
-                for(DataSnapshot ds : snapshot.getChildren()){
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     AnswerModel ans = ds.getValue(AnswerModel.class);
-                    if(ans.getDocId().equals(docId)) { //의사 아이디에 해당하는 답변 가져오기
+                    if (ans.getDocId().equals(docId)) { //의사 아이디에 해당하는 답변 가져오기
                         adapterUpdateAnswerList.addAnsToList(ans);
                     }
                 }

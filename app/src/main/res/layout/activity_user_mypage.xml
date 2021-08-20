@@ -108,10 +108,6 @@
                     android:text="내가 남긴 질문 목록"
                     android:textSize="15sp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
                 <Button
                     android:id="@+id/btn_updateQnA"
                     android:layout_width="match_parent"

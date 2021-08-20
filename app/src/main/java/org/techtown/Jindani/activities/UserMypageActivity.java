@@ -57,7 +57,6 @@ public class UserMypageActivity extends AppCompatActivity {
         tv_social = findViewById(R.id.tv_social);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("JindaniApp");
-        setUserInfo();
 
         btn_logout = findViewById(R.id.btn_logout);
         btn_delete = findViewById(R.id.btn_delete);
@@ -96,29 +95,6 @@ public class UserMypageActivity extends AppCompatActivity {
                 Log.e(TAG, String.valueOf(error.toException()));
             }
         });
-    }
-
-    private void setUserInfo() {
-//        databaseReference.child("UserAccount").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
-//                userAccount = snapshot.getValue(UserAccount.class);
-//
-//        tv_id.setText("아이디: " + user.getEmail());
-//        tv_sex.setText("성별: " + userAccount.getSex());
-//        tv_birth.setText("생년월일: " + userAccount.getBirthDate());
-//        tv_height_weight.setText("키/몸무게: " + userAccount.getHeight() + "cm/" + userAccount.getWeight() + "kg");
-//        tv_family.setText("가족력: " + userAccount.getFamily());
-//        tv_past.setText("과거력: " + userAccount.getPast());
-//        tv_social.setText("사회력: " + userAccount.getSocial());
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                //데이터 가져오기 실패 처리
-//                Log.e(TAG, String.valueOf(error.toException()));
-//            }
-//        });
     }
 
     View.OnClickListener buttonClickListener = view -> {
