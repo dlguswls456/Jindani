@@ -26,10 +26,16 @@ import java.util.Date;
 
 public class WriteQuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private EditText question_title, question_content;
+
     // 파이어베이스 데이터베이스 연동
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = database.getReference(); //DatabaseReference는 데이터베이스의 특정 위치로 연결
+
+    private QuestionModel questionModel;
+
+    private int list_size;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +44,20 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
 
         Button button = findViewById(R.id.write_q_button); //등록 버튼
         button.setOnClickListener(WriteQuestionActivity.this);
+
+        question_title = findViewById(R.id.q_title); //질문 제목
+        question_content = findViewById(R.id.q_content); //질문 내용
+
+        Intent intent = getIntent();
+        questionModel = (QuestionModel) intent.getSerializableExtra("questionModel");
+        list_size = intent.getIntExtra("listSize", -1);
+
+        //질문 수정일 때
+        if(questionModel != null){
+            question_title.setText(questionModel.getQuestion_title());
+            question_content.setText(questionModel.getQuestion_content());
+        }
+
     }
 
     //뒤로가기 버튼 눌렀을 때 동작
@@ -49,11 +69,9 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
     //등록 버튼 눌렀을 때 동작
     @Override
     public void onClick(View v) {
+        String qId;
 
         hideKeyboard();
-
-        EditText question_title = findViewById(R.id.q_title); //질문 제목
-        EditText question_content = findViewById(R.id.q_content); //질문 내용
 
         //edittext에서 문자열 받아오기
         String title = question_title.getText().toString();
@@ -72,15 +90,15 @@ public class WriteQuestionActivity extends AppCompatActivity implements View.OnC
         Toast.makeText(WriteQuestionActivity.this, "질문 완료", Toast.LENGTH_SHORT).show();
 
         //질문 id 설정
-        Intent intent = getIntent();
-        int list_size = intent.getIntExtra("listSize", 0);
-        String rand = String.valueOf((int)(Math.random()*100));
-        String qId = "Q" + (list_size + 1) + "_" + rand ;
-
+        if(list_size != -1){//질문 작성
+            String rand = String.valueOf((int)(Math.random()*100));
+            qId = "Q" + (list_size + 1) + "_" + rand ;
+        }else{//질문 수정
+            qId = questionModel.getQuestionId();
+        }
         storeQuestion(firebaseUser.getUid(), qId, title, content);
 
         finish();
-
     }
 
     //키보드 숨기기

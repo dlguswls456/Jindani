@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.techtown.Jindani.R;
 import org.techtown.Jindani.adapter.AdapterQnaList;
+import org.techtown.Jindani.listeners.OnQuestionItemClickListener;
 import org.techtown.Jindani.models.QuestionModel;
 
 public class UserUpdateQnaActivity extends AppCompatActivity {
@@ -25,6 +27,8 @@ public class UserUpdateQnaActivity extends AppCompatActivity {
     private AdapterQnaList adapterQnaList;
 
     private DatabaseReference databaseReference; // 실시간 데이터베이스
+
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +45,32 @@ public class UserUpdateQnaActivity extends AppCompatActivity {
 
         //이전 액티비티에서 사용자 아이디 받아오기
         Intent intent = getIntent();
-        String userId = intent.getStringExtra("userId");
+        userId = intent.getStringExtra("userId");
+
+        adapterQnaList.setOnItemClickListener(new OnQuestionItemClickListener() {
+            @Override
+            public void onItemClick(AdapterQnaList.ViewHolder holder, View view, int position) {
+                QuestionModel item = adapterQnaList.getQnaItem(position);
+
+                Intent intent = new Intent(UserUpdateQnaActivity.this, UserQnaDetailActivity.class);
+                intent.putExtra("qId", item.getQuestionId());
+                intent.putExtra("userId", item.getUserId());
+
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         readFirebase(userId);
     }
 
     //firebase에서 데이터 읽어와서 리사이클러뷰에 추가
     private void readFirebase(String userId) {
-        databaseReference.child("Question").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Question").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 adapterQnaList.list.clear(); //매번 모든 데이터를 가져오므로 리스트를 비워주기

@@ -43,8 +43,6 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qna_list);
 
-        readFirebase();
-
         //리사이클러뷰
         qnalist = findViewById(R.id.qnalist);
         qnalist.setLayoutManager(new LinearLayoutManager(QnaListActivity.this));
@@ -57,10 +55,8 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
                 QuestionModel item = adapterQnaList.getQnaItem(position);
 
                 Intent intent = new Intent(QnaListActivity.this, UserQnaDetailActivity.class);
-                intent.putExtra("q_id", item.getQuestionId());
-                intent.putExtra("q_title", item.getQuestion_title());
-                intent.putExtra("q_content", item.getQuestion_content());
-                intent.putExtra("q_date", item.getQuestion_date());
+                intent.putExtra("qId", item.getQuestionId());
+                intent.putExtra("userId", item.getUserId());
 
                 startActivity(intent);
 
@@ -93,6 +89,13 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        readFirebase();
+    }
+
+    @Override
     public void onClick(View v) {
         int list_size = initList.size();
 
@@ -105,7 +108,7 @@ public class QnaListActivity extends AppCompatActivity implements View.OnClickLi
     //firebase에서 데이터 읽어오기, 변화가 있으면 클라이언트에 알려줌
     private void readFirebase(){
         databaseReference = FirebaseDatabase.getInstance().getReference().child("JindaniApp").child("Question");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) { //변화된 값이 snapshot으로 넘어옴
                 initList.clear();
