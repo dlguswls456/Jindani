@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.UserMypageActivity">
+    tools:context="com.chomedicine.jindani.activities.UserMypageActivity">
 
     <TextView
         android:id="@+id/appname"

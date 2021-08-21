@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:289986450546:android:29ac4156ff4fd84a01deeb",
         "android_client_info": {
-          "package_name": "org.techtown.Jindani"
+          "package_name": "com.chomedicine.jindani"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "289986450546-j3rlqfo9nbcakig1869i1qqp9qllmbjt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "org.techtown.Jindani",
+            "package_name": "com.chomedicine.jindani",
             "certificate_hash": "d41778891836fdad4ad9e3c42c796fc735c229bc"
           }
         },

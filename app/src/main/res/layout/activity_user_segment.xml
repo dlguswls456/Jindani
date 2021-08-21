@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:orientation="vertical"
-    tools:context=".activities.UserSegmentActivity">
+    tools:context="com.chomedicine.jindani.activities.UserSegmentActivity">
 
     <TextView
         android:layout_width="match_parent"
