@@ -70,7 +70,7 @@ public class UserQnaDetailActivity extends AppCompatActivity {
         //리사이클러뷰
         ansList = findViewById(R.id.user_ansList);
         ansList.setLayoutManager(new LinearLayoutManager(UserQnaDetailActivity.this));
-        adapterAnswerList = new AdapterAnswerList(ansList);
+        adapterAnswerList = new AdapterAnswerList(ansList, UserQnaDetailActivity.this);
         ansList.setAdapter(adapterAnswerList);
 
     }

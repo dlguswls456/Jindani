@@ -59,10 +59,7 @@ public class DoctorQnaListActivity extends AppCompatActivity{
                 QuestionModel item = adapterQnaList.getQnaItem(position);
 
                 Intent intent = new Intent(DoctorQnaListActivity.this, DoctorQnaDetailActivity.class);
-                intent.putExtra("q_id", item.getQuestionId());
-                intent.putExtra("q_title", item.getQuestion_title());
-                intent.putExtra("q_content", item.getQuestion_content());
-                intent.putExtra("q_date", item.getQuestion_date());
+                intent.putExtra("questionModel", item);
 
                 startActivityForResult(intent, REQUSET_CODE);
             }
