@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.chomedicine.jindani.R;
+import com.chomedicine.jindani.R;
 import com.chomedicine.jindani.adapter.AdapterQnaList;
 import com.chomedicine.jindani.listeners.OnQuestionItemClickListener;
 import com.chomedicine.jindani.models.QuestionModel;

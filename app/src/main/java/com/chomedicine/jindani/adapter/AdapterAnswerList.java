@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.chomedicine.jindani.R;
+import com.chomedicine.jindani.R;
 import com.chomedicine.jindani.models.AnswerModel;
 
 import java.util.ArrayList;

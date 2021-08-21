@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import org.chomedicine.jindani.R;
+import com.chomedicine.jindani.R;
 
 public class UserSegmentActivity extends AppCompatActivity {
 

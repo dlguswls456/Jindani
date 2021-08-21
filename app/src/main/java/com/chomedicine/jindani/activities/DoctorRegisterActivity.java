@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.chomedicine.jindani.R;
+import com.chomedicine.jindani.R;
 
 public class DoctorRegisterActivity extends AppCompatActivity {
 
@@ -103,6 +103,10 @@ public class DoctorRegisterActivity extends AppCompatActivity {
             }
         }
 
+        if(editDept.getText().toString().equals("") | editLicenseNumber.getText().toString().equals("") | editName.getText().toString().equals("")){
+            Toast.makeText(DoctorRegisterActivity.this, "모든 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 

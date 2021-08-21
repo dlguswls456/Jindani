@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chomedicine.jindani.models.ChatModel;
-import org.chomedicine.jindani.R;
+import com.chomedicine.jindani.R;
 
 import java.util.ArrayList;
 
