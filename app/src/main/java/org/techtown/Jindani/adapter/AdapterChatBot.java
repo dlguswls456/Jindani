@@ -80,8 +80,14 @@ public class AdapterChatBot extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         public void bind(ChatModel chat){
+            String chat_split[] = chat.getChat().split("\\\\n");
+            String appended_chat = "";
+            for(String splited_chat: chat_split){
+                appended_chat += splited_chat + "\n";
+            }
+            appended_chat = appended_chat.substring(0, appended_chat.length() - 1);
             TextView msg = itemView.findViewById(R.id.bot_msg);
-            msg.setText(chat.getChat());
+            msg.setText(appended_chat);
         }
     }
 
