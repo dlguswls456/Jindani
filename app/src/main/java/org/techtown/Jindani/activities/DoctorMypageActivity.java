@@ -72,13 +72,13 @@ public class DoctorMypageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
                 doctorAccount = snapshot.getValue(DoctorAccount.class);
 
-                tv_id.append(user.getEmail());
-                tv_name.append(doctorAccount.getName());
-                tv_dept.append(doctorAccount.getDept());
+                tv_id.setText("아이디: " + user.getEmail());
+                tv_name.setText("이름: " + doctorAccount.getName());
+                tv_dept.setText("전문 진료과: " + doctorAccount.getDept());
                 if (doctorAccount.isAuthorized()) {
-                    tv_auth.append("승인");
+                    tv_auth.setText("권한 승인 여부: 승인");
                 } else {
-                    tv_auth.append("권한 없음");
+                    tv_auth.append("권한 승인 여부: 권한 없음");
                 }
             }
 
