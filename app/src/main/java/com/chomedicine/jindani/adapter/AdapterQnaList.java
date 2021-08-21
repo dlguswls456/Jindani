@@ -16,6 +16,7 @@ import com.chomedicine.jindani.R;
 import com.chomedicine.jindani.models.QuestionModel;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OnQuestionItemClickListener {
 

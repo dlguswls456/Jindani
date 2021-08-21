@@ -1,7 +1,9 @@
 package com.chomedicine.jindani.models;
 
+import java.io.Serializable;
+
 //의사 답변에 사용되는 클래스
-public class AnswerModel {
+public class AnswerModel implements Serializable {
 
     String docId; //의사 아이디
     String docName; //의사 이름

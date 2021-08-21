@@ -13,6 +13,14 @@
         android:textSize="20sp"
         android:gravity="center"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="답변을 작성한 질문"
+        android:textSize="16sp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/doc_updateList"
         android:layout_width="match_parent"
