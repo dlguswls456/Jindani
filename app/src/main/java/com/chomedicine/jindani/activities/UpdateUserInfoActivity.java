@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.chomedicine.jindani.R;
+import com.chomedicine.jindani.R;
 import com.chomedicine.jindani.models.UserAccount;
 
 public class UpdateUserInfoActivity extends AppCompatActivity {
@@ -59,11 +59,14 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //유저 객체 생성 후, db에 저장
-                addFireBase();
+                if(conditionCheck()){
+                    addFireBase();
 
-                Toast.makeText(UpdateUserInfoActivity.this, "수정 성공", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdateUserInfoActivity.this, "수정 성공", Toast.LENGTH_SHORT).show();
 
-                finish();
+                    finish();
+                }
+
             }
         });
     }
@@ -101,6 +104,17 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
         editPast.setText(userAccount.getPast());
         editFamily.setText(userAccount.getFamily());
         editSocial.setText(userAccount.getSocial());
+    }
+
+    //등록 조건 체크
+    private boolean conditionCheck() {
+        //필요시 추가 예정
+        if (editHeight.getText().toString().equals("") | editWeight.getText().toString().equals("") | editPast.getText().toString().equals("") | editSocial.getText().toString().equals("") | editFamily.getText().toString().equals("")) {//빈칸인 경우
+            Toast.makeText(UpdateUserInfoActivity.this, "모든 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     //파이어베이스에 저장

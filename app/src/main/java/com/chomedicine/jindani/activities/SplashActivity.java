@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import org.chomedicine.jindani.R;
+import com.chomedicine.jindani.R;
 
 //사진 추가 및 첫 화면 등록 필요
 public class SplashActivity extends AppCompatActivity {

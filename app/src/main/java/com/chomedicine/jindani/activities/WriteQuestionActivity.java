@@ -19,7 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import com.chomedicine.jindani.models.QuestionModel;
-import org.chomedicine.jindani.R;
+import com.chomedicine.jindani.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

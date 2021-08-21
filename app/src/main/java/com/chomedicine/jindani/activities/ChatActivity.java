@@ -21,7 +21,7 @@ import com.chomedicine.jindani.models.Disease;
 import com.chomedicine.jindani.models.DiseaseInfo;
 import com.chomedicine.jindani.models.Level2;
 
-import org.chomedicine.jindani.R;
+import com.chomedicine.jindani.R;
 import com.chomedicine.jindani.network.RetrofitAPI;
 
 import java.io.BufferedReader;

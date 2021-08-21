@@ -24,7 +24,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.chomedicine.jindani.R;
+import com.chomedicine.jindani.R;
+
 import com.chomedicine.jindani.models.UserAccount;
 
 public class UserRegisterActivity extends AppCompatActivity {
@@ -89,7 +90,7 @@ public class UserRegisterActivity extends AppCompatActivity {
                 String password_again = et_pwd_again.getText().toString();//비밀번호 확인용
 
                 //작성한 이메일, 비밀번호 조건 확인 후 계정 생성 시도
-                if(conditionCheck(email, password, password_again)){
+                if (conditionCheck(email, password, password_again)) {
                     createAccount(email, password);
                 }
             }
@@ -113,7 +114,7 @@ public class UserRegisterActivity extends AppCompatActivity {
 
     //가입 조건 체크
     private boolean conditionCheck(String email, String password, String password_again) {
-        //필요시 추가 예전
+        //필요시 추가 예정
         if (email.equals("") | password.equals("") | password_again.equals("")) {//빈칸인 경우
             Toast.makeText(UserRegisterActivity.this, "모든 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
             return false;
@@ -133,6 +134,21 @@ public class UserRegisterActivity extends AppCompatActivity {
             } else {
                 tv_chk_pwd_again.setText("");
             }
+        }
+
+        //성별 정보 가져오기
+        int radioButtonId = radioGroup.getCheckedRadioButtonId();
+
+        //필요시 추가 예정
+        if (radioButtonId == -1) {
+            Toast.makeText(UserRegisterActivity.this, "성별을 선택해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (txtDate.getText().toString().equals("")) {//날짜 선택 안한 경우
+            Toast.makeText(UserRegisterActivity.this, "생년월일을 선택해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (editHeight.getText().toString().equals("") | editWeight.getText().toString().equals("") | editPast.getText().toString().equals("") | editSocial.getText().toString().equals("") | editFamily.getText().toString().equals("")) {//빈칸인 경우
+            Toast.makeText(UserRegisterActivity.this, "모든 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         return true;

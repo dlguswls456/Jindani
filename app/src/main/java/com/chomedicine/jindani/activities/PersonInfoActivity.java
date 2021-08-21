@@ -18,7 +18,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.chomedicine.jindani.R;
+import com.chomedicine.jindani.R;
+
 import com.chomedicine.jindani.models.UserAccount;
 
 public class PersonInfoActivity extends AppCompatActivity {
@@ -72,16 +73,38 @@ public class PersonInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //유저 객체 생성 후, db에 저장
-                addFireBase();
+                if(conditionCheck()){
+                    addFireBase();
 
-                Toast.makeText(PersonInfoActivity.this, "등록 성공", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PersonInfoActivity.this, "등록 성공", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(PersonInfoActivity.this, UserMainActivity.class);
-                startActivity(intent);
-                finish();
+                    Intent intent = new Intent(PersonInfoActivity.this, UserMainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 
+    }
+
+    //등록 조건 체크
+    private boolean conditionCheck() {
+        //성별 정보 가져오기
+        int radioButtonId = radioGroup.getCheckedRadioButtonId();
+
+        //필요시 추가 예정
+        if (radioButtonId == -1) {
+            Toast.makeText(PersonInfoActivity.this, "성별을 선택해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (txtDate.getText().toString().equals("")) {//날짜 선택 안한 경우
+            Toast.makeText(PersonInfoActivity.this, "생년월일을 선택해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (editHeight.getText().toString().equals("") | editWeight.getText().toString().equals("") | editPast.getText().toString().equals("") | editSocial.getText().toString().equals("") | editFamily.getText().toString().equals("")) {//빈칸인 경우
+            Toast.makeText(PersonInfoActivity.this, "모든 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     //파이어베이스에 저장

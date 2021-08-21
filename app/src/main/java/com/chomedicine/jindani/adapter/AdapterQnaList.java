@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chomedicine.jindani.listeners.OnQuestionItemClickListener;
 
-import org.chomedicine.jindani.R;
+import com.chomedicine.jindani.R;
 
 import com.chomedicine.jindani.models.QuestionModel;
 
