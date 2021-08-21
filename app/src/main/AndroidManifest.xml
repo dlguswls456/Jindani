@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.techtown.Jindani">
+    package="org.chomedicine.jindani">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,19 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.UserUpdateQnaActivity"/>
-        <activity android:name=".activities.DoctorUpdateQnaActivity" />
-        <activity android:name=".activities.UpdateUserInfoActivity" />
-        <activity android:name=".activities.DoctorMypageActivity" />
-        <activity android:name=".activities.UserMypageActivity" />
-        <activity android:name=".activities.DoctorMainActivity" />
-        <activity android:name=".activities.DoctorRegisterActivity" />
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.UserRegisterActivity" />
-        <activity android:name=".activities.PersonInfoActivity" />
-        <activity android:name=".activities.ChatActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.UserUpdateQnaActivity"/>
+        <activity android:name="com.chomedicine.jindani.activities.DoctorUpdateQnaActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.UpdateUserInfoActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.DoctorMypageActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.UserMypageActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.DoctorMainActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.DoctorRegisterActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.LoginActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.UserRegisterActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.PersonInfoActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.ChatActivity" />
         <activity
-            android:name=".activities.SplashActivity"
+            android:name="com.chomedicine.jindani.activities.SplashActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,16 +33,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.UserMainActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.UserMainActivity" />
         <activity
-            android:name=".activities.QnaListActivity"
+            android:name="com.chomedicine.jindani.activities.QnaListActivity"
             android:windowSoftInputMode="adjustNothing" />
-        <activity android:name=".activities.WriteQuestionActivity" />
-        <activity android:name=".activities.UserSegmentActivity" />
-        <activity android:name=".activities.UserQnaDetailActivity" />
-        <activity android:name=".activities.DoctorQnaListActivity" />
-        <activity android:name=".activities.DoctorQnaDetailActivity" />
-        <activity android:name=".activities.WriteAnswerActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.WriteQuestionActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.UserSegmentActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.UserQnaDetailActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.DoctorQnaListActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.DoctorQnaDetailActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.WriteAnswerActivity" />
     </application>
 
 </manifest>

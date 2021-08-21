@@ -7,7 +7,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context=".activities.UserRegisterActivity">
+    tools:context="com.chomedicine.jindani.activities.UserRegisterActivity">
 
     <ScrollView
         android:layout_width="match_parent"
