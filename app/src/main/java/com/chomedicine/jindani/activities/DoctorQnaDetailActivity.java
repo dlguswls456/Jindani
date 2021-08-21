@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chomedicine.jindani.adapter.AdapterAnswerList;
 import com.chomedicine.jindani.models.AnswerModel;
+import com.chomedicine.jindani.models.QuestionModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,11 +31,11 @@ public class DoctorQnaDetailActivity extends AppCompatActivity {
     private AdapterAnswerList adapterAnswerList;
     private ArrayList<AnswerModel> initList = new ArrayList<>(); //listSize 위해
 
-    TextView detail_title;
-    TextView detail_content;
-    TextView detail_date;
+    TextView detail_title, detail_content, detail_date;
     String q_id;
-    Button write_ans_button;
+    Button write_ans_button, btn_edit, btn_delete;
+    private Boolean from_update;
+    private QuestionModel questionModel;
 
     private DatabaseReference databaseReference;
 
@@ -47,17 +48,25 @@ public class DoctorQnaDetailActivity extends AppCompatActivity {
         detail_content = findViewById(R.id.detail_content);
         detail_date = findViewById(R.id.detail_date);
 
+        btn_edit = findViewById(R.id.btn_edit);
+        btn_delete = findViewById(R.id.btn_delete);
+
         //리사이클러뷰
         ansList = findViewById(R.id.doc_ansList);
         ansList.setLayoutManager(new LinearLayoutManager(DoctorQnaDetailActivity.this));
-        adapterAnswerList = new AdapterAnswerList(ansList);
+        adapterAnswerList = new AdapterAnswerList(ansList, DoctorQnaDetailActivity.this);
         ansList.setAdapter(adapterAnswerList);
 
-        Intent intent = getIntent();
-        getQuestionData(intent);
+        Intent befo_intent = getIntent();
 
         //이전 액티비티에서 q_id 받아오기
-        q_id = intent.getStringExtra("q_id");
+        from_update = befo_intent.getBooleanExtra("from_update", false);
+        questionModel = (QuestionModel) befo_intent.getSerializableExtra("questionModel");
+        q_id = questionModel.getQuestionId();
+
+        //질문 띄우기
+        setQuestionData();
+
         //파이어베이스에서 답변리스트 데이터 읽어오기
         readFirebase(q_id);
 
@@ -78,16 +87,21 @@ public class DoctorQnaDetailActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //답변 관리 페이지에서 넘어왔으면 버튼 안보이게
+        if (from_update){
+            write_ans_button.setVisibility(View.GONE);
+        }
+    }
+
     //질문 제목, 내용, 시점 받아와서 띄우기
-    private void getQuestionData(Intent intent){
-
-        String t = intent.getStringExtra("q_title");
-        String c = intent.getStringExtra("q_content");
-        String d = intent.getStringExtra("q_date");
-
-        detail_title.setText(t);
-        detail_content.setText(c);
-        detail_date.setText(d);
+    private void setQuestionData(){
+        detail_title.setText(questionModel.getQuestion_title());
+        detail_content.setText(questionModel.getQuestion_content());
+        detail_date.setText(questionModel.getQuestion_date());
     }
 
     //firebase에서 데이터 읽어와서 리사이클러뷰에 추가

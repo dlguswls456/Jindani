@@ -43,6 +43,7 @@
         <activity android:name="com.chomedicine.jindani.activities.DoctorQnaListActivity" />
         <activity android:name="com.chomedicine.jindani.activities.DoctorQnaDetailActivity" />
         <activity android:name="com.chomedicine.jindani.activities.WriteAnswerActivity" />
+        <activity android:name="com.chomedicine.jindani.activities.BaseActivity"/>
     </application>
 
 </manifest>
