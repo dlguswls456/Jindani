@@ -83,7 +83,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:hint="ex) 2년전 고혈압 진단"/>
             </LinearLayout>
 
             <LinearLayout
@@ -102,7 +103,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:hint="ex) 아버지 고혈압, 어머니 유방암"/>
             </LinearLayout>
 
             <LinearLayout
@@ -121,7 +123,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:hint="ex) 흡연량, 커피 섭취량, 스트레스 등"/>
             </LinearLayout>
 
             <Button
