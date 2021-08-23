@@ -44,6 +44,10 @@
         <activity android:name="com.chomedicine.jindani.activities.DoctorQnaDetailActivity" />
         <activity android:name="com.chomedicine.jindani.activities.WriteAnswerActivity" />
         <activity android:name="com.chomedicine.jindani.activities.BaseActivity"/>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
