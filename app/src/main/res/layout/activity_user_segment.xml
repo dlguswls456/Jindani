@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="JINDANI"
+        android:text="AI 낭만닥터"
         android:textSize="24sp"
         android:gravity="center"
         android:layout_marginTop="20dp"

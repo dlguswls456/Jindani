@@ -28,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:layout_marginRight="5dp"
-                    android:text="진다니"
+                    android:text="낭만닥터"
                     android:textColor="#000000"
                     android:textSize="15dp"
                     android:textStyle="bold" />
