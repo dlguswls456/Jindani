@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context="com.chomedicine.jindani.activities.ChatActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -11,39 +12,47 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@+id/etChat"
+        app:layout_constraintBottom_toTopOf="@+id/chat_linear_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/etChat"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/chat_linear_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:hint=""
-        android:inputType="text"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnSend"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnSend"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/main_button"
-        android:text="보내기"
-        android:textColor="#808080"
-        app:layout_constraintBottom_toBottomOf="@+id/etChat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etChat" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvChatList">
+
+        <EditText
+            android:id="@+id/etChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="8"
+            android:ems="10"
+            android:hint=""
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/btnSend"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="2"
+            android:background="@drawable/main_button"
+            android:padding="5dp"
+            android:text="보내기"
+            android:textColor="#808080" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

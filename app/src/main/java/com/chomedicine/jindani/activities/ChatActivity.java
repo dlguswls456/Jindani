@@ -218,7 +218,7 @@ public class ChatActivity extends AppCompatActivity {
                         //level2예측 전
                         if (level2_top2 == null) {
                             //지금까지의 답변 모아서 보내고 예측한 level2받아오기
-                            adapterChatBot.addChatToList(new ChatModel("질병 예측 범위를 좁히고 있습니다! 잠시만 기다려주세요.", true));
+                            adapterChatBot.addChatToList(new ChatModel("질병 예측 범위를 좁히고 있습니다!\n잠시만 기다려주세요.", true));
                             retrofitAPI.postAnswer_for_Level2(answer).enqueue(level2Callback);
                         } else if (level2_question_file_name == null) {//level2 예측 후, 선택
                             //level2 2개중에 선택
