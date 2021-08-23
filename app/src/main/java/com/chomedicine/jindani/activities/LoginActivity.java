@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chomedicine.jindani.models.DoctorAccount;
@@ -55,6 +56,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //구글 로그인 버튼 텍스트 변경
+        btn_google = findViewById(R.id.btn_google);
+        TextView textView = (TextView) btn_google.getChildAt(0);
+        textView.setText("Google 계정으로 로그인          ");
+
         // 파이에베이스 인증 객체 초기화
         auth = FirebaseAuth.getInstance();
 
@@ -96,7 +102,6 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
         //구글 로그인 버튼
-        btn_google = findViewById(R.id.btn_google);
         btn_google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
