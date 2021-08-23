@@ -8,24 +8,24 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:layout_marginTop="20dp"
         android:text="질문작성"
         android:textSize="18dp" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="7dp"
         android:fitsSystemWindows="true"
-        android:orientation="vertical"
-        android:layout_margin="7dp">
+        android:orientation="vertical">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,8 +37,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="제목"
-                    android:textSize="16dp"
-                    android:inputType="text"/>
+                    android:inputType="text"
+                    android:textSize="16dp" />
 
                 <EditText
                     android:id="@+id/q_content"
@@ -46,14 +46,14 @@
                     android:layout_height="200dp"
                     android:gravity="top"
                     android:hint="궁금한 내용을 입력해 주세요"
-                    android:textSize="14sp"
-                    android:scrollbars="vertical"/>
+                    android:scrollbars="vertical"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_margin="5dp">
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -64,15 +64,17 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="~~~~~~~~~~~"
-                        android:layout_margin="5dp"/>
+                        android:layout_margin="5dp"
+                        android:text="궁금한 내용을 최대한 자세하게 입력해주세요" />
 
                 </LinearLayout>
 
                 <Button
                     android:id="@+id/write_q_button"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/main_button"
                     android:text="등록" />
 
             </LinearLayout>

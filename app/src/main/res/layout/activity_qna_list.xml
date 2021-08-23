@@ -21,9 +21,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/q"
         android:layout_margin="7dp"
-        android:orientation="vertical"
-        android:layout_below="@+id/q">
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/search_question"
@@ -37,15 +37,19 @@
             android:id="@+id/qnalist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="50dp"/>
+            android:overScrollMode="never"
+            android:paddingBottom="50dp" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/write_q_button"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/main_button"
         android:text="질문작성" />
 
 

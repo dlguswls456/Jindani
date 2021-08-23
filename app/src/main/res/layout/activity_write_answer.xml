@@ -14,18 +14,18 @@
         android:text="답변작성"
         android:textSize="18dp" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="7dp"
         android:fitsSystemWindows="true"
-        android:orientation="vertical"
-        android:layout_margin="7dp">
+        android:orientation="vertical">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -38,21 +38,23 @@
                     android:layout_height="200dp"
                     android:gravity="top"
                     android:hint="답변을 입력해 주세요"
-                    android:textSize="14sp"
-                    android:scrollbars="vertical"/>
+                    android:scrollbars="vertical"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_margin="5dp">
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
 
                 </LinearLayout>
 
                 <Button
                     android:id="@+id/write_ans_button"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/main_button"
                     android:text="등록" />
 
             </LinearLayout>

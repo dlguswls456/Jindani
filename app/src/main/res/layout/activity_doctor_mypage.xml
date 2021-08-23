@@ -19,7 +19,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,45 +30,69 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="계정 정보"
-                    android:textSize="15sp" />
+                    android:layout_weight="9"
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/tv_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="계정 정보"
+                        android:textSize="15sp"
+                        android:textColor="#000" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="5dp">
 
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="" />
+                        <TextView
+                            android:id="@+id/tv_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:text="" />
 
-                <TextView
-                    android:id="@+id/tv_dept"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="" />
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:text="" />
 
-                <TextView
-                    android:id="@+id/tv_auth"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="" />
+                        <TextView
+                            android:id="@+id/tv_dept"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/tv_auth"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:text="" />
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_doctor" />
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,14 +105,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="내가 남긴 답변 목록"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textColor="#000"/>
 
 
                 <Button
                     android:id="@+id/btn_updateQnA"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="답변 목록 관리하기" />
+                    android:text="답변 목록 관리하기"
+                    android:background="@drawable/main_button"
+                    style="?android:attr/borderlessButtonStyle"/>
 
 
             </LinearLayout>
@@ -103,19 +131,25 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="계정 관리"
-                    android:textSize="15sp"  />
+                    android:textSize="15sp"
+                    android:textColor="#000" />
 
                 <Button
                     android:id="@+id/btn_logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="로그아웃" />
+                    android:text="로그아웃"
+                    android:background="@drawable/main_button"
+                    android:layout_marginBottom="5dp"
+                    style="?android:attr/borderlessButtonStyle"/>
 
                 <Button
                     android:id="@+id/btn_delete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="회원탈퇴" />
+                    android:text="회원탈퇴"
+                    android:background="@drawable/main_button"
+                    style="?android:attr/borderlessButtonStyle"/>
 
             </LinearLayout>
 
