@@ -43,7 +43,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ChatActivity extends AppCompatActivity {
 
     //Flask 메인 주소
-    private final String URL = "http://18.189.76.226:5000/";
+//    private final String URL = "http://18.189.76.226:5000/";
+    private final String URL = "http://172.30.1.28:5000/";
 
     RecyclerView rvChatList;//채팅
     Button btnSend;//전송 버튼
@@ -150,9 +151,11 @@ public class ChatActivity extends AppCompatActivity {
                         diseaseInfo.getOName() + " " + disease.getPercentage() + "%\n" +
                                 "동의어: " + diseaseInfo.getSyn() + "\n" +
                                 "진료과: " + diseaseInfo.getDept() + "\n" +
-                                "정의: " + diseaseInfo.getDef() + "\n", true));
+                                "정의: " + diseaseInfo.getDef(), true));
 
             }
+
+            finishChat();
         }
 
         @Override
@@ -162,6 +165,12 @@ public class ChatActivity extends AppCompatActivity {
             Log.d("TEST", "post info 실패실패");
         }
     };
+
+    private void finishChat() {
+        adapterChatBot.addChatToList(new ChatModel("진단을 종료합니다\n보다 정확한 진단을 받고 싶다면, 가까운 병원 방문 바랍니다", true));
+        adapterChatBot.addChatToList(new ChatModel("AI 낭만닥터를 이용해주셔서 감사합니다", true));
+        btnSend.setEnabled(false);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
