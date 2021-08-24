@@ -21,8 +21,15 @@
                 android:id="@+id/doc_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
                 android:textSize="14sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:text="·"
+                android:textSize="13dp"/>
 
             <TextView
                 android:id="@+id/doc_dept"
@@ -41,12 +48,13 @@
             android:id="@+id/doc_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"/>
+            android:textSize="11sp"
+            android:textColor="#BDBDBD"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_margin="10dp"
+        android:layout_margin="7dp"
         android:background="#C5E1A5" />
 </LinearLayout>
