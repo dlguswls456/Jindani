@@ -43,8 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ChatActivity extends AppCompatActivity {
 
     //Flask 메인 주소
-//    private final String URL = "http://18.189.76.226:5000/";
-    private final String URL = "http://172.30.1.28:5000/";
+    private final String URL = "http://18.189.76.226:5000/";
 
     RecyclerView rvChatList;//채팅
     Button btnSend;//전송 버튼
