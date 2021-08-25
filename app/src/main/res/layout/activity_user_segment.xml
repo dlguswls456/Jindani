@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="AI 낭만닥터"
+        android:text="AI 낭만 닥터초"
         android:textSize="24sp"
         android:gravity="center"
         android:layout_marginTop="20dp"
@@ -58,7 +58,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="AI 낭만닥터 서비스를\n이용하려는 일반 사용자"
+                    android:text="AI 낭만 닥터초 서비스를\n이용하려는 일반 사용자"
                     android:textSize="14sp"
                     android:gravity="center"/>
 

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="AI 낭만닥터"
+        android:text="AI 낭만 닥터초"
         android:textSize="24sp"
         android:layout_marginTop="20dp"/>
 
