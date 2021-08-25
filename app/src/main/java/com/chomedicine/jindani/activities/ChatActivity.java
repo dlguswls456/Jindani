@@ -167,7 +167,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void finishChat() {
         adapterChatBot.addChatToList(new ChatModel("진단을 종료합니다\n보다 정확한 진단을 받고 싶다면, 가까운 병원 방문 바랍니다", true));
-        adapterChatBot.addChatToList(new ChatModel("AI 낭만닥터를 이용해주셔서 감사합니다", true));
+        adapterChatBot.addChatToList(new ChatModel("AI 낭만 닥터초를 이용해주셔서 감사합니다", true));
         btnSend.setEnabled(false);
     }
 
@@ -237,13 +237,17 @@ public class ChatActivity extends AppCompatActivity {
                                 level2_question_file_name = level2_top2.get(1).getEng_name();
                             } else if (answer.get("select level2").equals(SELECT_NOTHING)) {
                                 level2_question_file_name = "whole";
+                            } else {//엉뚱한 선택일 때
+                                answer.remove("select level2");
+                                adapterChatBot.addChatToList(new ChatModel("정확한 값을 입력해주세요", true));//i를 키캆으로 이용
                             }
 
                             //다음 질문 목록 가져오기
-                            loadQuestion(level2_question_file_name, QTree.size());
-
-                            i++;
-                            adapterChatBot.addChatToList(new ChatModel(QTree.get(i).getQuestion(), true));//i를 키캆으로 이용
+                            if (level2_question_file_name != null) {
+                                loadQuestion(level2_question_file_name, QTree.size());
+                                i++;
+                                adapterChatBot.addChatToList(new ChatModel(QTree.get(i).getQuestion(), true));//i를 키캆으로 이용
+                            }
                         } else {//top3예측 직전
                             //답변 모아서 보내고 예측한 질병 받아오기
                             adapterChatBot.addChatToList(new ChatModel("확률이 높은 질병 3개를 예측 중입니다.", true));

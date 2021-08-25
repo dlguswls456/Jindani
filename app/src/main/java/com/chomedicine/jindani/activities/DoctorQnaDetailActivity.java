@@ -67,9 +67,6 @@ public class DoctorQnaDetailActivity extends AppCompatActivity {
         //질문 띄우기
         setQuestionData();
 
-        //파이어베이스에서 답변리스트 데이터 읽어오기
-        readFirebase(q_id);
-
         //답변작성 버튼 클릭 시 작동
         write_ans_button = findViewById(R.id.write_ans_button);
         write_ans_button.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +92,13 @@ public class DoctorQnaDetailActivity extends AppCompatActivity {
         if (from_update){
             write_ans_button.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //파이어베이스에서 답변리스트 데이터 읽어오기
+        readFirebase(q_id);
     }
 
     //질문 제목, 내용, 시점 받아와서 띄우기
