@@ -100,20 +100,20 @@ public class DoctorUpdateQnaActivity extends AppCompatActivity {
     }
 
     //firebase에서 리스트와 비교하며 답변이 달린 질문 읽어오기
-    private void readQuestion(){
+    private void readQuestion() {
         databaseReference.child("Question").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 adapterQnaList.list.clear();
-                for (AnswerModel ans : list){ //질문 아이디에 해당하는 질문 가져오기
+                for (AnswerModel ans : list) { //질문 아이디에 해당하는 질문 가져오기
                     int i = 0;
                     QuestionModel Q = snapshot.child(ans.getQuestionId()).getValue(QuestionModel.class);
                     for (QuestionModel q : adapterQnaList.list) { //중복값 넣지 않음
                         if (Q.getQuestionId().equals(q.getQuestionId())) {
-                           i++;
+                            i++;
                         }
                     }
-                    if(i == 0) {
+                    if (i == 0) {
                         adapterQnaList.addQToList(Q);
                     }
                 }

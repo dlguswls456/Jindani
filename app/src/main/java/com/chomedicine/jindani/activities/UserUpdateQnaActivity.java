@@ -74,11 +74,14 @@ public class UserUpdateQnaActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 adapterQnaList.list.clear(); //매번 모든 데이터를 가져오므로 리스트를 비워주기
-                for(DataSnapshot ds : snapshot.getChildren()){
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     QuestionModel q = ds.getValue(QuestionModel.class);
-                    if(q.getUserId().equals(userId)) { //사용자 아이디에 해당하는 답변 가져오기
+                    if (q.getUserId().equals(userId)) { //사용자 아이디에 해당하는 답변 가져오기
                         adapterQnaList.addQToList(q);
                     }
+                }
+                if(adapterQnaList.getItemCount() == 0){ //리스트 데이터 변경 체크
+                    adapterQnaList.check();
                 }
             }
 

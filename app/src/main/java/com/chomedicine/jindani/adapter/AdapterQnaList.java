@@ -97,6 +97,10 @@ public class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     };
 
+    public void check(){
+        this.notifyDataSetChanged();
+    }
+
     public void addQToList(QuestionModel qna){
         this.list.add(qna);
         this.copyList.add(qna);
