@@ -88,6 +88,10 @@ public class AdapterAnswerList extends RecyclerView.Adapter<RecyclerView.ViewHol
         ansList.scrollToPosition(getItemCount()-1);
     }
 
+    public void check(){
+        this.notifyDataSetChanged();
+    }
+
     //해당 의사 답변
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public MyViewHolder(@NonNull View itemView) {

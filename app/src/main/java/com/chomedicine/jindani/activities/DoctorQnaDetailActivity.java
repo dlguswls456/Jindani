@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chomedicine.jindani.adapter.AdapterAnswerList;
 import com.chomedicine.jindani.models.AnswerModel;
 import com.chomedicine.jindani.models.QuestionModel;
+import com.chomedicine.jindani.network.FirebaseCallback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -67,6 +68,9 @@ public class DoctorQnaDetailActivity extends AppCompatActivity {
         //질문 띄우기
         setQuestionData();
 
+        //파이어베이스에서 답변리스트 데이터 읽어오기
+        readFirebase(q_id);
+
         //답변작성 버튼 클릭 시 작동
         write_ans_button = findViewById(R.id.write_ans_button);
         write_ans_button.setOnClickListener(new View.OnClickListener() {
@@ -92,13 +96,8 @@ public class DoctorQnaDetailActivity extends AppCompatActivity {
         if (from_update){
             write_ans_button.setVisibility(View.GONE);
         }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //파이어베이스에서 답변리스트 데이터 읽어오기
-        readFirebase(q_id);
+
     }
 
     //질문 제목, 내용, 시점 받아와서 띄우기
@@ -116,11 +115,16 @@ public class DoctorQnaDetailActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) { //변화된 값이 snapshot으로 넘어옴
                 initList.clear();
                 adapterAnswerList.list.clear(); //매번 모든 데이터를 가져오므로 리스트를 비워주기
-                for(DataSnapshot ds : snapshot.getChildren()){
-                    AnswerModel ans = ds.getValue(AnswerModel.class);
-                    if(ans.getQuestionId().equals(qid)) { //질문 번호에 해당하는 답변 가져오기
-                        adapterAnswerList.addAnsToList(ans);
-                        initList.add(ans);
+                if(snapshot.getValue(AnswerModel.class) == null){ //리스트 데이터 변경 체크
+                    adapterAnswerList.check();
+                }else{
+                    //snapshot이 널이니까 밑으로 안들어감
+                    for(DataSnapshot ds : snapshot.getChildren()){
+                        AnswerModel ans = ds.getValue(AnswerModel.class);
+                        if(ans.getQuestionId().equals(qid)) { //질문 번호에 해당하는 답변 가져오기
+                            adapterAnswerList.addAnsToList(ans);
+                            initList.add(ans);
+                        }
                     }
                 }
             }
