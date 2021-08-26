@@ -83,7 +83,7 @@ public class AdapterAnswerList extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void addAnsToList(AnswerModel ans){
         this.list.add(ans);
-        this.notifyDataSetChanged();
+//        this.notifyDataSetChanged();
         //채팅 추가될때마다 리사이클러뷰가 제일 하단으로 가게함
         ansList.scrollToPosition(getItemCount()-1);
     }

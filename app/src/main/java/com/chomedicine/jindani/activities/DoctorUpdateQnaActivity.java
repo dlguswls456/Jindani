@@ -105,6 +105,7 @@ public class DoctorUpdateQnaActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 adapterQnaList.list.clear();
+                adapterQnaList.check(); //리스트 데이터 변경 체크
                 for (AnswerModel ans : list) { //질문 아이디에 해당하는 질문 가져오기
                     int i = 0;
                     QuestionModel Q = snapshot.child(ans.getQuestionId()).getValue(QuestionModel.class);

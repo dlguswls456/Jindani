@@ -80,9 +80,7 @@ public class UserUpdateQnaActivity extends AppCompatActivity {
                         adapterQnaList.addQToList(q);
                     }
                 }
-                if(adapterQnaList.getItemCount() == 0){ //리스트 데이터 변경 체크
-                    adapterQnaList.check();
-                }
+                adapterQnaList.check(); //리스트 데이터 변경 체크
             }
 
             @Override
