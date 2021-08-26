@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/vitro"
-        android:text="안녕하세요, \nAI 낭만 닥터초입니다"
+        android:text="안녕하세요, \nAI낭만 닥터초입니다"
         android:textColor="#000"
         android:textSize="30sp"
         android:textStyle="bold"

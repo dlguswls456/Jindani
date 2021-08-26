@@ -167,7 +167,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void finishChat() {
         adapterChatBot.addChatToList(new ChatModel("진단을 종료합니다\n보다 정확한 진단을 받고 싶다면, 가까운 병원 방문 바랍니다", true));
-        adapterChatBot.addChatToList(new ChatModel("AI 낭만 닥터초를 이용해주셔서 감사합니다", true));
+        adapterChatBot.addChatToList(new ChatModel("AI낭만 닥터초를 이용해주셔서 감사합니다", true));
         btnSend.setEnabled(false);
     }
 
