@@ -93,7 +93,7 @@ public class DoctorQnaDetailActivity extends AppCompatActivity {
         super.onStart();
 
         //답변 관리 페이지에서 넘어왔으면 버튼 안보이게
-        if (from_update){
+        if (from_update) {
             write_ans_button.setVisibility(View.GONE);
         }
 
@@ -101,30 +101,27 @@ public class DoctorQnaDetailActivity extends AppCompatActivity {
     }
 
     //질문 제목, 내용, 시점 받아와서 띄우기
-    private void setQuestionData(){
+    private void setQuestionData() {
         detail_title.setText(questionModel.getQuestion_title());
         detail_content.setText(questionModel.getQuestion_content());
         detail_date.setText(questionModel.getQuestion_date());
     }
 
     //firebase에서 데이터 읽어와서 리사이클러뷰에 추가
-    private void readFirebase(String qid){
+    private void readFirebase(String qid) {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("JindaniApp").child("Answer");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) { //변화된 값이 snapshot으로 넘어옴
                 initList.clear();
                 adapterAnswerList.list.clear(); //매번 모든 데이터를 가져오므로 리스트를 비워주기
-                if(snapshot.getValue(AnswerModel.class) == null){ //리스트 데이터 변경 체크
-                    adapterAnswerList.check();
-                }else{
-                    //snapshot이 널이니까 밑으로 안들어감
-                    for(DataSnapshot ds : snapshot.getChildren()){
-                        AnswerModel ans = ds.getValue(AnswerModel.class);
-                        if(ans.getQuestionId().equals(qid)) { //질문 번호에 해당하는 답변 가져오기
-                            adapterAnswerList.addAnsToList(ans);
-                            initList.add(ans);
-                        }
+                adapterAnswerList.check(); //리스트 데이터 변경 체크
+                //snapshot이 널이니까 밑으로 안들어감
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    AnswerModel ans = ds.getValue(AnswerModel.class);
+                    if (ans.getQuestionId().equals(qid)) { //질문 번호에 해당하는 답변 가져오기
+                        adapterAnswerList.addAnsToList(ans);
+                        initList.add(ans);
                     }
                 }
             }

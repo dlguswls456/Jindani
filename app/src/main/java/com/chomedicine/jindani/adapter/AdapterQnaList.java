@@ -104,7 +104,7 @@ public class AdapterQnaList extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void addQToList(QuestionModel qna){
         this.list.add(qna);
         this.copyList.add(qna);
-        this.notifyDataSetChanged();
+//        this.notifyDataSetChanged();
         //채팅 추가될때마다 리사이클러뷰가 제일 하단으로 가게함
         qnaList.scrollToPosition(getItemCount()-1);
     }
