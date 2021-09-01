@@ -125,7 +125,7 @@ public class UserMainActivity extends AppCompatActivity {
     }
 
     private void gotoChatActivity() {
-        databaseReference.child("UserAccount").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("UserAccount").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//사용자 데이터 성공적으로 가져오면
                 UserAccount userAccount = snapshot.getValue(UserAccount.class);

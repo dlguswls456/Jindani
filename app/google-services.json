@@ -8,20 +8,81 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:289986450546:android:29ac4156ff4fd84a01deeb",
+        "mobilesdk_app_id": "1:289986450546:android:1edf5703f9524d8701deeb",
         "android_client_info": {
           "package_name": "com.chomedicine.jindani"
         }
       },
       "oauth_client": [
         {
-          "client_id": "289986450546-j3rlqfo9nbcakig1869i1qqp9qllmbjt.apps.googleusercontent.com",
+          "client_id": "289986450546-0fl6usb8561mabiv6a1cnr2bh5t7eohj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chomedicine.jindani",
+            "certificate_hash": "e4a7aa9db3f33a70d9f54316f7a5f4ea012b2a24"
+          }
+        },
+        {
+          "client_id": "289986450546-3faqdu14rl3nsl2okpbt2ut1bqiu9jng.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.chomedicine.jindani",
             "certificate_hash": "d41778891836fdad4ad9e3c42c796fc735c229bc"
           }
         },
+        {
+          "client_id": "289986450546-flgn50akab7u34c28jjb39escrfblma1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chomedicine.jindani",
+            "certificate_hash": "76c3880ce3b4154ae5304be6a8ffe372199e3e80"
+          }
+        },
+        {
+          "client_id": "289986450546-j5dahc9ojti06msm5sag8gfno71r866b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chomedicine.jindani",
+            "certificate_hash": "eb92dfcc6608134416393e856a228aecf2402514"
+          }
+        },
+        {
+          "client_id": "289986450546-tpf4pk6mlj2gil2lck22k9rua0mvvnj5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chomedicine.jindani",
+            "certificate_hash": "f761b9e52073d6e7cb6acf18563f258f6f073ccb"
+          }
+        },
+        {
+          "client_id": "289986450546-loq5cu4aijlh0lqsm1rghjrqj504blek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCQfSateNxtG6EyhlN0zh_YQnfiD0Z_Bg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289986450546-loq5cu4aijlh0lqsm1rghjrqj504blek.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289986450546:android:29ac4156ff4fd84a01deeb",
+        "android_client_info": {
+          "package_name": "org.techtown.Jindani"
+        }
+      },
+      "oauth_client": [
         {
           "client_id": "289986450546-loq5cu4aijlh0lqsm1rghjrqj504blek.apps.googleusercontent.com",
           "client_type": 3
